@@ -1,1005 +1,1200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Starfield Close // 3D Starlight Tunnel Exhibition</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Ảnh dìm 12c7</title>
 
-  <!-- Phông chữ công nghệ cao & Chuẩn Tiếng Việt -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@800;900&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Phông chữ công nghệ cao & Chuẩn Tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@800;900&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- ES-Module Importmap cho Three.js r0.143.0 theo đúng prompt getlayers -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
-    }
-  }
-  </script>
-
-  <style>
-    :root {
-      /* Mặc định trên Màn hình lớn (Desktop / PC): Ảnh to hoành tráng */
-      --card-w: 520px;
-      --card-h: 680px;
-      --img-h: 530px;
-      --title-size: 36px;
-      --finale-w: min(88vw, 680px);
-      --finale-h: 280px;
-      --finale-title-size: clamp(32px, 5vw, 54px);
-    }
-
-    /* Màn hình Laptop vừa (< 1366px) */
-    @media (max-width: 1366px) {
-      :root {
-        --card-w: 460px;
-        --card-h: 610px;
-        --img-h: 470px;
-        --title-size: 32px;
-        --finale-w: min(88vw, 620px);
-        --finale-h: 260px;
-        --finale-title-size: clamp(28px, 4.5vw, 48px);
+    <!-- ES-Module Importmap cho Three.js r0.143.0 theo đúng prompt getlayers -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
+        }
       }
-    }
+    </script>
 
-    /* Màn hình Máy tính bảng (< 992px) */
-    @media (max-width: 992px) {
+    <style>
       :root {
-        --card-w: 390px;
-        --card-h: 530px;
-        --img-h: 400px;
-        --title-size: 26px;
-        --finale-w: min(88vw, 540px);
-        --finale-h: 240px;
-        --finale-title-size: clamp(24px, 4vw, 40px);
+        /* Mặc định trên Màn hình lớn (Desktop / PC): Ảnh to hoành tráng */
+        --card-w: 520px;
+        --card-h: 680px;
+        --img-h: 530px;
+        --title-size: 36px;
+        --finale-w: min(88vw, 680px);
+        --finale-h: 280px;
+        --finale-title-size: clamp(32px, 5vw, 54px);
       }
-    }
 
-    /* Màn hình Điện thoại (Mobile <= 768px): Vừa vặn 100% màn hình, không bị cắt góc */
-    @media (max-width: 768px) {
-      :root {
-        --card-w: min(88vw, 320px);
-        --card-h: 460px;
-        --img-h: 350px;
-        --title-size: 23px;
-        --finale-w: min(90vw, 340px);
-        --finale-h: 210px;
-        --finale-title-size: clamp(22px, 6.5vw, 32px);
+      /* Màn hình Laptop vừa (< 1366px) */
+      @media (max-width: 1366px) {
+        :root {
+          --card-w: 460px;
+          --card-h: 610px;
+          --img-h: 470px;
+          --title-size: 32px;
+          --finale-w: min(88vw, 620px);
+          --finale-h: 260px;
+          --finale-title-size: clamp(28px, 4.5vw, 48px);
+        }
       }
-    }
 
-    @media (max-width: 480px) {
-      :root {
-        --card-w: min(90vw, 310px);
-        --card-h: 440px;
-        --img-h: 330px;
-        --title-size: 21px;
-        --finale-w: min(92vw, 310px);
-        --finale-h: 200px;
-        --finale-title-size: clamp(20px, 6.8vw, 28px);
+      /* Màn hình Máy tính bảng (< 992px) */
+      @media (max-width: 992px) {
+        :root {
+          --card-w: 390px;
+          --card-h: 530px;
+          --img-h: 400px;
+          --title-size: 26px;
+          --finale-w: min(88vw, 540px);
+          --finale-h: 240px;
+          --finale-title-size: clamp(24px, 4vw, 40px);
+        }
       }
-    }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+      /* Màn hình Điện thoại (Mobile <= 768px): Vừa vặn 100% màn hình, không bị cắt góc */
+      @media (max-width: 768px) {
+        :root {
+          --card-w: min(88vw, 320px);
+          --card-h: 460px;
+          --img-h: 350px;
+          --title-size: 23px;
+          --finale-w: min(90vw, 340px);
+          --finale-h: 210px;
+          --finale-title-size: clamp(22px, 6.5vw, 32px);
+        }
+      }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      color: #eafff2;
-      font-family: 'Space Grotesk', sans-serif;
-      overflow-x: hidden;
-      user-select: none;
-      -webkit-font-smoothing: antialiased;
-    }
+      @media (max-width: 480px) {
+        :root {
+          --card-w: min(90vw, 310px);
+          --card-h: 440px;
+          --img-h: 330px;
+          --title-size: 21px;
+          --finale-w: min(92vw, 310px);
+          --finale-h: 200px;
+          --finale-title-size: clamp(20px, 6.8vw, 28px);
+        }
+      }
 
-    body {
-      height: 100%;
-    }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    /* Canvas Three.js hiển thị Starfield Close toàn màn hình */
-    #scene {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      width: 100% !important;
-      height: 100% !important;
-      display: block !important;
-      z-index: 1;
-    }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #eafff2;
+        font-family: "Space Grotesk", sans-serif;
+        overflow-x: hidden;
+        user-select: none;
+        -webkit-font-smoothing: antialiased;
+      }
 
-    /* Scroll Host điều khiển hành trình cuộn qua đường hầm sao */
-    #scroll-host {
-      position: relative;
-      height: 750vh;
-      width: 100%;
-      pointer-events: none;
-      z-index: 2;
-    }
+      body {
+        height: 100%;
+      }
 
-    /* =========================================================================
+      /* Canvas Three.js hiển thị Starfield Close toàn màn hình */
+      #scene {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        z-index: 1;
+      }
+
+      /* Scroll Host điều khiển hành trình cuộn qua đường hầm sao */
+      #scroll-host {
+        position: relative;
+        height: 750vh;
+        width: 100%;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* =========================================================================
        CHỮ CHỈ DẪN CUỘN TRANG BÌNH THƯỜNG GHIM ĐÁY TRANG
        ========================================================================= */
-    .scroll-hint {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Montserrat', 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      margin-right: -2px;
-      color: #aef6cf;
-      text-shadow: 0 0 10px rgba(174, 246, 207, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9);
-      z-index: 50;
-      pointer-events: auto;
-      cursor: pointer;
-      user-select: none;
-      background: none !important;
-      border: none !important;
-      box-shadow: none !important;
-      padding: 6px 12px;
-      white-space: nowrap;
-      transition: color 0.3s ease, opacity 0.3s ease;
-      animation: pulseHint 2.4s infinite ease-in-out;
-    }
-
-    .scroll-hint:hover {
-      color: #ffffff;
-      text-shadow: 0 0 16px #aef6cf, 0 0 30px #00e5ff;
-    }
-
-    .scroll-hint.is-end {
-      color: #00e5ff;
-      text-shadow: 0 0 14px rgba(0, 229, 255, 0.9), 0 2px 6px rgba(0, 0, 0, 0.95);
-    }
-
-    @keyframes pulseHint {
-      0%, 100% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
-      50% { opacity: 0.45; transform: translateX(-50%) translateY(3px); }
-    }
-
-    @media (max-width: 768px) {
       .scroll-hint {
-        bottom: 16px;
-        font-size: 12px;
-        letter-spacing: 1.5px;
-        margin-right: -1.5px;
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Montserrat", "Space Grotesk", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-right: -2px;
+        color: #aef6cf;
+        text-shadow:
+          0 0 10px rgba(174, 246, 207, 0.8),
+          0 2px 4px rgba(0, 0, 0, 0.9);
+        z-index: 50;
+        pointer-events: auto;
+        cursor: pointer;
+        user-select: none;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 6px 12px;
+        white-space: nowrap;
+        transition:
+          color 0.3s ease,
+          opacity 0.3s ease;
+        animation: pulseHint 2.4s infinite ease-in-out;
       }
-    }
 
-    /* Nút chuyển đổi nhanh chế độ xem góc trên */
-    .view-toggle-btn {
-      position: fixed;
-      top: 24px;
-      right: 28px;
-      z-index: 30;
-      background: rgba(10, 10, 36, 0.7);
-      border: 1px solid rgba(174, 246, 207, 0.4);
-      color: #aef6cf;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 11px;
-      letter-spacing: 2px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+      .scroll-hint:hover {
+        color: #ffffff;
+        text-shadow:
+          0 0 16px #aef6cf,
+          0 0 30px #00e5ff;
+      }
 
-    .view-toggle-btn:hover {
-      background: rgba(174, 246, 207, 0.2);
-      border-color: #aef6cf;
-      box-shadow: 0 0 15px rgba(174, 246, 207, 0.4);
-      transform: translateY(-1px);
-    }
+      .scroll-hint.is-end {
+        color: #00e5ff;
+        text-shadow:
+          0 0 14px rgba(0, 229, 255, 0.9),
+          0 2px 6px rgba(0, 0, 0, 0.95);
+      }
 
-    /* ==========================================================================
+      @keyframes pulseHint {
+        0%,
+        100% {
+          opacity: 0.9;
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          opacity: 0.45;
+          transform: translateX(-50%) translateY(3px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .scroll-hint {
+          bottom: 16px;
+          font-size: 12px;
+          letter-spacing: 1.5px;
+          margin-right: -1.5px;
+        }
+      }
+
+      /* Nút chuyển đổi nhanh chế độ xem góc trên */
+      .view-toggle-btn {
+        position: fixed;
+        top: 24px;
+        right: 28px;
+        z-index: 30;
+        background: rgba(10, 10, 36, 0.7);
+        border: 1px solid rgba(174, 246, 207, 0.4);
+        color: #aef6cf;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .view-toggle-btn:hover {
+        background: rgba(174, 246, 207, 0.2);
+        border-color: #aef6cf;
+        box-shadow: 0 0 15px rgba(174, 246, 207, 0.4);
+        transform: translateY(-1px);
+      }
+
+      /* ==========================================================================
        KHÔNG GIAN KHUNG TRANH 3D BAY TRONG ĐƯỜNG HẦM SAO
        ========================================================================== */
-    #gallery-viewport {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      width: 100% !important;
-      height: 100% !important;
-      overflow: hidden;
-      z-index: 10;
-      perspective: 1000px;
-      perspective-origin: 50% 50%;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    #gallery-viewport.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #gallery-rig {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    #gallery-tunnel {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    /* Khung tranh phong cách ngọc bích / tinh vân sao */
-    .starlight-card {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: var(--card-w);
-      height: var(--card-h);
-      margin-left: calc(var(--card-w) / -2);
-      margin-top: calc(var(--card-h) / -2);
-      transform-style: preserve-3d;
-      cursor: pointer;
-      border-radius: 8px;
-      background: rgba(6, 11, 24, 0.95);
-      border: 2px solid rgba(174, 246, 207, 0.45);
-      box-shadow: 
-        0 0 35px rgba(95, 230, 160, 0.3),
-        inset 0 0 22px rgba(174, 246, 207, 0.15),
-        0 25px 65px rgba(0, 0, 0, 0.95);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      pointer-events: auto;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      will-change: transform, opacity;
-    }
-
-    /* Chốt khóa 4 góc màu ngọc bích */
-    .card-corner {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      border-color: #aef6cf;
-      border-style: solid;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
-
-    .corner-tl { top: -2px; left: -2px; border-width: 2.5px 0 0 2.5px; }
-    .corner-tr { top: -2px; right: -2px; border-width: 2.5px 2.5px 0 0; }
-    .corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2.5px 2.5px; }
-    .corner-br { bottom: -2px; right: -2px; border-width: 0 2.5px 2.5px 0; }
-
-    /* Hộp chứa ảnh */
-    .card-img-wrap {
-      width: 100%;
-      height: var(--img-h);
-      overflow: hidden;
-      border-radius: 4px;
-      background: #040810;
-      border: 1px solid rgba(174, 246, 207, 0.25);
-    }
-
-    .card-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
-      filter: contrast(1.05) saturate(1.05);
-    }
-
-    /* Vùng tên chiếm trọn vẹn phần dư dưới ảnh, không khung */
-    .card-caption {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      width: 100%;
-      margin: 0;
-      padding: 0 4px;
-    }
-
-    /* Tên bảy màu cầu vồng chuyển động liên tục (Animated Rainbow Gradient) */
-    .card-title {
-      font-family: 'Orbitron', 'Rajdhani', sans-serif;
-      font-size: var(--title-size);
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-      
-      /* Dải màu 7 sắc cầu vồng: Đỏ, Cam, Vàng, Lục, Lam, Chàm, Tím */
-      background: linear-gradient(
-        90deg,
-        #ff1744,
-        #ff9100,
-        #ffea00,
-        #00e676,
-        #00e5ff,
-        #2979ff,
-        #d500f9,
-        #ff1744
-      );
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbowMove 4s linear infinite;
-      filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
-      transition: transform 0.3s ease;
-    }
-
-    @keyframes rainbowMove {
-      0% {
-        background-position: 0% 50%;
+      #gallery-viewport {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden;
+        z-index: 10;
+        perspective: 1000px;
+        perspective-origin: 50% 50%;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
       }
-      100% {
-        background-position: 300% 50%;
+
+      #gallery-viewport.hidden {
+        opacity: 0;
+        pointer-events: none;
       }
-    }
 
-    .starlight-card:hover {
-      border-color: #ffffff;
-      box-shadow: 
-        0 0 55px rgba(174, 246, 207, 0.65),
-        inset 0 0 30px rgba(174, 246, 207, 0.3),
-        0 35px 90px rgba(0, 0, 0, 1);
-    }
-
-    .starlight-card:hover .card-corner {
-      width: 18px;
-      height: 18px;
-      border-color: #ffffff;
-      box-shadow: 0 0 12px #aef6cf;
-    }
-
-    .starlight-card:hover .card-img-wrap img {
-      transform: scale(1.06);
-      filter: contrast(1.15) saturate(1.2);
-    }
-
-    .starlight-card:hover .card-title {
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 35px rgba(0, 229, 255, 0.85));
-    }
-
-    @media (max-width: 768px) {
-      .view-toggle-btn {
-        top: 16px;
-        right: 16px;
-        padding: 6px 12px;
-        font-size: 9px;
+      #gallery-rig {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        will-change: transform;
       }
-    }
 
-    /* =========================================================================
+      #gallery-tunnel {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      /* Khung tranh phong cách ngọc bích / tinh vân sao */
+      .starlight-card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: var(--card-w);
+        height: var(--card-h);
+        margin-left: calc(var(--card-w) / -2);
+        margin-top: calc(var(--card-h) / -2);
+        transform-style: preserve-3d;
+        cursor: pointer;
+        border-radius: 8px;
+        background: rgba(6, 11, 24, 0.95);
+        border: 2px solid rgba(174, 246, 207, 0.45);
+        box-shadow:
+          0 0 35px rgba(95, 230, 160, 0.3),
+          inset 0 0 22px rgba(174, 246, 207, 0.15),
+          0 25px 65px rgba(0, 0, 0, 0.95);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        will-change: transform, opacity;
+      }
+
+      /* Chốt khóa 4 góc màu ngọc bích */
+      .card-corner {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-color: #aef6cf;
+        border-style: solid;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      .corner-tl {
+        top: -2px;
+        left: -2px;
+        border-width: 2.5px 0 0 2.5px;
+      }
+      .corner-tr {
+        top: -2px;
+        right: -2px;
+        border-width: 2.5px 2.5px 0 0;
+      }
+      .corner-bl {
+        bottom: -2px;
+        left: -2px;
+        border-width: 0 0 2.5px 2.5px;
+      }
+      .corner-br {
+        bottom: -2px;
+        right: -2px;
+        border-width: 0 2.5px 2.5px 0;
+      }
+
+      /* Hộp chứa ảnh */
+      .card-img-wrap {
+        width: 100%;
+        height: var(--img-h);
+        overflow: hidden;
+        border-radius: 4px;
+        background: #040810;
+        border: 1px solid rgba(174, 246, 207, 0.25);
+      }
+
+      .card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+          filter 0.4s ease;
+        filter: contrast(1.05) saturate(1.05);
+      }
+
+      /* Vùng tên chiếm trọn vẹn phần dư dưới ảnh, không khung */
+      .card-caption {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        margin: 0;
+        padding: 0 4px;
+      }
+
+      /* Tên bảy màu cầu vồng chuyển động liên tục (Animated Rainbow Gradient) */
+      .card-title {
+        font-family: "Orbitron", "Rajdhani", sans-serif;
+        font-size: var(--title-size);
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+
+        /* Dải màu 7 sắc cầu vồng: Đỏ, Cam, Vàng, Lục, Lam, Chàm, Tím */
+        background: linear-gradient(
+          90deg,
+          #ff1744,
+          #ff9100,
+          #ffea00,
+          #00e676,
+          #00e5ff,
+          #2979ff,
+          #d500f9,
+          #ff1744
+        );
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbowMove 4s linear infinite;
+        filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
+        transition: transform 0.3s ease;
+      }
+
+      @keyframes rainbowMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 300% 50%;
+        }
+      }
+
+      .starlight-card:hover {
+        border-color: #ffffff;
+        box-shadow:
+          0 0 55px rgba(174, 246, 207, 0.65),
+          inset 0 0 30px rgba(174, 246, 207, 0.3),
+          0 35px 90px rgba(0, 0, 0, 1);
+      }
+
+      .starlight-card:hover .card-corner {
+        width: 18px;
+        height: 18px;
+        border-color: #ffffff;
+        box-shadow: 0 0 12px #aef6cf;
+      }
+
+      .starlight-card:hover .card-img-wrap img {
+        transform: scale(1.06);
+        filter: contrast(1.15) saturate(1.2);
+      }
+
+      .starlight-card:hover .card-title {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.9))
+          drop-shadow(0 0 35px rgba(0, 229, 255, 0.85));
+      }
+
+      @media (max-width: 768px) {
+        .view-toggle-btn {
+          top: 16px;
+          right: 16px;
+          padding: 6px 12px;
+          font-size: 9px;
+        }
+      }
+
+      /* =========================================================================
        KHUNG CHỮ KẾT THÚC: "ẢNH DÌM 12C7" TRỞ LẠI PHONG CÁCH KHUNG CARD CŨ
        ========================================================================= */
-    .tunnel-finale {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: var(--finale-w);
-      height: var(--finale-h);
-      margin-left: calc(var(--finale-w) / -2);
-      margin-top: calc(var(--finale-h) / -2);
-      transform-style: preserve-3d;
-      border-radius: 10px;
-      background: rgba(6, 11, 24, 0.96);
-      border: 2px solid rgba(174, 246, 207, 0.5);
-      box-shadow: 
-        0 0 35px rgba(95, 230, 160, 0.3),
-        inset 0 0 20px rgba(174, 246, 207, 0.15),
-        0 25px 65px rgba(0, 0, 0, 0.95);
-      padding: 28px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      text-align: center;
-      pointer-events: auto;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      will-change: transform, opacity;
-    }
+      .tunnel-finale {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: var(--finale-w);
+        height: var(--finale-h);
+        margin-left: calc(var(--finale-w) / -2);
+        margin-top: calc(var(--finale-h) / -2);
+        transform-style: preserve-3d;
+        border-radius: 10px;
+        background: rgba(6, 11, 24, 0.96);
+        border: 2px solid rgba(174, 246, 207, 0.5);
+        box-shadow:
+          0 0 35px rgba(95, 230, 160, 0.3),
+          inset 0 0 20px rgba(174, 246, 207, 0.15),
+          0 25px 65px rgba(0, 0, 0, 0.95);
+        padding: 28px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        text-align: center;
+        pointer-events: auto;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        will-change: transform, opacity;
+      }
 
-    .tunnel-finale:hover {
-      border-color: #aef6cf;
-      box-shadow: 
-        0 0 50px rgba(95, 230, 160, 0.5),
-        inset 0 0 30px rgba(0, 229, 255, 0.3),
-        0 30px 80px rgba(0, 0, 0, 1);
-    }
+      .tunnel-finale:hover {
+        border-color: #aef6cf;
+        box-shadow:
+          0 0 50px rgba(95, 230, 160, 0.5),
+          inset 0 0 30px rgba(0, 229, 255, 0.3),
+          0 30px 80px rgba(0, 0, 0, 1);
+      }
 
-    .tunnel-finale:hover .card-corner {
-      width: 18px;
-      height: 18px;
-      border-color: #ffffff;
-      box-shadow: 0 0 12px #aef6cf;
-    }
+      .tunnel-finale:hover .card-corner {
+        width: 18px;
+        height: 18px;
+        border-color: #ffffff;
+        box-shadow: 0 0 12px #aef6cf;
+      }
 
-    .finale-badge {
-      font-family: 'Orbitron', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: #aef6cf;
-      text-shadow: 0 0 8px rgba(174, 246, 207, 0.6);
-      padding: 4px 14px;
-      border: 1px solid rgba(174, 246, 207, 0.4);
-      border-radius: 20px;
-      background: rgba(174, 246, 207, 0.1);
-    }
-
-    .finale-title {
-      font-family: 'Montserrat', 'Orbitron', sans-serif;
-      font-size: var(--finale-title-size);
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      line-height: 1.15;
-      margin: 0;
-      white-space: nowrap;
-      text-align: center;
-      user-select: none;
-      
-      background: linear-gradient(
-        90deg,
-        #ff1744,
-        #ff9100,
-        #ffea00,
-        #00e676,
-        #00e5ff,
-        #2979ff,
-        #d500f9,
-        #ff1744
-      );
-      background-size: 300% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbowMove 4s linear infinite;
-      filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.5));
-    }
-
-    .finale-subtitle {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 13px;
-      letter-spacing: 2px;
-      color: rgba(234, 255, 242, 0.75);
-      text-transform: uppercase;
-      margin: 0;
-    }
-
-    @media (max-width: 768px) {
       .finale-badge {
-        font-size: 9px;
-        letter-spacing: 2px;
-        padding: 3px 10px;
+        font-family: "Orbitron", monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        color: #aef6cf;
+        text-shadow: 0 0 8px rgba(174, 246, 207, 0.6);
+        padding: 4px 14px;
+        border: 1px solid rgba(174, 246, 207, 0.4);
+        border-radius: 20px;
+        background: rgba(174, 246, 207, 0.1);
       }
-      .finale-subtitle {
-        font-size: 10px;
-        letter-spacing: 1px;
-      }
-    }
 
-    /* =========================================================================
+      .finale-title {
+        font-family: "Montserrat", "Orbitron", sans-serif;
+        font-size: var(--finale-title-size);
+        font-weight: 900;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        line-height: 1.15;
+        margin: 0;
+        white-space: nowrap;
+        text-align: center;
+        user-select: none;
+
+        background: linear-gradient(
+          90deg,
+          #ff1744,
+          #ff9100,
+          #ffea00,
+          #00e676,
+          #00e5ff,
+          #2979ff,
+          #d500f9,
+          #ff1744
+        );
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbowMove 4s linear infinite;
+        filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.5));
+      }
+
+      .finale-subtitle {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 13px;
+        letter-spacing: 2px;
+        color: rgba(234, 255, 242, 0.75);
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .finale-badge {
+          font-size: 9px;
+          letter-spacing: 2px;
+          padding: 3px 10px;
+        }
+        .finale-subtitle {
+          font-size: 10px;
+          letter-spacing: 1px;
+        }
+      }
+
+      /* =========================================================================
        MÀN HÌNH LOADING LƯỢNG TỬ: QUẢ CẦU HUYỀN ẢO & THANH TIẾN TRÌNH MINIMALIST
        ========================================================================= */
-    #warp-loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at center, #071520 0%, #02050b 70%, #000000 100%);
-      z-index: 99999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      overflow: hidden;
-      cursor: pointer;
-      user-select: none;
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
-    }
-
-    /* Khi kích hoạt bẻ cong không gian (Warp Engaged) */
-    #warp-loader.warp-engaged {
-      opacity: 0;
-      transform: scale(2.6);
-      filter: blur(28px) brightness(3);
-      pointer-events: none;
-    }
-
-    /* Hiệu ứng lưới toạ độ không gian (Cyber Space Grid) */
-    .loader-bg-grid {
-      position: absolute;
-      inset: -50%;
-      background-image: 
-        linear-gradient(rgba(174, 246, 207, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(174, 246, 207, 0.05) 1px, transparent 1px);
-      background-size: 50px 50px;
-      transform: perspective(500px) rotateX(60deg) translateY(0);
-      animation: gridScroll 12s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes gridScroll {
-      0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-      100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-    }
-
-    /* Dòng quét radar / scanline */
-    .loader-scanline {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 6px;
-      background: linear-gradient(90deg, transparent, rgba(174, 246, 207, 0.6), #5fe6a0, rgba(174, 246, 207, 0.6), transparent);
-      box-shadow: 0 0 15px #aef6cf;
-      opacity: 0.7;
-      animation: scanlineMove 3s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes scanlineMove {
-      0% { top: 0%; opacity: 0; }
-      15% { opacity: 0.8; }
-      85% { opacity: 0.8; }
-      100% { top: 100%; opacity: 0; }
-    }
-
-    /* Cụm quả cầu lượng tử (Concentric Celestial Orb) */
-    .stargate-wrapper {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Vòng xoay con quay hồi chuyển */
-    .stargate-ring {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    /* Vòng ngoài cùng */
-    .ring-outer {
-      width: 300px;
-      height: 300px;
-      border: 1.5px dashed rgba(174, 246, 207, 0.35);
-      box-shadow: 0 0 35px rgba(95, 230, 160, 0.18), inset 0 0 35px rgba(95, 230, 160, 0.18);
-      animation: spinClockwise 16s linear infinite;
-    }
-
-    /* Vòng giữa: 8 hạt lượng tử xoay ngược chiều */
-    .ring-mid {
-      width: 220px;
-      height: 220px;
-      border: 1px solid rgba(0, 229, 255, 0.35);
-      animation: spinCounterClockwise 8s linear infinite;
-    }
-
-    .ring-mid .node {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 9px;
-      height: 9px;
-      margin: -4.5px 0 0 -4.5px;
-      border-radius: 50%;
-      background: #aef6cf;
-      box-shadow: 0 0 10px #5fe6a0, 0 0 20px #00e5ff;
-    }
-
-    .node-1 { transform: rotate(0deg) translate(110px); }
-    .node-2 { transform: rotate(45deg) translate(110px); }
-    .node-3 { transform: rotate(90deg) translate(110px); }
-    .node-4 { transform: rotate(135deg) translate(110px); }
-    .node-5 { transform: rotate(180deg) translate(110px); }
-    .node-6 { transform: rotate(225deg) translate(110px); }
-    .node-7 { transform: rotate(270deg) translate(110px); }
-    .node-8 { transform: rotate(315deg) translate(110px); }
-
-    /* Vòng trong cùng: Hồng tâm lượng tử */
-    .ring-inner {
-      width: 140px;
-      height: 140px;
-      border: 2px dotted rgba(174, 246, 207, 0.65);
-      animation: spinClockwise 5s linear infinite;
-    }
-
-    .crosshair-h, .crosshair-v {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      background: rgba(174, 246, 207, 0.45);
-    }
-    .crosshair-h {
-      width: 175px;
-      height: 1px;
-      transform: translate(-50%, -50%);
-    }
-    .crosshair-v {
-      width: 1px;
-      height: 175px;
-      transform: translate(-50%, -50%);
-    }
-
-    /* Hạt nhân quả cầu: Phát xung plasma phát sáng theo nhịp năng lượng */
-    .singularity-core {
-      position: absolute;
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffffff 0%, #aef6cf 35%, #00e5ff 65%, transparent 80%);
-      box-shadow: 
-        0 0 35px #aef6cf,
-        0 0 70px #00e5ff,
-        0 0 110px rgba(95, 230, 160, 0.6);
-      animation: corePulse 1.4s ease-in-out infinite alternate;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-    }
-
-    .core-eye {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: #02050b;
-      box-shadow: 0 0 14px #ffffff;
-    }
-
-    @keyframes corePulse {
-      0% { transform: scale(0.88); filter: drop-shadow(0 0 15px #5fe6a0); }
-      100% { transform: scale(1.18); filter: drop-shadow(0 0 50px #00e5ff) drop-shadow(0 0 80px #ffffff); }
-    }
-
-    @keyframes spinClockwise {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes spinCounterClockwise {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(-360deg); }
-    }
-
-    /* Sóng xung kích phát nổ khi đạt 100% */
-    .warp-shockwave {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 3px solid #ffffff;
-      box-shadow: 0 0 40px #aef6cf, inset 0 0 40px #00e5ff;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(1);
-    }
-
-    .warp-shockwave.fire {
-      animation: shockwaveBoom 0.85s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
-    }
-
-    @keyframes shockwaveBoom {
-      0% { opacity: 1; transform: scale(1); border-width: 8px; }
-      100% { opacity: 0; transform: scale(35); border-width: 1px; }
-    }
-
-    /* Thanh loading neon tinh gọn, không chữ */
-    .loading-bar-wrap {
-      position: relative;
-      width: 280px;
-      height: 6px;
-      background: rgba(4, 10, 24, 0.9);
-      border: 1px solid rgba(174, 246, 207, 0.4);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(95, 230, 160, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.9);
-      padding: 1px;
-    }
-
-    .loading-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #5fe6a0, #aef6cf, #00e5ff);
-      border-radius: 10px;
-      box-shadow: 0 0 12px #aef6cf, 0 0 25px #00e5ff;
-      transition: width 0.08s ease;
-    }
-
-    /* Thích ứng trên màn hình điện thoại */
-    @media (max-width: 768px) {
       #warp-loader {
-        gap: 28px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(
+          circle at center,
+          #071520 0%,
+          #02050b 70%,
+          #000000 100%
+        );
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          filter 0.8s ease;
       }
-      .stargate-wrapper {
-        width: 230px;
-        height: 230px;
-      }
-      .ring-outer { width: 230px; height: 230px; }
-      .ring-mid { width: 170px; height: 170px; }
-      .node-1 { transform: rotate(0deg) translate(85px); }
-      .node-2 { transform: rotate(45deg) translate(85px); }
-      .node-3 { transform: rotate(90deg) translate(85px); }
-      .node-4 { transform: rotate(135deg) translate(85px); }
-      .node-5 { transform: rotate(180deg) translate(85px); }
-      .node-6 { transform: rotate(225deg) translate(85px); }
-      .node-7 { transform: rotate(270deg) translate(85px); }
-      .node-8 { transform: rotate(315deg) translate(85px); }
-      .ring-inner { width: 106px; height: 106px; }
-      .crosshair-h { width: 130px; }
-      .crosshair-v { height: 130px; }
-      .singularity-core { width: 58px; height: 58px; }
-      .loading-bar-wrap { width: 220px; height: 5px; }
-    }
-  </style>
-</head>
-<body>
 
-  <!-- =========================================================================
+      /* Khi kích hoạt bẻ cong không gian (Warp Engaged) */
+      #warp-loader.warp-engaged {
+        opacity: 0;
+        transform: scale(2.6);
+        filter: blur(28px) brightness(3);
+        pointer-events: none;
+      }
+
+      /* Hiệu ứng lưới toạ độ không gian (Cyber Space Grid) */
+      .loader-bg-grid {
+        position: absolute;
+        inset: -50%;
+        background-image:
+          linear-gradient(rgba(174, 246, 207, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(174, 246, 207, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+        transform: perspective(500px) rotateX(60deg) translateY(0);
+        animation: gridScroll 12s linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes gridScroll {
+        0% {
+          transform: perspective(500px) rotateX(60deg) translateY(0);
+        }
+        100% {
+          transform: perspective(500px) rotateX(60deg) translateY(50px);
+        }
+      }
+
+      /* Dòng quét radar / scanline */
+      .loader-scanline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(174, 246, 207, 0.6),
+          #5fe6a0,
+          rgba(174, 246, 207, 0.6),
+          transparent
+        );
+        box-shadow: 0 0 15px #aef6cf;
+        opacity: 0.7;
+        animation: scanlineMove 3s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes scanlineMove {
+        0% {
+          top: 0%;
+          opacity: 0;
+        }
+        15% {
+          opacity: 0.8;
+        }
+        85% {
+          opacity: 0.8;
+        }
+        100% {
+          top: 100%;
+          opacity: 0;
+        }
+      }
+
+      /* Cụm quả cầu lượng tử (Concentric Celestial Orb) */
+      .stargate-wrapper {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Vòng xoay con quay hồi chuyển */
+      .stargate-ring {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      /* Vòng ngoài cùng */
+      .ring-outer {
+        width: 300px;
+        height: 300px;
+        border: 1.5px dashed rgba(174, 246, 207, 0.35);
+        box-shadow:
+          0 0 35px rgba(95, 230, 160, 0.18),
+          inset 0 0 35px rgba(95, 230, 160, 0.18);
+        animation: spinClockwise 16s linear infinite;
+      }
+
+      /* Vòng giữa: 8 hạt lượng tử xoay ngược chiều */
+      .ring-mid {
+        width: 220px;
+        height: 220px;
+        border: 1px solid rgba(0, 229, 255, 0.35);
+        animation: spinCounterClockwise 8s linear infinite;
+      }
+
+      .ring-mid .node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 9px;
+        height: 9px;
+        margin: -4.5px 0 0 -4.5px;
+        border-radius: 50%;
+        background: #aef6cf;
+        box-shadow:
+          0 0 10px #5fe6a0,
+          0 0 20px #00e5ff;
+      }
+
+      .node-1 {
+        transform: rotate(0deg) translate(110px);
+      }
+      .node-2 {
+        transform: rotate(45deg) translate(110px);
+      }
+      .node-3 {
+        transform: rotate(90deg) translate(110px);
+      }
+      .node-4 {
+        transform: rotate(135deg) translate(110px);
+      }
+      .node-5 {
+        transform: rotate(180deg) translate(110px);
+      }
+      .node-6 {
+        transform: rotate(225deg) translate(110px);
+      }
+      .node-7 {
+        transform: rotate(270deg) translate(110px);
+      }
+      .node-8 {
+        transform: rotate(315deg) translate(110px);
+      }
+
+      /* Vòng trong cùng: Hồng tâm lượng tử */
+      .ring-inner {
+        width: 140px;
+        height: 140px;
+        border: 2px dotted rgba(174, 246, 207, 0.65);
+        animation: spinClockwise 5s linear infinite;
+      }
+
+      .crosshair-h,
+      .crosshair-v {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgba(174, 246, 207, 0.45);
+      }
+      .crosshair-h {
+        width: 175px;
+        height: 1px;
+        transform: translate(-50%, -50%);
+      }
+      .crosshair-v {
+        width: 1px;
+        height: 175px;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Hạt nhân quả cầu: Phát xung plasma phát sáng theo nhịp năng lượng */
+      .singularity-core {
+        position: absolute;
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          #ffffff 0%,
+          #aef6cf 35%,
+          #00e5ff 65%,
+          transparent 80%
+        );
+        box-shadow:
+          0 0 35px #aef6cf,
+          0 0 70px #00e5ff,
+          0 0 110px rgba(95, 230, 160, 0.6);
+        animation: corePulse 1.4s ease-in-out infinite alternate;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+
+      .core-eye {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #02050b;
+        box-shadow: 0 0 14px #ffffff;
+      }
+
+      @keyframes corePulse {
+        0% {
+          transform: scale(0.88);
+          filter: drop-shadow(0 0 15px #5fe6a0);
+        }
+        100% {
+          transform: scale(1.18);
+          filter: drop-shadow(0 0 50px #00e5ff) drop-shadow(0 0 80px #ffffff);
+        }
+      }
+
+      @keyframes spinClockwise {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spinCounterClockwise {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(-360deg);
+        }
+      }
+
+      /* Sóng xung kích phát nổ khi đạt 100% */
+      .warp-shockwave {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid #ffffff;
+        box-shadow:
+          0 0 40px #aef6cf,
+          inset 0 0 40px #00e5ff;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(1);
+      }
+
+      .warp-shockwave.fire {
+        animation: shockwaveBoom 0.85s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+      }
+
+      @keyframes shockwaveBoom {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+          border-width: 8px;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(35);
+          border-width: 1px;
+        }
+      }
+
+      /* Thanh loading neon tinh gọn, không chữ */
+      .loading-bar-wrap {
+        position: relative;
+        width: 280px;
+        height: 6px;
+        background: rgba(4, 10, 24, 0.9);
+        border: 1px solid rgba(174, 246, 207, 0.4);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow:
+          0 0 15px rgba(95, 230, 160, 0.2),
+          inset 0 0 8px rgba(0, 0, 0, 0.9);
+        padding: 1px;
+      }
+
+      .loading-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #5fe6a0, #aef6cf, #00e5ff);
+        border-radius: 10px;
+        box-shadow:
+          0 0 12px #aef6cf,
+          0 0 25px #00e5ff;
+        transition: width 0.08s ease;
+      }
+
+      /* Thích ứng trên màn hình điện thoại */
+      @media (max-width: 768px) {
+        #warp-loader {
+          gap: 28px;
+        }
+        .stargate-wrapper {
+          width: 230px;
+          height: 230px;
+        }
+        .ring-outer {
+          width: 230px;
+          height: 230px;
+        }
+        .ring-mid {
+          width: 170px;
+          height: 170px;
+        }
+        .node-1 {
+          transform: rotate(0deg) translate(85px);
+        }
+        .node-2 {
+          transform: rotate(45deg) translate(85px);
+        }
+        .node-3 {
+          transform: rotate(90deg) translate(85px);
+        }
+        .node-4 {
+          transform: rotate(135deg) translate(85px);
+        }
+        .node-5 {
+          transform: rotate(180deg) translate(85px);
+        }
+        .node-6 {
+          transform: rotate(225deg) translate(85px);
+        }
+        .node-7 {
+          transform: rotate(270deg) translate(85px);
+        }
+        .node-8 {
+          transform: rotate(315deg) translate(85px);
+        }
+        .ring-inner {
+          width: 106px;
+          height: 106px;
+        }
+        .crosshair-h {
+          width: 130px;
+        }
+        .crosshair-v {
+          height: 130px;
+        }
+        .singularity-core {
+          width: 58px;
+          height: 58px;
+        }
+        .loading-bar-wrap {
+          width: 220px;
+          height: 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- =========================================================================
        MÀN HÌNH LOADING LƯỢNG TỬ: QUẢ CẦU HUYỀN ẢO & THANH TIẾN TRÌNH MINIMALIST
        ========================================================================= -->
-  <div id="warp-loader">
-    <!-- Nền lưới toạ độ không gian & scanlines -->
-    <div class="loader-bg-grid"></div>
-    <div class="loader-scanline"></div>
+    <div id="warp-loader">
+      <!-- Nền lưới toạ độ không gian & scanlines -->
+      <div class="loader-bg-grid"></div>
+      <div class="loader-scanline"></div>
 
-    <!-- Cụm quả cầu lượng tử trung tâm (Quantum Celestial Orb) -->
-    <div class="stargate-wrapper">
-      <!-- Vòng ngoài: Vòng toạ độ quét 360 độ -->
-      <div class="stargate-ring ring-outer"></div>
+      <!-- Cụm quả cầu lượng tử trung tâm (Quantum Celestial Orb) -->
+      <div class="stargate-wrapper">
+        <!-- Vòng ngoài: Vòng toạ độ quét 360 độ -->
+        <div class="stargate-ring ring-outer"></div>
 
-      <!-- Vòng giữa: 8 hạt photon lượng tử đại diện cho 8 bức ảnh quay ngược chiều -->
-      <div class="stargate-ring ring-mid">
-        <span class="node node-1"></span>
-        <span class="node node-2"></span>
-        <span class="node node-3"></span>
-        <span class="node node-4"></span>
-        <span class="node node-5"></span>
-        <span class="node node-6"></span>
-        <span class="node node-7"></span>
-        <span class="node node-8"></span>
+        <!-- Vòng giữa: 8 hạt photon lượng tử đại diện cho 8 bức ảnh quay ngược chiều -->
+        <div class="stargate-ring ring-mid">
+          <span class="node node-1"></span>
+          <span class="node node-2"></span>
+          <span class="node node-3"></span>
+          <span class="node node-4"></span>
+          <span class="node node-5"></span>
+          <span class="node node-6"></span>
+          <span class="node node-7"></span>
+          <span class="node node-8"></span>
+        </div>
+
+        <!-- Vòng trong: Bát giác laser & hồng tâm lượng tử -->
+        <div class="stargate-ring ring-inner">
+          <div class="crosshair-h"></div>
+          <div class="crosshair-v"></div>
+        </div>
+
+        <!-- Hạt nhân quả cầu kỳ dị: Phát xung plasma phát sáng -->
+        <div class="singularity-core" id="singularity-core">
+          <div class="core-eye"></div>
+        </div>
+
+        <!-- Sóng xung kích phát nổ khi hoàn tất tải -->
+        <div class="warp-shockwave" id="warp-shockwave"></div>
       </div>
 
-      <!-- Vòng trong: Bát giác laser & hồng tâm lượng tử -->
-      <div class="stargate-ring ring-inner">
-        <div class="crosshair-h"></div>
-        <div class="crosshair-v"></div>
-      </div>
-
-      <!-- Hạt nhân quả cầu kỳ dị: Phát xung plasma phát sáng -->
-      <div class="singularity-core" id="singularity-core">
-        <div class="core-eye"></div>
-      </div>
-
-      <!-- Sóng xung kích phát nổ khi hoàn tất tải -->
-      <div class="warp-shockwave" id="warp-shockwave"></div>
-    </div>
-
-    <!-- Thanh loading neon tinh gọn, không chữ -->
-    <div class="loading-bar-wrap">
-      <div class="loading-bar-fill" id="loading-bar-fill"></div>
-    </div>
-  </div>
-
-  <!-- Canvas Three.js kết xuất Starfield Close -->
-  <canvas id="scene"></canvas>
-
-  <!-- Scroll Host dẫn động thanh cuộn trang -->
-  <div id="scroll-host"></div>
-
-  <!-- Nút chuyển đổi hiển thị ảnh triển lãm -->
-  <button class="view-toggle-btn" id="toggle-view-btn" title="Phím tắt: H">
-    <span>✦</span>
-    <span id="toggle-label">GALLERY: ON</span>
-  </button>
-
-  <!-- Dòng chữ cuộn đơn giản ghim dưới chân trang -->
-  <div class="scroll-hint" id="scroll-hint" title="Nhấp để cuộn">Cuộn xuống</div>
-
-  <!-- Không gian 3D chứa các khung tranh bay qua đường hầm sao -->
-  <div id="gallery-viewport">
-    <div id="gallery-rig">
-      <div id="gallery-tunnel">
-        <!-- Các tác phẩm ảnh được JavaScript khởi tạo tự động -->
+      <!-- Thanh loading neon tinh gọn, không chữ -->
+      <div class="loading-bar-wrap">
+        <div class="loading-bar-fill" id="loading-bar-fill"></div>
       </div>
     </div>
-  </div>
 
-  <!-- =========================================================================
+    <!-- Canvas Three.js kết xuất Starfield Close -->
+    <canvas id="scene"></canvas>
+
+    <!-- Scroll Host dẫn động thanh cuộn trang -->
+    <div id="scroll-host"></div>
+
+    <!-- Nút chuyển đổi hiển thị ảnh triển lãm -->
+    <button class="view-toggle-btn" id="toggle-view-btn" title="Phím tắt: H">
+      <span>✦</span>
+      <span id="toggle-label">GALLERY: ON</span>
+    </button>
+
+    <!-- Dòng chữ cuộn đơn giản ghim dưới chân trang -->
+    <div class="scroll-hint" id="scroll-hint" title="Nhấp để cuộn">
+      Cuộn xuống
+    </div>
+
+    <!-- Không gian 3D chứa các khung tranh bay qua đường hầm sao -->
+    <div id="gallery-viewport">
+      <div id="gallery-rig">
+        <div id="gallery-tunnel">
+          <!-- Các tác phẩm ảnh được JavaScript khởi tạo tự động -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
        SCRIPT CHÍNH: THREE.JS STARFIELD CLOSE + 3D PHOTO CORRIDOR
        ========================================================================= -->
-  <script type="module">
-    import * as THREE from 'three';
-    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-    import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-    import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
-    import { CopyShader } from 'three/addons/shaders/CopyShader.js';
+    <script type="module">
+      import * as THREE from "three";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { GammaCorrectionShader } from "three/addons/shaders/GammaCorrectionShader.js";
+      import { CopyShader } from "three/addons/shaders/CopyShader.js";
 
-    // Ngăn chặn các thông báo lỗi ngầm từ mobile browser (như Autoplay/AudioContext)
-    window.addEventListener('unhandledrejection', (e) => {
-      e.preventDefault();
-    });
+      // Ngăn chặn các thông báo lỗi ngầm từ mobile browser (như Autoplay/AudioContext)
+      window.addEventListener("unhandledrejection", (e) => {
+        e.preventDefault();
+      });
 
-    // =========================================================================
-    // 📁 CẤU HÌNH DANH SÁCH ẢNH TẠI ĐÂY (IMAGE CONFIGURATION)
-    // =========================================================================
-    const danhSachAnh = [
-      {
-        src: './danhsachanh/photo_2026-09-07_15-27-51.jpg',
-        title: 'Tuấn Hoàng'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-01.jpg',
-        title: 'Long cầy'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-10.jpg',
-        title: 'Thích Minh Tuệ'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-15.jpg',
-        title: 'Thiên đao'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-39.jpg',
-        title: 'Việt Đức'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-47.jpg',
-        title: 'Khang hentai'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-28-55.jpg',
-        title: 'Phú Lê'
-      },
-      {
-        src: './danhsachanh/photo_2026-09-07_15-29-05.jpg',
-        title: 'Hoàng gà tre'
+      // =========================================================================
+      // 📁 CẤU HÌNH DANH SÁCH ẢNH TẠI ĐÂY (IMAGE CONFIGURATION)
+      // =========================================================================
+      const danhSachAnh = [
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-27-51.jpg",
+          title: "Tuấn Hoàng",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-01.jpg",
+          title: "Long cầy",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-10.jpg",
+          title: "Thích Minh Tuệ",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-15.jpg",
+          title: "Thiên đao",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-39.jpg",
+          title: "Việt Đức",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-47.jpg",
+          title: "Khang hentai",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-28-55.jpg",
+          title: "Phú Lê",
+        },
+        {
+          src: "./danhsachanh/photo_2026-09-07_15-29-05.jpg",
+          title: "Hoàng gà tre",
+        },
+      ];
+
+      // =========================================================================
+      // CÁC THAM SỐ CỐ ĐỊNH TỪ PROMPT GETLAYERS (EXACT FIXED CONSTANTS)
+      // =========================================================================
+      const CONFIG = {
+        bgColor: "#0a0a24", // dark complementary background tint
+        flameColor: "#aee9ff", // corner-flame color A
+        flameColor2: "#c79bff", // corner-flame color B
+        flameAmt: 0.2, // corner-flame intensity
+        colorA: "#aef6cf", // star tint A (mint)
+        colorB: "#5fe6a0", // star tint B (jade)
+        colorC: "#eafff2", // star tint C (bone)
+        opacity: 2,
+        pointSize: 50,
+        brightness: 1.85,
+        drift: 2.35, // steady tunnel speed
+        twinkle: 1,
+        spin: 0.03, // barrel rotation rate
+        repelRadius: 5,
+        repelStrength: 0.35,
+        scrollPush: 8, // forward camera dive on scroll
+        scrollDrift: 6, // extra drift surge on scroll
+        scrollSpin: 0.1, // extra spin on scroll
+        parallax: 0.6, // cursor camera offset
+      };
+
+      // Helper hexToVec3(hex)
+      const hexToVec3 = (hex) => {
+        const n = parseInt(hex.slice(1), 16);
+        return new THREE.Vector3(
+          ((n >> 16) & 255) / 255,
+          ((n >> 8) & 255) / 255,
+          (n & 255) / 255,
+        );
+      };
+
+      // Định nghĩa Layers
+      const LAYERS = {
+        NONE: 0,
+        BLOOM_SCENE: 1,
+        ENTIRE_SCENE: 2,
+      };
+
+      // =========================================================================
+      // KHỞI TẠO THREE.JS SCENE, RENDERER, CAMERA (TỐI ƯU TOÀN DIỆN 60 FPS)
+      // =========================================================================
+      const isMobileDevice =
+        /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
+      const initialDpr = isMobileDevice
+        ? 1.0
+        : Math.min(window.devicePixelRatio || 1, 1.35);
+
+      const canvas = document.getElementById("scene");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: false,
+        powerPreference: "high-performance",
+        stencil: false,
+        depth: true,
+      });
+      renderer.setPixelRatio(initialDpr);
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+      scene.fog = new THREE.Fog(0x000000, 0, 15);
+
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        80,
+      );
+      camera.position.set(0, 0, 5);
+
+      // Kích hoạt các layer trên camera
+      camera.layers.enable(LAYERS.BLOOM_SCENE);
+      camera.layers.enable(LAYERS.ENTIRE_SCENE);
+      scene.add(camera);
+
+      // =========================================================================
+      // KHỞI TẠO HÌNH HỌC ĐÁM MÂY SAO (TỐI ƯU HOÁ 3200 PC / 2200 MOBILE)
+      // =========================================================================
+      const count = isMobileDevice ? 2200 : 3200;
+      const depth = 30;
+
+      const positions = new Float32Array(count * 3);
+      const palette = new Float32Array(count);
+      const bright = new Float32Array(count);
+      const scales = new Float32Array(count);
+      const phases = new Float32Array(count);
+
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 24; // x: box width 24
+        positions[i3 + 1] = (Math.random() - 0.5) * 16; // y: box height 16
+        positions[i3 + 2] = (Math.random() - 0.5) * 30; // z: box depth 30
+        palette[i] = Math.floor(Math.random() * 3); // 0 / 1 / 2 → tint A / B / C
+        bright[i] = 0.7 + Math.random() * 0.6;
+        scales[i] = 0.5 + Math.pow(Math.random(), 1.4) * 2.5;
+        phases[i] = Math.random();
       }
-    ];
 
-    // =========================================================================
-    // CÁC THAM SỐ CỐ ĐỊNH TỪ PROMPT GETLAYERS (EXACT FIXED CONSTANTS)
-    // =========================================================================
-    const CONFIG = {
-      bgColor: '#0a0a24',      // dark complementary background tint
-      flameColor: '#aee9ff',   // corner-flame color A
-      flameColor2: '#c79bff',  // corner-flame color B
-      flameAmt: 0.2,           // corner-flame intensity
-      colorA: '#aef6cf',       // star tint A (mint)
-      colorB: '#5fe6a0',       // star tint B (jade)
-      colorC: '#eafff2',       // star tint C (bone)
-      opacity: 2,
-      pointSize: 50,
-      brightness: 1.85,
-      drift: 2.35,             // steady tunnel speed
-      twinkle: 1,
-      spin: 0.03,              // barrel rotation rate
-      repelRadius: 5,
-      repelStrength: 0.35,
-      scrollPush: 8,           // forward camera dive on scroll
-      scrollDrift: 6,          // extra drift surge on scroll
-      scrollSpin: 0.1,         // extra spin on scroll
-      parallax: 0.6,           // cursor camera offset
-    };
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(positions, 3),
+      );
+      geometry.setAttribute(
+        "aScale",
+        new THREE.Float32BufferAttribute(scales, 1),
+      );
+      geometry.setAttribute(
+        "aPhase",
+        new THREE.Float32BufferAttribute(phases, 1),
+      );
+      geometry.setAttribute(
+        "aPalette",
+        new THREE.Float32BufferAttribute(palette, 1),
+      );
+      geometry.setAttribute(
+        "aBright",
+        new THREE.Float32BufferAttribute(bright, 1),
+      );
 
-    // Helper hexToVec3(hex)
-    const hexToVec3 = (hex) => {
-      const n = parseInt(hex.slice(1), 16);
-      return new THREE.Vector3(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
-    };
-
-    // Định nghĩa Layers
-    const LAYERS = {
-      NONE: 0,
-      BLOOM_SCENE: 1,
-      ENTIRE_SCENE: 2
-    };
-
-    // =========================================================================
-    // KHỞI TẠO THREE.JS SCENE, RENDERER, CAMERA (TỐI ƯU TOÀN DIỆN 60 FPS)
-    // =========================================================================
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (window.innerWidth <= 768);
-    const initialDpr = isMobileDevice ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35);
-
-    const canvas = document.getElementById('scene');
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: false,
-      powerPreference: 'high-performance',
-      stencil: false,
-      depth: true
-    });
-    renderer.setPixelRatio(initialDpr);
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-    scene.fog = new THREE.Fog(0x000000, 0, 15);
-
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 80);
-    camera.position.set(0, 0, 5);
-
-    // Kích hoạt các layer trên camera
-    camera.layers.enable(LAYERS.BLOOM_SCENE);
-    camera.layers.enable(LAYERS.ENTIRE_SCENE);
-    scene.add(camera);
-
-    // =========================================================================
-    // KHỞI TẠO HÌNH HỌC ĐÁM MÂY SAO (TỐI ƯU HOÁ 3200 PC / 2200 MOBILE)
-    // =========================================================================
-    const count = isMobileDevice ? 2200 : 3200;
-    const depth = 30;
-
-    const positions = new Float32Array(count * 3);
-    const palette = new Float32Array(count);
-    const bright = new Float32Array(count);
-    const scales = new Float32Array(count);
-    const phases = new Float32Array(count);
-
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      positions[i3]     = (Math.random() - 0.5) * 24;  // x: box width 24
-      positions[i3 + 1] = (Math.random() - 0.5) * 16;  // y: box height 16
-      positions[i3 + 2] = (Math.random() - 0.5) * 30;  // z: box depth 30
-      palette[i] = Math.floor(Math.random() * 3);      // 0 / 1 / 2 → tint A / B / C
-      bright[i]  = 0.7 + Math.random() * 0.6;
-      scales[i]  = 0.5 + Math.pow(Math.random(), 1.4) * 2.5;
-      phases[i]  = Math.random();
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute('aScale', new THREE.Float32BufferAttribute(scales, 1));
-    geometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(phases, 1));
-    geometry.setAttribute('aPalette', new THREE.Float32BufferAttribute(palette, 1));
-    geometry.setAttribute('aBright', new THREE.Float32BufferAttribute(bright, 1));
-
-    // =========================================================================
-    // VẬT LIỆU VÀ SHADERS ĐÁM MÂY SAO (STARFIELD SHADERS)
-    // =========================================================================
-    const vertexShader = `
+      // =========================================================================
+      // VẬT LIỆU VÀ SHADERS ĐÁM MÂY SAO (STARFIELD SHADERS)
+      // =========================================================================
+      const vertexShader = `
       uniform float uTime; uniform float uSize; uniform float uDrift; uniform float uDepth; uniform float uTwinkle;
       uniform vec3 uCursor; uniform float uRepelRadius; uniform float uRepelStrength; uniform float uActivity;
       uniform vec3 uColorA; uniform vec3 uColorB; uniform vec3 uColorC;
@@ -1030,7 +1225,7 @@
       }
     `;
 
-    const fragmentShader = `
+      const fragmentShader = `
       uniform float uOpacity; uniform float uBrightness;
       varying vec3 vColor; varying float vTwinkle;
       void main() {
@@ -1043,74 +1238,79 @@
       }
     `;
 
-    const starMaterial = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      uniforms: {
-        uTime: { value: 0 },
-        uSize: { value: CONFIG.pointSize },
-        uOpacity: { value: 0 },
-        uDrift: { value: 0 },
-        uDepth: { value: 30 },
-        uTwinkle: { value: CONFIG.twinkle },
-        uCursor: { value: new THREE.Vector3() },
-        uRepelRadius: { value: CONFIG.repelRadius },
-        uRepelStrength: { value: CONFIG.repelStrength },
-        uActivity: { value: 0 },
-        uColorA: { value: hexToVec3(CONFIG.colorA) },
-        uColorB: { value: hexToVec3(CONFIG.colorB) },
-        uColorC: { value: hexToVec3(CONFIG.colorC) },
-        uBrightness: { value: CONFIG.brightness },
-      },
-      vertexShader,
-      fragmentShader
-    });
+      const starMaterial = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        uniforms: {
+          uTime: { value: 0 },
+          uSize: { value: CONFIG.pointSize },
+          uOpacity: { value: 0 },
+          uDrift: { value: 0 },
+          uDepth: { value: 30 },
+          uTwinkle: { value: CONFIG.twinkle },
+          uCursor: { value: new THREE.Vector3() },
+          uRepelRadius: { value: CONFIG.repelRadius },
+          uRepelStrength: { value: CONFIG.repelStrength },
+          uActivity: { value: 0 },
+          uColorA: { value: hexToVec3(CONFIG.colorA) },
+          uColorB: { value: hexToVec3(CONFIG.colorB) },
+          uColorC: { value: hexToVec3(CONFIG.colorC) },
+          uBrightness: { value: CONFIG.brightness },
+        },
+        vertexShader,
+        fragmentShader,
+      });
 
-    const group = new THREE.Group();
-    scene.add(group);
+      const group = new THREE.Group();
+      scene.add(group);
 
-    const points = new THREE.Points(geometry, starMaterial);
-    group.add(points);
-    points.layers.enable(LAYERS.ENTIRE_SCENE);
-    points.layers.enable(LAYERS.BLOOM_SCENE);
+      const points = new THREE.Points(geometry, starMaterial);
+      group.add(points);
+      points.layers.enable(LAYERS.ENTIRE_SCENE);
+      points.layers.enable(LAYERS.BLOOM_SCENE);
 
-    // =========================================================================
-    // POSTPROCESSING — HIGH-PERFORMANCE 2-STAGE COMPOSER PIPELINE (SIÊU NHẸ)
-    // =========================================================================
-    const renderScene = new RenderPass(scene, camera);
+      // =========================================================================
+      // POSTPROCESSING — HIGH-PERFORMANCE 2-STAGE COMPOSER PIPELINE (SIÊU NHẸ)
+      // =========================================================================
+      const renderScene = new RenderPass(scene, camera);
 
-    // 1. bloomComposer (Chạy ở 1/2 độ phân giải để giảm 75% tải tính toán GPU mà vẫn giữ vệt sáng sao mềm mại)
-    const bloomComposer = new EffectComposer(renderer);
-    bloomComposer.renderToScreen = false;
-    bloomComposer.addPass(renderScene);
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2)),
-      0.45, 0.45, 0
-    );
-    bloomComposer.addPass(bloomPass);
-    bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
+      // 1. bloomComposer (Chạy ở 1/2 độ phân giải để giảm 75% tải tính toán GPU mà vẫn giữ vệt sáng sao mềm mại)
+      const bloomComposer = new EffectComposer(renderer);
+      bloomComposer.renderToScreen = false;
+      bloomComposer.addPass(renderScene);
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(
+          Math.floor(window.innerWidth / 2),
+          Math.floor(window.innerHeight / 2),
+        ),
+        0.45,
+        0.45,
+        0,
+      );
+      bloomComposer.addPass(bloomPass);
+      bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
 
-    // 2. FinalPass Shader
-    const FinalPassShader = {
-      uniforms: {
-        iTime:        { value: 0 },
-        tDiffuse:     { value: null },
-        bloomTexture: { value: null },
-        haloTexture:  { value: null },
-        uBg:          { value: hexToVec3(CONFIG.bgColor) },
-        uFlameA:      { value: hexToVec3(CONFIG.flameColor) },
-        uFlameB:      { value: hexToVec3(CONFIG.flameColor2) },
-        uFlameAmt:    { value: CONFIG.flameAmt }
-      },
-      vertexShader: `
+      // 2. FinalPass Shader
+      const FinalPassShader = {
+        uniforms: {
+          iTime: { value: 0 },
+          tDiffuse: { value: null },
+          bloomTexture: { value: null },
+          haloTexture: { value: null },
+          uBg: { value: hexToVec3(CONFIG.bgColor) },
+          uFlameA: { value: hexToVec3(CONFIG.flameColor) },
+          uFlameB: { value: hexToVec3(CONFIG.flameColor2) },
+          uFlameAmt: { value: CONFIG.flameAmt },
+        },
+        vertexShader: `
         varying vec2 vUv;
         void main(){
           vUv = uv;
           gl_Position = vec4(position, 1.0);
         }
       `,
-      fragmentShader: `
+        fragmentShader: `
         uniform float iTime;
         uniform sampler2D tDiffuse;
         uniform sampler2D bloomTexture;
@@ -1124,203 +1324,228 @@
           vec3 sceneColor = texture2D(tDiffuse, vUv).xyz;
           gl_FragColor = vec4(bg + bloom * 1.4 + sceneColor, 1.0);
         }
-      `
-    };
+      `,
+      };
 
-    // Tạo dummy texture an toàn cho haloTexture
-    const dummyTexture = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1);
-    dummyTexture.needsUpdate = true;
-    FinalPassShader.uniforms.haloTexture.value = dummyTexture;
+      // Tạo dummy texture an toàn cho haloTexture
+      const dummyTexture = new THREE.DataTexture(
+        new Uint8Array([0, 0, 0, 0]),
+        1,
+        1,
+      );
+      dummyTexture.needsUpdate = true;
+      FinalPassShader.uniforms.haloTexture.value = dummyTexture;
 
-    const finalPass = new ShaderPass(FinalPassShader);
+      const finalPass = new ShaderPass(FinalPassShader);
 
-    // 3. finalComposer
-    const finalComposer = new EffectComposer(renderer);
-    finalComposer.addPass(renderScene);
-    finalComposer.addPass(finalPass);
+      // 3. finalComposer
+      const finalComposer = new EffectComposer(renderer);
+      finalComposer.addPass(renderScene);
+      finalComposer.addPass(finalPass);
 
-    // Nối render target
-    finalPass.uniforms.bloomTexture.value = bloomComposer.renderTarget1.texture;
+      // Nối render target
+      finalPass.uniforms.bloomTexture.value =
+        bloomComposer.renderTarget1.texture;
 
-    // =========================================================================
-    // ĐIỀU KHIỂN CON TRỎ (POINTER VOID REPEL & UNPROJECT RAY)
-    // =========================================================================
-    const POINTER = {
-      ndc: new THREE.Vector2(),
-      target: new THREE.Vector3(),
-      world: new THREE.Vector3(),
-      active: false,
-      lastMove: 0,
-      activity: 0
-    };
+      // =========================================================================
+      // ĐIỀU KHIỂN CON TRỎ (POINTER VOID REPEL & UNPROJECT RAY)
+      // =========================================================================
+      const POINTER = {
+        ndc: new THREE.Vector2(),
+        target: new THREE.Vector3(),
+        world: new THREE.Vector3(),
+        active: false,
+        lastMove: 0,
+        activity: 0,
+      };
 
-    const mouseSmooth = new THREE.Vector2();
+      const mouseSmooth = new THREE.Vector2();
 
-    window.addEventListener('mousemove', (e) => {
-      POINTER.ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
-      POINTER.ndc.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      POINTER.active = true;
-      POINTER.lastMove = performance.now() / 1000;
-    });
+      window.addEventListener("mousemove", (e) => {
+        POINTER.ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
+        POINTER.ndc.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        POINTER.active = true;
+        POINTER.lastMove = performance.now() / 1000;
+      });
 
-    window.addEventListener('mouseout', () => {
-      POINTER.active = false;
-    });
+      window.addEventListener("mouseout", () => {
+        POINTER.active = false;
+      });
 
-    function updatePointer() {
-      if (POINTER.active) {
-        // Unproject NDC at z=0.5, build ray from camera, intersect z=0 plane
-        const rayStart = camera.position.clone();
-        const target3 = new THREE.Vector3(POINTER.ndc.x, POINTER.ndc.y, 0.5).unproject(camera);
-        const dir = target3.sub(rayStart).normalize();
+      function updatePointer() {
+        if (POINTER.active) {
+          // Unproject NDC at z=0.5, build ray from camera, intersect z=0 plane
+          const rayStart = camera.position.clone();
+          const target3 = new THREE.Vector3(
+            POINTER.ndc.x,
+            POINTER.ndc.y,
+            0.5,
+          ).unproject(camera);
+          const dir = target3.sub(rayStart).normalize();
 
-        if (Math.abs(dir.z) > 1e-4) {
-          const t = -camera.position.z / dir.z;
-          if (t > 0 && isFinite(t)) {
-            POINTER.target.copy(rayStart).add(dir.multiplyScalar(t));
+          if (Math.abs(dir.z) > 1e-4) {
+            const t = -camera.position.z / dir.z;
+            if (t > 0 && isFinite(t)) {
+              POINTER.target.copy(rayStart).add(dir.multiplyScalar(t));
+            } else {
+              POINTER.target.set(0, 0, 0);
+            }
           } else {
             POINTER.target.set(0, 0, 0);
           }
         } else {
           POINTER.target.set(0, 0, 0);
         }
-      } else {
-        POINTER.target.set(0, 0, 0);
+
+        // Lerp POINTER.world toward target by 0.12
+        POINTER.world.lerp(POINTER.target, 0.12);
+
+        const now = performance.now() / 1000;
+        const idle = now - POINTER.lastMove;
+        const want = POINTER.active && idle < 3 ? 1 : 0;
+        POINTER.activity += (want - POINTER.activity) * 0.06;
+
+        starMaterial.uniforms.uCursor.value.copy(POINTER.world);
+        starMaterial.uniforms.uActivity.value = POINTER.activity;
       }
 
-      // Lerp POINTER.world toward target by 0.12
-      POINTER.world.lerp(POINTER.target, 0.12);
+      // =========================================================================
+      // XỬ LÝ CUỘN ĐÔI (DOUBLE-DAMPED SCROLL LERP)
+      // =========================================================================
+      let scrollTarget = 0;
+      let scrollSmooth = 0;
+      let scrollCurrent = 0;
 
-      const now = performance.now() / 1000;
-      const idle = now - POINTER.lastMove;
-      const want = (POINTER.active && idle < 3) ? 1 : 0;
-      POINTER.activity += (want - POINTER.activity) * 0.06;
+      const scrollHintEl = document.getElementById("scroll-hint");
+      let isAtBottom = false;
 
-      starMaterial.uniforms.uCursor.value.copy(POINTER.world);
-      starMaterial.uniforms.uActivity.value = POINTER.activity;
-    }
+      function onScroll() {
+        const maxScroll =
+          document.documentElement.scrollHeight - window.innerHeight;
+        scrollTarget =
+          maxScroll > 0
+            ? Math.min(1, Math.max(0, window.scrollY / maxScroll))
+            : 0;
 
-    // =========================================================================
-    // XỬ LÝ CUỘN ĐÔI (DOUBLE-DAMPED SCROLL LERP)
-    // =========================================================================
-    let scrollTarget = 0;
-    let scrollSmooth = 0;
-    let scrollCurrent = 0;
-
-    const scrollHintEl = document.getElementById('scroll-hint');
-    let isAtBottom = false;
-
-    function onScroll() {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      scrollTarget = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
-
-      // Khi người dùng cuộn đến cuối cùng (>= 88%), tự động chuyển từ "Cuộn xuống" thành "Cuộn lên"
-      const nearEnd = scrollTarget >= 0.88;
-      if (nearEnd !== isAtBottom) {
-        isAtBottom = nearEnd;
-        if (scrollHintEl) {
-          scrollHintEl.classList.toggle('is-end', isAtBottom);
-          scrollHintEl.textContent = isAtBottom ? 'Cuộn lên' : 'Cuộn xuống';
+        // Khi người dùng cuộn đến cuối cùng (>= 88%), tự động chuyển từ "Cuộn xuống" thành "Cuộn lên"
+        const nearEnd = scrollTarget >= 0.88;
+        if (nearEnd !== isAtBottom) {
+          isAtBottom = nearEnd;
+          if (scrollHintEl) {
+            scrollHintEl.classList.toggle("is-end", isAtBottom);
+            scrollHintEl.textContent = isAtBottom ? "Cuộn lên" : "Cuộn xuống";
+          }
         }
       }
-    }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener("scroll", onScroll, { passive: true });
 
-    if (scrollHintEl) {
-      scrollHintEl.addEventListener('click', () => {
-        if (isAtBottom) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+      if (scrollHintEl) {
+        scrollHintEl.addEventListener("click", () => {
+          if (isAtBottom) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            window.scrollBy({
+              top: window.innerHeight * 0.85,
+              behavior: "smooth",
+            });
+          }
+        });
+      }
+
+      // =========================================================================
+      // KHỞI TẠO KHUNG TRANH 3D ĐỒNG BỘ THEO ĐƯỜNG HẦM SAO
+      // =========================================================================
+      const galleryTunnelEl = document.getElementById("gallery-tunnel");
+      const galleryRigEl = document.getElementById("gallery-rig");
+      const galleryViewportEl = document.getElementById("gallery-viewport");
+      const toggleViewBtn = document.getElementById("toggle-view-btn");
+      const toggleLabel = document.getElementById("toggle-label");
+
+      let isGalleryVisible = true;
+      let photoCards = [];
+
+      function getGalleryParams() {
+        const w = window.innerWidth;
+        if (w <= 480) {
+          // Điện thoại nhỏ: Căn sát trung tâm, nghiêng 6 độ để hình ảnh hiển thị trọn vẹn 100% không bị tràn
+          return {
+            wallOffset: 16,
+            tiltAngle: 6,
+            zSpacing: 820,
+            startOffset: 450,
+          };
         }
-      });
-    }
-
-
-
-    // =========================================================================
-    // KHỞI TẠO KHUNG TRANH 3D ĐỒNG BỘ THEO ĐƯỜNG HẦM SAO
-    // =========================================================================
-    const galleryTunnelEl = document.getElementById('gallery-tunnel');
-    const galleryRigEl = document.getElementById('gallery-rig');
-    const galleryViewportEl = document.getElementById('gallery-viewport');
-    const toggleViewBtn = document.getElementById('toggle-view-btn');
-    const toggleLabel = document.getElementById('toggle-label');
-
-    let isGalleryVisible = true;
-    let photoCards = [];
-
-    function getGalleryParams() {
-      const w = window.innerWidth;
-      if (w <= 480) {
-        // Điện thoại nhỏ: Căn sát trung tâm, nghiêng 6 độ để hình ảnh hiển thị trọn vẹn 100% không bị tràn
+        if (w <= 768) {
+          // Điện thoại thông thường: Hiển thị đầy đủ, không bị cắt viền
+          return {
+            wallOffset: 24,
+            tiltAngle: 7,
+            zSpacing: 860,
+            startOffset: 480,
+          };
+        }
+        if (w <= 992) {
+          // Máy tính bảng
+          return {
+            wallOffset: 220,
+            tiltAngle: 12,
+            zSpacing: 980,
+            startOffset: 520,
+          };
+        }
+        if (w <= 1366) {
+          // Laptop / Màn hình vừa
+          return {
+            wallOffset: 380,
+            tiltAngle: 15,
+            zSpacing: 1080,
+            startOffset: 560,
+          };
+        }
+        // Màn hình Máy tính lớn (> 1366px): Khung ảnh siêu to 520px x 680px, hai bên mở rộng để lộ đường hầm sao
         return {
-          wallOffset: 16,
-          tiltAngle: 6,
-          zSpacing: 820,
-          startOffset: 450
+          wallOffset: 460,
+          tiltAngle: 18,
+          zSpacing: 1180,
+          startOffset: 600,
         };
       }
-      if (w <= 768) {
-        // Điện thoại thông thường: Hiển thị đầy đủ, không bị cắt viền
-        return {
-          wallOffset: 24,
-          tiltAngle: 7,
-          zSpacing: 860,
-          startOffset: 480
-        };
-      }
-      if (w <= 992) {
-        // Máy tính bảng
-        return {
-          wallOffset: 220,
-          tiltAngle: 12,
-          zSpacing: 980,
-          startOffset: 520
-        };
-      }
-      if (w <= 1366) {
-        // Laptop / Màn hình vừa
-        return {
-          wallOffset: 380,
-          tiltAngle: 15,
-          zSpacing: 1080,
-          startOffset: 560
-        };
-      }
-      // Màn hình Máy tính lớn (> 1366px): Khung ảnh siêu to 520px x 680px, hai bên mở rộng để lộ đường hầm sao
-      return {
-        wallOffset: 460,
-        tiltAngle: 18,
-        zSpacing: 1180,
-        startOffset: 600
-      };
-    }
 
-    let galleryParams = getGalleryParams();
-    let totalGalleryDepth = (danhSachAnh.length) * galleryParams.zSpacing + galleryParams.startOffset - 280;
+      let galleryParams = getGalleryParams();
+      let totalGalleryDepth =
+        danhSachAnh.length * galleryParams.zSpacing +
+        galleryParams.startOffset -
+        280;
 
-    function initGallery() {
-      galleryTunnelEl.innerHTML = '';
-      photoCards = [];
+      function initGallery() {
+        galleryTunnelEl.innerHTML = "";
+        photoCards = [];
 
-      galleryParams = getGalleryParams();
-      totalGalleryDepth = (danhSachAnh.length) * galleryParams.zSpacing + galleryParams.startOffset - 280;
+        galleryParams = getGalleryParams();
+        totalGalleryDepth =
+          danhSachAnh.length * galleryParams.zSpacing +
+          galleryParams.startOffset -
+          280;
 
-      // 1. Tạo 8 khung tranh triển lãm dọc theo hai bên vách đường hầm
-      danhSachAnh.forEach((item, index) => {
-        const isLeft = index % 2 === 0;
-        const xPos = isLeft ? -galleryParams.wallOffset : galleryParams.wallOffset;
-        const rotY = isLeft ? galleryParams.tiltAngle : -galleryParams.tiltAngle;
-        const yOffset = isLeft ? -15 : 15;
-        const baseZ = -galleryParams.startOffset - index * galleryParams.zSpacing;
+        // 1. Tạo 8 khung tranh triển lãm dọc theo hai bên vách đường hầm
+        danhSachAnh.forEach((item, index) => {
+          const isLeft = index % 2 === 0;
+          const xPos = isLeft
+            ? -galleryParams.wallOffset
+            : galleryParams.wallOffset;
+          const rotY = isLeft
+            ? galleryParams.tiltAngle
+            : -galleryParams.tiltAngle;
+          const yOffset = isLeft ? -15 : 15;
+          const baseZ =
+            -galleryParams.startOffset - index * galleryParams.zSpacing;
 
-        const card = document.createElement('article');
-        card.className = 'starlight-card';
-        card.style.transform = `translate3d(${xPos}px, ${yOffset}px, ${baseZ}px) rotateY(${rotY}deg)`;
+          const card = document.createElement("article");
+          card.className = "starlight-card";
+          card.style.transform = `translate3d(${xPos}px, ${yOffset}px, ${baseZ}px) rotateY(${rotY}deg)`;
 
-        card.innerHTML = `
+          card.innerHTML = `
           <div class="card-corner corner-tl"></div>
           <div class="card-corner corner-tr"></div>
           <div class="card-corner corner-bl"></div>
@@ -1333,16 +1558,25 @@
           </div>
         `;
 
-        galleryTunnelEl.appendChild(card);
-        photoCards.push({ el: card, baseZ, isLeft, isFinale: false, visible: true, opacityVal: 1 });
-      });
+          galleryTunnelEl.appendChild(card);
+          photoCards.push({
+            el: card,
+            baseZ,
+            isLeft,
+            isFinale: false,
+            visible: true,
+            opacityVal: 1,
+          });
+        });
 
-      // 2. Tạo phần kết: "ẢNH DÌM 12C7" dạng khung card chuẩn như cũ
-      const finaleZ = -galleryParams.startOffset - danhSachAnh.length * galleryParams.zSpacing;
-      const finaleCard = document.createElement('div');
-      finaleCard.className = 'tunnel-finale';
-      finaleCard.style.transform = `translate3d(0px, 0px, ${finaleZ}px)`;
-      finaleCard.innerHTML = `
+        // 2. Tạo phần kết: "ẢNH DÌM 12C7" dạng khung card chuẩn như cũ
+        const finaleZ =
+          -galleryParams.startOffset -
+          danhSachAnh.length * galleryParams.zSpacing;
+        const finaleCard = document.createElement("div");
+        finaleCard.className = "tunnel-finale";
+        finaleCard.style.transform = `translate3d(0px, 0px, ${finaleZ}px)`;
+        finaleCard.innerHTML = `
         <div class="card-corner corner-tl"></div>
         <div class="card-corner corner-tr"></div>
         <div class="card-corner corner-bl"></div>
@@ -1352,353 +1586,374 @@
         <p class="finale-subtitle">KHO BÁU KỶ NIỆM KHÔNG THỂ NÀO QUÊN</p>
       `;
 
-      galleryTunnelEl.appendChild(finaleCard);
-      photoCards.push({ el: finaleCard, baseZ: finaleZ, isFinale: true, visible: true, opacityVal: 1 });
-    }
-
-    // Nút ẩn/hiện bộ sưu tập ảnh để ngắm nền sao thuần túy
-    function toggleGallery() {
-      isGalleryVisible = !isGalleryVisible;
-      galleryViewportEl.classList.toggle('hidden', !isGalleryVisible);
-      toggleLabel.textContent = isGalleryVisible ? 'GALLERY: ON' : 'GALLERY: OFF';
-    }
-
-    toggleViewBtn.addEventListener('click', toggleGallery);
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'h' || e.key === 'H') toggleGallery();
-    });
-
-    initGallery();
-
-    // =========================================================================
-    // VÒNG LẶP RENDER HOẠT HỌA (REQUESTANIMATIONFRAME)
-    // =========================================================================
-    let t0 = performance.now() / 1000;
-    const appearStart = performance.now();
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      const now = performance.now();
-      const t = now / 1000;
-      const dt = Math.min(0.05, t - t0);
-      t0 = t;
-
-      // 1. Phản hồi cuộn mượt mà tức thì, triệt tiêu hoàn toàn cảm giác trễ và lag
-      scrollCurrent += (scrollTarget - scrollCurrent) * 0.16;
-
-      // 2. Smooth pointer NDC for parallax
-      mouseSmooth.x += (POINTER.ndc.x - mouseSmooth.x) * 0.06;
-      mouseSmooth.y += (POINTER.ndc.y - mouseSmooth.y) * 0.06;
-
-      updatePointer();
-
-      const scroll = scrollCurrent;
-      const m = mouseSmooth;
-
-      // 3. Update starfield uniforms
-      starMaterial.uniforms.uTime.value = t;
-      starMaterial.uniforms.uDrift.value += dt * (CONFIG.drift + scroll * CONFIG.scrollDrift);
-
-      // Camera position & lookAt
-      camera.position.set(m.x * CONFIG.parallax, m.y * CONFIG.parallax, 5 - scroll * CONFIG.scrollPush);
-      camera.lookAt(m.x * CONFIG.parallax, m.y * CONFIG.parallax, -10);
-
-      // Appear fade
-      const elapsed = now - appearStart;
-      const fade = Math.min(1, Math.max(0, (elapsed - 300) / 1400));
-      starMaterial.uniforms.uOpacity.value = fade * CONFIG.opacity;
-
-      // Barrel rotation
-      group.rotation.z += dt * (CONFIG.spin + scroll * CONFIG.scrollSpin);
-
-      // FinalPass time
-      finalPass.uniforms.iTime.value = t;
-
-      // Đảm bảo cập nhật texture render target
-      if (bloomComposer.readBuffer) finalPass.uniforms.bloomTexture.value = bloomComposer.readBuffer.texture;
-
-      // 4. Render 2 composers (Bloom + Final) hoặc fallback về standard render nếu GPU yếu
-      try {
-        camera.layers.set(LAYERS.BLOOM_SCENE);
-        bloomComposer.render();
-
-        camera.layers.set(LAYERS.ENTIRE_SCENE);
-        finalComposer.render();
-      } catch (renderErr) {
-        camera.layers.enableAll();
-        renderer.render(scene, camera);
+        galleryTunnelEl.appendChild(finaleCard);
+        photoCards.push({
+          el: finaleCard,
+          baseZ: finaleZ,
+          isFinale: true,
+          visible: true,
+          opacityVal: 1,
+        });
       }
 
-      // 5. Đồng bộ vị trí các khung ảnh 3D trôi qua đường hầm sao
-      if (isGalleryVisible) {
-        // Parallax góc nhìn cho bộ khung ảnh
-        galleryRigEl.style.transform = `rotateX(${-m.y * 3}deg) rotateY(${m.x * 3}deg)`;
+      // Nút ẩn/hiện bộ sưu tập ảnh để ngắm nền sao thuần túy
+      function toggleGallery() {
+        isGalleryVisible = !isGalleryVisible;
+        galleryViewportEl.classList.toggle("hidden", !isGalleryVisible);
+        toggleLabel.textContent = isGalleryVisible
+          ? "GALLERY: ON"
+          : "GALLERY: OFF";
+      }
 
-        // Dịch chuyển hành lang ảnh theo trục Z đồng bộ với độ lặn của camera
-        const galleryZ = scroll * totalGalleryDepth;
-        galleryTunnelEl.style.transform = `translate3d(0, 0, ${galleryZ.toFixed(2)}px)`;
+      toggleViewBtn.addEventListener("click", toggleGallery);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "h" || e.key === "H") toggleGallery();
+      });
 
-        // Culling & sương mù chiều sâu siêu mượt bằng GPU Opacity (loại bỏ hoàn toàn filter blur để không bị lag)
-        for (let i = 0; i < photoCards.length; i++) {
-          const item = photoCards[i];
-          const relZ = item.baseZ + galleryZ;
+      initGallery();
 
-          if (item.isFinale) {
-            // Phần kết màn "ẢNH DÌM 12C7"
-            if (relZ < -3000) {
-              if (item.visible) {
-                item.visible = false;
-                item.el.style.visibility = 'hidden';
-                item.el.style.opacity = '0';
-              }
-            } else if (relZ < -1200) {
-              if (!item.visible) {
-                item.visible = true;
-                item.el.style.visibility = 'visible';
-              }
-              const ratio = Math.max(0, Math.min(1, (relZ + 3000) / 1800));
-              item.el.style.opacity = ratio.toFixed(2);
-              item.opacityVal = ratio;
-            } else {
-              if (!item.visible) {
-                item.visible = true;
-                item.el.style.visibility = 'visible';
-              }
-              if (item.opacityVal !== 1) {
-                item.opacityVal = 1;
-                item.el.style.opacity = '1';
-              }
-            }
-          } else {
-            // Các khung tranh 3D
-            if (relZ < -2800) {
-              // Phía xa: Ẩn hoàn toàn để tối ưu GPU
-              if (item.visible) {
-                item.visible = false;
-                item.el.style.visibility = 'hidden';
-                item.el.style.opacity = '0';
-              }
-            } else if (relZ < -1600) {
-              // Tiến từ xa tới: Tăng dần độ đậm
-              if (!item.visible) {
-                item.visible = true;
-                item.el.style.visibility = 'visible';
-              }
-              const ratio = Math.max(0, Math.min(1, (relZ + 2800) / 1200));
-              item.el.style.opacity = ratio.toFixed(2);
-              item.opacityVal = ratio;
-            } else if (relZ > 0) {
-              if (relZ >= 240) {
-                // Đã trôi qua sau lưng camera: Ẩn ngay lập tức
+      // =========================================================================
+      // VÒNG LẶP RENDER HOẠT HỌA (REQUESTANIMATIONFRAME)
+      // =========================================================================
+      let t0 = performance.now() / 1000;
+      const appearStart = performance.now();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const now = performance.now();
+        const t = now / 1000;
+        const dt = Math.min(0.05, t - t0);
+        t0 = t;
+
+        // 1. Phản hồi cuộn mượt mà tức thì, triệt tiêu hoàn toàn cảm giác trễ và lag
+        scrollCurrent += (scrollTarget - scrollCurrent) * 0.16;
+
+        // 2. Smooth pointer NDC for parallax
+        mouseSmooth.x += (POINTER.ndc.x - mouseSmooth.x) * 0.06;
+        mouseSmooth.y += (POINTER.ndc.y - mouseSmooth.y) * 0.06;
+
+        updatePointer();
+
+        const scroll = scrollCurrent;
+        const m = mouseSmooth;
+
+        // 3. Update starfield uniforms
+        starMaterial.uniforms.uTime.value = t;
+        starMaterial.uniforms.uDrift.value +=
+          dt * (CONFIG.drift + scroll * CONFIG.scrollDrift);
+
+        // Camera position & lookAt
+        camera.position.set(
+          m.x * CONFIG.parallax,
+          m.y * CONFIG.parallax,
+          5 - scroll * CONFIG.scrollPush,
+        );
+        camera.lookAt(m.x * CONFIG.parallax, m.y * CONFIG.parallax, -10);
+
+        // Appear fade
+        const elapsed = now - appearStart;
+        const fade = Math.min(1, Math.max(0, (elapsed - 300) / 1400));
+        starMaterial.uniforms.uOpacity.value = fade * CONFIG.opacity;
+
+        // Barrel rotation
+        group.rotation.z += dt * (CONFIG.spin + scroll * CONFIG.scrollSpin);
+
+        // FinalPass time
+        finalPass.uniforms.iTime.value = t;
+
+        // Đảm bảo cập nhật texture render target
+        if (bloomComposer.readBuffer)
+          finalPass.uniforms.bloomTexture.value =
+            bloomComposer.readBuffer.texture;
+
+        // 4. Render 2 composers (Bloom + Final) hoặc fallback về standard render nếu GPU yếu
+        try {
+          camera.layers.set(LAYERS.BLOOM_SCENE);
+          bloomComposer.render();
+
+          camera.layers.set(LAYERS.ENTIRE_SCENE);
+          finalComposer.render();
+        } catch (renderErr) {
+          camera.layers.enableAll();
+          renderer.render(scene, camera);
+        }
+
+        // 5. Đồng bộ vị trí các khung ảnh 3D trôi qua đường hầm sao
+        if (isGalleryVisible) {
+          // Parallax góc nhìn cho bộ khung ảnh
+          galleryRigEl.style.transform = `rotateX(${-m.y * 3}deg) rotateY(${m.x * 3}deg)`;
+
+          // Dịch chuyển hành lang ảnh theo trục Z đồng bộ với độ lặn của camera
+          const galleryZ = scroll * totalGalleryDepth;
+          galleryTunnelEl.style.transform = `translate3d(0, 0, ${galleryZ.toFixed(2)}px)`;
+
+          // Culling & sương mù chiều sâu siêu mượt bằng GPU Opacity (loại bỏ hoàn toàn filter blur để không bị lag)
+          for (let i = 0; i < photoCards.length; i++) {
+            const item = photoCards[i];
+            const relZ = item.baseZ + galleryZ;
+
+            if (item.isFinale) {
+              // Phần kết màn "ẢNH DÌM 12C7"
+              if (relZ < -3000) {
                 if (item.visible) {
                   item.visible = false;
-                  item.el.style.visibility = 'hidden';
-                  item.el.style.opacity = '0';
+                  item.el.style.visibility = "hidden";
+                  item.el.style.opacity = "0";
                 }
-              } else {
-                // Trôi qua camera: Mờ dần
+              } else if (relZ < -1200) {
                 if (!item.visible) {
                   item.visible = true;
-                  item.el.style.visibility = 'visible';
+                  item.el.style.visibility = "visible";
                 }
-                const ratio = Math.max(0, Math.min(1, 1 - (relZ / 240)));
+                const ratio = Math.max(0, Math.min(1, (relZ + 3000) / 1800));
                 item.el.style.opacity = ratio.toFixed(2);
                 item.opacityVal = ratio;
+              } else {
+                if (!item.visible) {
+                  item.visible = true;
+                  item.el.style.visibility = "visible";
+                }
+                if (item.opacityVal !== 1) {
+                  item.opacityVal = 1;
+                  item.el.style.opacity = "1";
+                }
               }
             } else {
-              // Nằm trong tầm mắt rõ nét
-              if (!item.visible) {
-                item.visible = true;
-                item.el.style.visibility = 'visible';
-              }
-              if (item.opacityVal !== 1) {
-                item.opacityVal = 1;
-                item.el.style.opacity = '1';
+              // Các khung tranh 3D
+              if (relZ < -2800) {
+                // Phía xa: Ẩn hoàn toàn để tối ưu GPU
+                if (item.visible) {
+                  item.visible = false;
+                  item.el.style.visibility = "hidden";
+                  item.el.style.opacity = "0";
+                }
+              } else if (relZ < -1600) {
+                // Tiến từ xa tới: Tăng dần độ đậm
+                if (!item.visible) {
+                  item.visible = true;
+                  item.el.style.visibility = "visible";
+                }
+                const ratio = Math.max(0, Math.min(1, (relZ + 2800) / 1200));
+                item.el.style.opacity = ratio.toFixed(2);
+                item.opacityVal = ratio;
+              } else if (relZ > 0) {
+                if (relZ >= 240) {
+                  // Đã trôi qua sau lưng camera: Ẩn ngay lập tức
+                  if (item.visible) {
+                    item.visible = false;
+                    item.el.style.visibility = "hidden";
+                    item.el.style.opacity = "0";
+                  }
+                } else {
+                  // Trôi qua camera: Mờ dần
+                  if (!item.visible) {
+                    item.visible = true;
+                    item.el.style.visibility = "visible";
+                  }
+                  const ratio = Math.max(0, Math.min(1, 1 - relZ / 240));
+                  item.el.style.opacity = ratio.toFixed(2);
+                  item.opacityVal = ratio;
+                }
+              } else {
+                // Nằm trong tầm mắt rõ nét
+                if (!item.visible) {
+                  item.visible = true;
+                  item.el.style.visibility = "visible";
+                }
+                if (item.opacityVal !== 1) {
+                  item.opacityVal = 1;
+                  item.el.style.opacity = "1";
+                }
               }
             }
           }
         }
       }
-    }
 
-    animate();
+      animate();
 
-    // =========================================================================
-    // RESIZE & FULLSCREEN HANDLER
-    // =========================================================================
-    function onResize() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const dpr = isMobileDevice ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35);
+      // =========================================================================
+      // RESIZE & FULLSCREEN HANDLER
+      // =========================================================================
+      function onResize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const dpr = isMobileDevice
+          ? 1.0
+          : Math.min(window.devicePixelRatio || 1, 1.35);
 
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
 
-      renderer.setPixelRatio(dpr);
-      renderer.setSize(w, h, false);
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
+        renderer.setPixelRatio(dpr);
+        renderer.setSize(w, h, false);
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
 
-      try {
-        bloomComposer.setPixelRatio(Math.min(dpr, 1.0));
-        bloomComposer.setSize(Math.floor(w / 2), Math.floor(h / 2));
+        try {
+          bloomComposer.setPixelRatio(Math.min(dpr, 1.0));
+          bloomComposer.setSize(Math.floor(w / 2), Math.floor(h / 2));
 
-        finalComposer.setPixelRatio(dpr);
-        finalComposer.setSize(w, h);
-      } catch (err) {
-        // Fallback im lặng nếu composer resize gặp hạn chế GPU
-      }
-
-      onScroll();
-      initGallery();
-    }
-
-    window.addEventListener('resize', onResize);
-    window.addEventListener('fullscreenchange', () => {
-      onResize();
-      setTimeout(onResize, 100);
-      setTimeout(onResize, 300);
-    });
-    window.addEventListener('webkitfullscreenchange', () => {
-      onResize();
-      setTimeout(onResize, 100);
-      setTimeout(onResize, 300);
-    });
-
-    // =========================================================================
-    // HỆ THỐNG MÀN HÌNH LOADING LƯỢNG TỬ (QUẢ CẦU & THANH TIẾN TRÌNH MINIMALIST)
-    // =========================================================================
-    const warpLoaderEl = document.getElementById('warp-loader');
-    const loadingBarFillEl = document.getElementById('loading-bar-fill');
-    const shockwaveEl = document.getElementById('warp-shockwave');
-
-    // Phát hiệu ứng âm thanh Hyperspace Warp thuần bằng Web Audio API
-    function playHyperspaceAudio() {
-      try {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        const ctx = new AudioContextClass();
-        if (ctx.state === 'suspended') {
-          ctx.resume().catch(() => {});
+          finalComposer.setPixelRatio(dpr);
+          finalComposer.setSize(w, h);
+        } catch (err) {
+          // Fallback im lặng nếu composer resize gặp hạn chế GPU
         }
-        const t = ctx.currentTime;
 
-        // Âm bass trầm bùng nổ khi xuyên không gian
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(160, t);
-        osc.frequency.exponentialRampToValueAtTime(26, t + 0.9);
-        gain.gain.setValueAtTime(0.45, t);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.95);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(t);
-        osc.stop(t + 0.95);
-
-        // Tiếng rít xé gió starlight tần số cao
-        const osc2 = ctx.createOscillator();
-        const gain2 = ctx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(220, t);
-        osc2.frequency.exponentialRampToValueAtTime(2400, t + 0.45);
-        osc2.frequency.exponentialRampToValueAtTime(90, t + 0.9);
-        gain2.gain.setValueAtTime(0.18, t);
-        gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
-        osc2.connect(gain2);
-        gain2.connect(ctx.destination);
-        osc2.start(t);
-        osc2.stop(t + 0.9);
-      } catch (err) {
-        // Tự động bỏ qua nếu trình duyệt chưa cấp quyền âm thanh
+        onScroll();
+        initGallery();
       }
-    }
 
-    let currentPercent = 0;
-    let targetPercent = 0;
-    let isWarpEngaged = false;
-
-    // Tiền tải các bức ảnh thực tế
-    let realLoadedCount = 0;
-    danhSachAnh.forEach(item => {
-      const img = new Image();
-      img.onload = img.onerror = () => {
-        realLoadedCount++;
-      };
-      img.src = item.src;
-    });
-
-    // Cập nhật độ rộng thanh loading neon
-    function updateProgressUI(val) {
-      const floorVal = Math.min(100, Math.floor(val));
-      if (loadingBarFillEl) {
-        loadingBarFillEl.style.width = floorVal + '%';
-      }
-    }
-
-    // Kích hoạt cú nhảy Hyperspace Warp
-    function triggerWarpJump() {
-      if (isWarpEngaged) return;
-      isWarpEngaged = true;
-
-      updateProgressUI(100);
-
-      // Kích hoạt sóng xung kích bùng nổ từ quả cầu
-      if (shockwaveEl) shockwaveEl.classList.add('fire');
-      playHyperspaceAudio();
-
-      // Bẻ cong không gian và tan biến vào triển lãm 3D
-      setTimeout(() => {
-        if (warpLoaderEl) warpLoaderEl.classList.add('warp-engaged');
-      }, 150);
-
-      // Ẩn và gỡ hoàn toàn khỏi DOM để giải phóng triệt để CPU/GPU khỏi các animation của loader
-      setTimeout(() => {
-        if (warpLoaderEl) warpLoaderEl.remove();
-      }, 900);
-    }
-
-    // Cho phép click chuột hoặc nhấn Space/Enter để hoàn tất ngay
-    if (warpLoaderEl) {
-      warpLoaderEl.addEventListener('click', () => {
-        if (!isWarpEngaged) triggerWarpJump();
+      window.addEventListener("resize", onResize);
+      window.addEventListener("fullscreenchange", () => {
+        onResize();
+        setTimeout(onResize, 100);
+        setTimeout(onResize, 300);
       });
-    }
+      window.addEventListener("webkitfullscreenchange", () => {
+        onResize();
+        setTimeout(onResize, 100);
+        setTimeout(onResize, 300);
+      });
 
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' || e.key === 'Enter') {
-        if (!isWarpEngaged) triggerWarpJump();
+      // =========================================================================
+      // HỆ THỐNG MÀN HÌNH LOADING LƯỢNG TỬ (QUẢ CẦU & THANH TIẾN TRÌNH MINIMALIST)
+      // =========================================================================
+      const warpLoaderEl = document.getElementById("warp-loader");
+      const loadingBarFillEl = document.getElementById("loading-bar-fill");
+      const shockwaveEl = document.getElementById("warp-shockwave");
+
+      // Phát hiệu ứng âm thanh Hyperspace Warp thuần bằng Web Audio API
+      function playHyperspaceAudio() {
+        try {
+          const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          const ctx = new AudioContextClass();
+          if (ctx.state === "suspended") {
+            ctx.resume().catch(() => {});
+          }
+          const t = ctx.currentTime;
+
+          // Âm bass trầm bùng nổ khi xuyên không gian
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(160, t);
+          osc.frequency.exponentialRampToValueAtTime(26, t + 0.9);
+          gain.gain.setValueAtTime(0.45, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.95);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.95);
+
+          // Tiếng rít xé gió starlight tần số cao
+          const osc2 = ctx.createOscillator();
+          const gain2 = ctx.createGain();
+          osc2.type = "triangle";
+          osc2.frequency.setValueAtTime(220, t);
+          osc2.frequency.exponentialRampToValueAtTime(2400, t + 0.45);
+          osc2.frequency.exponentialRampToValueAtTime(90, t + 0.9);
+          gain2.gain.setValueAtTime(0.18, t);
+          gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+          osc2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.start(t);
+          osc2.stop(t + 0.9);
+        } catch (err) {
+          // Tự động bỏ qua nếu trình duyệt chưa cấp quyền âm thanh
+        }
       }
-    });
 
-    // Vòng lặp tiến trình mượt mà (~2.2 giây)
-    const loaderStartTime = performance.now();
-    const LOADER_DURATION = 2300;
+      let currentPercent = 0;
+      let targetPercent = 0;
+      let isWarpEngaged = false;
 
-    function progressLoop() {
-      if (isWarpEngaged) return;
+      // Tiền tải các bức ảnh thực tế
+      let realLoadedCount = 0;
+      danhSachAnh.forEach((item) => {
+        const img = new Image();
+        img.onload = img.onerror = () => {
+          realLoadedCount++;
+        };
+        img.src = item.src;
+      });
 
-      const elapsed = performance.now() - loaderStartTime;
-      const timeRatio = Math.min(1, elapsed / LOADER_DURATION);
-      const assetRatio = realLoadedCount / Math.max(1, danhSachAnh.length);
+      // Cập nhật độ rộng thanh loading neon
+      function updateProgressUI(val) {
+        const floorVal = Math.min(100, Math.floor(val));
+        if (loadingBarFillEl) {
+          loadingBarFillEl.style.width = floorVal + "%";
+        }
+      }
 
-      const computedTarget = Math.min(100, Math.max(timeRatio * 100, assetRatio * 60));
-      targetPercent = computedTarget;
+      // Kích hoạt cú nhảy Hyperspace Warp
+      function triggerWarpJump() {
+        if (isWarpEngaged) return;
+        isWarpEngaged = true;
 
-      currentPercent += (targetPercent - currentPercent) * 0.18;
-
-      if (currentPercent >= 99.2 && elapsed >= LOADER_DURATION * 0.9) {
-        currentPercent = 100;
         updateProgressUI(100);
-        setTimeout(triggerWarpJump, 180);
-      } else {
-        updateProgressUI(currentPercent);
-        requestAnimationFrame(progressLoop);
-      }
-    }
 
-    requestAnimationFrame(progressLoop);
-  </script>
-</body>
+        // Kích hoạt sóng xung kích bùng nổ từ quả cầu
+        if (shockwaveEl) shockwaveEl.classList.add("fire");
+        playHyperspaceAudio();
+
+        // Bẻ cong không gian và tan biến vào triển lãm 3D
+        setTimeout(() => {
+          if (warpLoaderEl) warpLoaderEl.classList.add("warp-engaged");
+        }, 150);
+
+        // Ẩn và gỡ hoàn toàn khỏi DOM để giải phóng triệt để CPU/GPU khỏi các animation của loader
+        setTimeout(() => {
+          if (warpLoaderEl) warpLoaderEl.remove();
+        }, 900);
+      }
+
+      // Cho phép click chuột hoặc nhấn Space/Enter để hoàn tất ngay
+      if (warpLoaderEl) {
+        warpLoaderEl.addEventListener("click", () => {
+          if (!isWarpEngaged) triggerWarpJump();
+        });
+      }
+
+      window.addEventListener("keydown", (e) => {
+        if (e.code === "Space" || e.key === "Enter") {
+          if (!isWarpEngaged) triggerWarpJump();
+        }
+      });
+
+      // Vòng lặp tiến trình mượt mà (~2.2 giây)
+      const loaderStartTime = performance.now();
+      const LOADER_DURATION = 2300;
+
+      function progressLoop() {
+        if (isWarpEngaged) return;
+
+        const elapsed = performance.now() - loaderStartTime;
+        const timeRatio = Math.min(1, elapsed / LOADER_DURATION);
+        const assetRatio = realLoadedCount / Math.max(1, danhSachAnh.length);
+
+        const computedTarget = Math.min(
+          100,
+          Math.max(timeRatio * 100, assetRatio * 60),
+        );
+        targetPercent = computedTarget;
+
+        currentPercent += (targetPercent - currentPercent) * 0.18;
+
+        if (currentPercent >= 99.2 && elapsed >= LOADER_DURATION * 0.9) {
+          currentPercent = 100;
+          updateProgressUI(100);
+          setTimeout(triggerWarpJump, 180);
+        } else {
+          updateProgressUI(currentPercent);
+          requestAnimationFrame(progressLoop);
+        }
+      }
+
+      requestAnimationFrame(progressLoop);
+    </script>
+  </body>
 </html>
