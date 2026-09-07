@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Starfield Close // 3D Starlight Tunnel Exhibition</title>
+
+  <!-- Phông chữ công nghệ cao -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- ES-Module Importmap cho Three.js r0.143.0 theo đúng prompt getlayers -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.143.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.143.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      /* Mặc định trên Màn hình lớn (Desktop / PC): Ảnh to hoành tráng */
+      --card-w: 520px;
+      --card-h: 680px;
+      --img-h: 530px;
+      --title-size: 36px;
+    }
+
+    /* Màn hình Laptop vừa (< 1366px) */
+    @media (max-width: 1366px) {
+      :root {
+        --card-w: 460px;
+        --card-h: 610px;
+        --img-h: 470px;
+        --title-size: 32px;
+      }
+    }
+
+    /* Màn hình Máy tính bảng (< 992px) */
+    @media (max-width: 992px) {
+      :root {
+        --card-w: 390px;
+        --card-h: 530px;
+        --img-h: 400px;
+        --title-size: 26px;
+      }
+    }
+
+    /* Màn hình Điện thoại (Mobile <= 768px): Vừa vặn 100% màn hình, không bị cắt góc */
+    @media (max-width: 768px) {
+      :root {
+        --card-w: min(88vw, 320px);
+        --card-h: 460px;
+        --img-h: 350px;
+        --title-size: 23px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --card-w: min(90vw, 310px);
+        --card-h: 440px;
+        --img-h: 330px;
+        --title-size: 21px;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #eafff2;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      height: 100%;
+    }
+
+    /* Canvas Three.js hiển thị Starfield Close toàn màn hình */
+    #scene {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      z-index: 1;
+    }
+
+    /* Scroll Host điều khiển hành trình cuộn qua đường hầm sao */
+    #scroll-host {
+      position: relative;
+      height: 600vh;
+      width: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Dòng chữ SCROLL ↓ tinh tế ghim dưới cùng */
+    .scroll-hint {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Orbitron', monospace, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #aef6cf;
+      text-shadow: 0 0 10px rgba(174, 246, 207, 0.6);
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: pulseHint 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.85; transform: translate(-50%, 0); }
+      50% { opacity: 0.35; transform: translate(-50%, 4px); }
+    }
+
+    /* Nút chuyển đổi nhanh chế độ xem góc trên */
+    .view-toggle-btn {
+      position: fixed;
+      top: 24px;
+      right: 28px;
+      z-index: 30;
+      background: rgba(10, 10, 36, 0.7);
+      border: 1px solid rgba(174, 246, 207, 0.4);
+      color: #aef6cf;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view-toggle-btn:hover {
+      background: rgba(174, 246, 207, 0.2);
+      border-color: #aef6cf;
+      box-shadow: 0 0 15px rgba(174, 246, 207, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       KHÔNG GIAN KHUNG TRANH 3D BAY TRONG ĐƯỜNG HẦM SAO
+       ========================================================================== */
+    #gallery-viewport {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden;
+      z-index: 10;
+      perspective: 1000px;
+      perspective-origin: 50% 50%;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    #gallery-viewport.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #gallery-rig {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    #gallery-tunnel {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* Khung tranh phong cách ngọc bích / tinh vân sao */
+    .starlight-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--card-w);
+      height: var(--card-h);
+      margin-left: calc(var(--card-w) / -2);
+      margin-top: calc(var(--card-h) / -2);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      border-radius: 8px;
+      background: rgba(6, 11, 24, 0.9);
+      border: 2px solid rgba(174, 246, 207, 0.45);
+      box-shadow: 
+        0 0 35px rgba(95, 230, 160, 0.3),
+        inset 0 0 22px rgba(174, 246, 207, 0.15),
+        0 25px 65px rgba(0, 0, 0, 0.95);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      pointer-events: auto;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform, opacity;
+      backdrop-filter: blur(14px);
+    }
+
+    /* Chốt khóa 4 góc màu ngọc bích */
+    .card-corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: #aef6cf;
+      border-style: solid;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .corner-tl { top: -2px; left: -2px; border-width: 2.5px 0 0 2.5px; }
+    .corner-tr { top: -2px; right: -2px; border-width: 2.5px 2.5px 0 0; }
+    .corner-bl { bottom: -2px; left: -2px; border-width: 0 0 2.5px 2.5px; }
+    .corner-br { bottom: -2px; right: -2px; border-width: 0 2.5px 2.5px 0; }
+
+    /* Hộp chứa ảnh */
+    .card-img-wrap {
+      width: 100%;
+      height: var(--img-h);
+      overflow: hidden;
+      border-radius: 4px;
+      background: #040810;
+      border: 1px solid rgba(174, 246, 207, 0.25);
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      filter: contrast(1.05) saturate(1.05);
+    }
+
+    /* Vùng tên chiếm trọn vẹn phần dư dưới ảnh, không khung */
+    .card-caption {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      padding: 0 4px;
+    }
+
+    /* Tên bảy màu cầu vồng chuyển động liên tục (Animated Rainbow Gradient) */
+    .card-title {
+      font-family: 'Orbitron', 'Rajdhani', sans-serif;
+      font-size: var(--title-size);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      
+      /* Dải màu 7 sắc cầu vồng: Đỏ, Cam, Vàng, Lục, Lam, Chàm, Tím */
+      background: linear-gradient(
+        90deg,
+        #ff1744,
+        #ff9100,
+        #ffea00,
+        #00e676,
+        #00e5ff,
+        #2979ff,
+        #d500f9,
+        #ff1744
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowMove 3.5s linear infinite;
+      filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 25px rgba(255, 23, 68, 0.4));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    @keyframes rainbowMove {
+      0% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 0 12px rgba(255, 23, 68, 0.65)) drop-shadow(0 0 24px rgba(255, 234, 0, 0.45));
+      }
+      33% {
+        background-position: 100% 50%;
+        filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.75)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.5));
+      }
+      66% {
+        background-position: 200% 50%;
+        filter: drop-shadow(0 0 12px rgba(213, 0, 249, 0.75)) drop-shadow(0 0 24px rgba(41, 121, 255, 0.5));
+      }
+      100% {
+        background-position: 300% 50%;
+        filter: drop-shadow(0 0 12px rgba(255, 23, 68, 0.65)) drop-shadow(0 0 24px rgba(255, 234, 0, 0.45));
+      }
+    }
+
+    .starlight-card:hover {
+      border-color: #ffffff;
+      box-shadow: 
+        0 0 55px rgba(174, 246, 207, 0.65),
+        inset 0 0 30px rgba(174, 246, 207, 0.3),
+        0 35px 90px rgba(0, 0, 0, 1);
+    }
+
+    .starlight-card:hover .card-corner {
+      width: 18px;
+      height: 18px;
+      border-color: #ffffff;
+      box-shadow: 0 0 12px #aef6cf;
+    }
+
+    .starlight-card:hover .card-img-wrap img {
+      transform: scale(1.06);
+      filter: contrast(1.15) saturate(1.2);
+    }
+
+    .starlight-card:hover .card-title {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 35px rgba(0, 229, 255, 0.85));
+    }
+
+    @media (max-width: 768px) {
+      .view-toggle-btn {
+        top: 16px;
+        right: 16px;
+        padding: 6px 12px;
+        font-size: 9px;
+      }
+    }
+
+    /* =========================================================================
+       MÀN HÌNH LOADING SIÊU ĐỘC LẠ: QUANTUM WARP ENGINE // STARGATE CORE
+       ========================================================================= */
+    #warp-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #071520 0%, #02050b 70%, #000000 100%);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+    }
+
+    /* Khi kích hoạt bẻ cong không gian (Warp Engaged) */
+    #warp-loader.warp-engaged {
+      opacity: 0;
+      transform: scale(2.6);
+      filter: blur(28px) brightness(3);
+      pointer-events: none;
+    }
+
+    /* Hiệu ứng lưới toạ độ không gian (Cyber Space Grid) */
+    .loader-bg-grid {
+      position: absolute;
+      inset: -50%;
+      background-image: 
+        linear-gradient(rgba(174, 246, 207, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(174, 246, 207, 0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      transform: perspective(500px) rotateX(60deg) translateY(0);
+      animation: gridScroll 12s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gridScroll {
+      0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+      100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+    }
+
+    /* Dòng quét radar / scanline */
+    .loader-scanline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, transparent, rgba(174, 246, 207, 0.6), #5fe6a0, rgba(174, 246, 207, 0.6), transparent);
+      box-shadow: 0 0 15px #aef6cf;
+      opacity: 0.7;
+      animation: scanlineMove 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanlineMove {
+      0% { top: 0%; opacity: 0; }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.8; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    /* 4 Khung ngắm HUD 4 góc màn hình */
+    .hud-bracket {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: 'Orbitron', monospace, sans-serif;
+      color: #aef6cf;
+      padding: 12px 18px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .hud-bracket::before {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: #5fe6a0;
+      border-style: solid;
+    }
+
+    .hud-top-left {
+      top: 24px;
+      left: 24px;
+      text-align: left;
+    }
+    .hud-top-left::before {
+      top: 0;
+      left: 0;
+      border-width: 2px 0 0 2px;
+    }
+
+    .hud-top-right {
+      top: 24px;
+      right: 24px;
+      text-align: right;
+    }
+    .hud-top-right::before {
+      top: 0;
+      right: 0;
+      border-width: 2px 2px 0 0;
+    }
+
+    .hud-bottom-left {
+      bottom: 24px;
+      left: 24px;
+      text-align: left;
+    }
+    .hud-bottom-left::before {
+      bottom: 0;
+      left: 0;
+      border-width: 0 0 2px 2px;
+    }
+
+    .hud-bottom-right {
+      bottom: 24px;
+      right: 24px;
+      text-align: right;
+    }
+    .hud-bottom-right::before {
+      bottom: 0;
+      right: 0;
+      border-width: 0 2px 2px 0;
+    }
+
+    .hud-tag {
+      font-size: 10px;
+      letter-spacing: 2px;
+      opacity: 0.6;
+    }
+
+    .hud-metric {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 8px rgba(174, 246, 207, 0.5);
+    }
+
+    /* Cụm trung tâm: Quantum Stargate Core (Concentric Gyroscopes) */
+    .stargate-wrapper {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    /* Vòng xoay con quay hồi chuyển */
+    .stargate-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Vòng ngoài cùng: Toạ độ góc & vạch chia độ */
+    .ring-outer {
+      width: 280px;
+      height: 280px;
+      border: 1px dashed rgba(174, 246, 207, 0.35);
+      box-shadow: 0 0 25px rgba(95, 230, 160, 0.15), inset 0 0 25px rgba(95, 230, 160, 0.15);
+      animation: spinClockwise 16s linear infinite;
+    }
+
+    .ring-marker {
+      position: absolute;
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(174, 246, 207, 0.65);
+      transform: translate(-50%, -50%);
+    }
+
+    .deg-0   { top: 0%; left: 50%; }
+    .deg-90  { top: 50%; left: 100%; }
+    .deg-180 { top: 100%; left: 50%; }
+    .deg-270 { top: 50%; left: 0%; }
+
+    /* Vòng giữa: 8 hạt lượng tử đại diện cho 8 bức ảnh quay ngược chiều */
+    .ring-mid {
+      width: 200px;
+      height: 200px;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      animation: spinCounterClockwise 8s linear infinite;
+    }
+
+    /* 8 hạt lượng tử phân bổ tròn đều 360/8 = 45 độ */
+    .ring-mid .node {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      margin: -4px 0 0 -4px;
+      border-radius: 50%;
+      background: #aef6cf;
+      box-shadow: 0 0 10px #5fe6a0, 0 0 20px #00e5ff;
+    }
+
+    .node-1 { transform: rotate(0deg) translate(100px); }
+    .node-2 { transform: rotate(45deg) translate(100px); }
+    .node-3 { transform: rotate(90deg) translate(100px); }
+    .node-4 { transform: rotate(135deg) translate(100px); }
+    .node-5 { transform: rotate(180deg) translate(100px); }
+    .node-6 { transform: rotate(225deg) translate(100px); }
+    .node-7 { transform: rotate(270deg) translate(100px); }
+    .node-8 { transform: rotate(315deg) translate(100px); }
+
+    /* Vòng trong cùng: Bát giác laser & hồng tâm lượng tử */
+    .ring-inner {
+      width: 130px;
+      height: 130px;
+      border: 2px dotted rgba(174, 246, 207, 0.6);
+      animation: spinClockwise 5s linear infinite;
+    }
+
+    .crosshair-h, .crosshair-v {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: rgba(174, 246, 207, 0.4);
+    }
+    .crosshair-h {
+      width: 160px;
+      height: 1px;
+      transform: translate(-50%, -50%);
+    }
+    .crosshair-v {
+      width: 1px;
+      height: 160px;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Hạt nhân kỳ dị trung tâm: Phát xung plasma đập theo nhịp năng lượng */
+    .singularity-core {
+      position: absolute;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #aef6cf 35%, #00e5ff 65%, transparent 80%);
+      box-shadow: 
+        0 0 30px #aef6cf,
+        0 0 60px #00e5ff,
+        0 0 100px rgba(95, 230, 160, 0.5);
+      animation: corePulse 1.4s ease-in-out infinite alternate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .core-eye {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #02050b;
+      box-shadow: 0 0 12px #ffffff;
+    }
+
+    @keyframes corePulse {
+      0% { transform: scale(0.88); filter: drop-shadow(0 0 15px #5fe6a0); }
+      100% { transform: scale(1.16); filter: drop-shadow(0 0 45px #00e5ff) drop-shadow(0 0 70px #ffffff); }
+    }
+
+    @keyframes spinClockwise {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spinCounterClockwise {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    /* Sóng xung kích khi nổ bẻ cong không gian */
+    .warp-shockwave {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 40px #aef6cf, inset 0 0 40px #00e5ff;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1);
+    }
+
+    .warp-shockwave.fire {
+      animation: shockwaveBoom 0.85s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    }
+
+    @keyframes shockwaveBoom {
+      0% { opacity: 1; transform: scale(1); border-width: 8px; }
+      100% { opacity: 0; transform: scale(35); border-width: 1px; }
+    }
+
+    /* Bảng điều khiển tiến trình bên dưới */
+    .loader-console {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .loader-percent-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .percent-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: rgba(174, 246, 207, 0.7);
+    }
+
+    .percent-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #ffffff;
+      text-shadow: 
+        0 0 20px #aef6cf,
+        0 0 40px #00e5ff;
+      line-height: 1;
+    }
+
+    .percent-unit {
+      font-size: 26px;
+      color: #aef6cf;
+      margin-left: 4px;
+    }
+
+    /* Thanh năng lượng laser 20 vạch */
+    .energy-gauge {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 14px;
+      background: rgba(4, 10, 24, 0.85);
+      border: 1px solid rgba(174, 246, 207, 0.4);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(95, 230, 160, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.8);
+      display: flex;
+      padding: 2px;
+      gap: 3px;
+    }
+
+    .energy-segment {
+      flex: 1;
+      height: 100%;
+      background: rgba(174, 246, 207, 0.12);
+      border-radius: 1px;
+      transition: background 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .energy-segment.active {
+      background: #aef6cf;
+      box-shadow: 0 0 8px #5fe6a0;
+    }
+
+    .energy-segment.active.overload {
+      background: #00e5ff;
+      box-shadow: 0 0 12px #00e5ff;
+    }
+
+    /* Terminal dòng trạng thái quét lượng tử */
+    .loader-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Rajdhani', monospace, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #aef6cf;
+      text-shadow: 0 0 8px rgba(174, 246, 207, 0.6);
+      min-height: 24px;
+    }
+
+    .status-cursor {
+      color: #ffe600;
+      animation: blinkCursor 0.6s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Gợi ý kích hoạt nhanh */
+    .warp-action-hint {
+      margin-top: 6px;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(174, 246, 207, 0.25);
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(6, 15, 30, 0.6);
+      backdrop-filter: blur(6px);
+      animation: pulseActionHint 2s infinite ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    .warp-action-hint:hover {
+      color: #ffffff;
+      border-color: #aef6cf;
+      box-shadow: 0 0 15px rgba(174, 246, 207, 0.4);
+      transform: translateY(-1px);
+    }
+
+    @keyframes pulseActionHint {
+      0%, 100% { opacity: 0.55; }
+      50% { opacity: 1; border-color: rgba(174, 246, 207, 0.6); }
+    }
+
+    /* Thích ứng trên màn hình điện thoại */
+    @media (max-width: 768px) {
+      .hud-bracket {
+        padding: 8px 12px;
+      }
+      .hud-tag { font-size: 8px; }
+      .hud-metric { font-size: 10px; }
+      .stargate-wrapper {
+        width: 220px;
+        height: 220px;
+        margin-bottom: 18px;
+      }
+      .ring-outer { width: 220px; height: 220px; }
+      .ring-mid { width: 160px; height: 160px; }
+      .node-1 { transform: rotate(0deg) translate(80px); }
+      .node-2 { transform: rotate(45deg) translate(80px); }
+      .node-3 { transform: rotate(90deg) translate(80px); }
+      .node-4 { transform: rotate(135deg) translate(80px); }
+      .node-5 { transform: rotate(180deg) translate(80px); }
+      .node-6 { transform: rotate(225deg) translate(80px); }
+      .node-7 { transform: rotate(270deg) translate(80px); }
+      .node-8 { transform: rotate(315deg) translate(80px); }
+      .ring-inner { width: 100px; height: 100px; }
+      .crosshair-h { width: 120px; }
+      .crosshair-v { height: 120px; }
+      .singularity-core { width: 52px; height: 52px; }
+      .percent-value { font-size: 42px; }
+      .percent-unit { font-size: 20px; }
+      .loader-status { font-size: 13px; }
+      .warp-action-hint { font-size: 8px; letter-spacing: 1px; padding: 5px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       MÀN HÌNH LOADING SIÊU ĐỘC LẠ: QUANTUM WARP ENGINE // STARGATE APERTURE
+       ========================================================================= -->
+  <div id="warp-loader">
+    <!-- Nền lưới toạ độ không gian & scanlines -->
+    <div class="loader-bg-grid"></div>
+    <div class="loader-scanline"></div>
+
+    <!-- 4 Khung ngắm HUD công nghệ cao 4 góc màn hình -->
+    <div class="hud-bracket hud-top-left">
+      <span class="hud-tag">SECTOR // ANDROMEDA</span>
+      <span class="hud-metric">WARP: CALIBRATING</span>
+    </div>
+    <div class="hud-bracket hud-top-right">
+      <span class="hud-tag">QUANTUM DRIVE // V4.9</span>
+      <span class="hud-metric" id="hud-fps-text">60 FPS // STABLE</span>
+    </div>
+    <div class="hud-bracket hud-bottom-left">
+      <span class="hud-tag">PASSENGER MANIFEST</span>
+      <span class="hud-metric">8 IDENTIFIED ENTITIES</span>
+    </div>
+    <div class="hud-bracket hud-bottom-right">
+      <span class="hud-tag">HYPERSPACE TUNNEL</span>
+      <span class="hud-metric">SINGULARITY 0.003 AU</span>
+    </div>
+
+    <!-- Cụm trung tâm: Quantum Stargate Core (Concentric Gyroscopes) -->
+    <div class="stargate-wrapper">
+      <!-- Vòng ngoài: Vòng toạ độ quét 360 độ -->
+      <div class="stargate-ring ring-outer">
+        <div class="ring-marker deg-0">000°</div>
+        <div class="ring-marker deg-90">090°</div>
+        <div class="ring-marker deg-180">180°</div>
+        <div class="ring-marker deg-270">270°</div>
+      </div>
+
+      <!-- Vòng giữa: 8 hạt lượng tử đại diện cho 8 bức ảnh quay ngược chiều -->
+      <div class="stargate-ring ring-mid">
+        <span class="node node-1"></span>
+        <span class="node node-2"></span>
+        <span class="node node-3"></span>
+        <span class="node node-4"></span>
+        <span class="node node-5"></span>
+        <span class="node node-6"></span>
+        <span class="node node-7"></span>
+        <span class="node node-8"></span>
+      </div>
+
+      <!-- Vòng trong: Bát giác laser & hồng tâm lượng tử -->
+      <div class="stargate-ring ring-inner">
+        <div class="crosshair-h"></div>
+        <div class="crosshair-v"></div>
+      </div>
+
+      <!-- Điểm kỳ dị trung tâm: Hạt nhân năng lượng phát sáng bập bùng -->
+      <div class="singularity-core" id="singularity-core">
+        <div class="core-eye"></div>
+      </div>
+
+      <!-- Sóng xung kích phát nổ khi warp -->
+      <div class="warp-shockwave" id="warp-shockwave"></div>
+    </div>
+
+    <!-- Thông số tiến trình & Terminal giải mã lượng tử -->
+    <div class="loader-console">
+      <!-- Số phần trăm to phong cách digital glitch -->
+      <div class="loader-percent-wrap">
+        <span class="percent-label">WARP CALIBRATION</span>
+        <div class="percent-value" id="loader-percent">000<span class="percent-unit">%</span></div>
+      </div>
+
+      <!-- Thanh năng lượng laser 20 vạch -->
+      <div class="energy-gauge">
+        <div class="energy-bars" id="energy-bars" style="display: contents;"></div>
+      </div>
+
+      <!-- Dòng log trạng thái quét từng thành viên -->
+      <div class="loader-status" id="loader-status">
+        <span class="status-cursor">></span>
+        <span class="status-text" id="status-text">INITIALIZING QUANTUM GRAVITY GENERATOR...</span>
+      </div>
+
+      <!-- Nút/Gợi ý nhấn để phóng qua hố sâu -->
+      <div class="warp-action-hint" id="warp-action-hint">
+        <span>CLICK HOẶC NHẤN SPACE ĐỂ BẺ CONG KHÔNG GIAN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas Three.js kết xuất Starfield Close -->
+  <canvas id="scene"></canvas>
+
+  <!-- Scroll Host dẫn động thanh cuộn trang -->
+  <div id="scroll-host"></div>
+
+  <!-- Nút chuyển đổi hiển thị ảnh triển lãm -->
+  <button class="view-toggle-btn" id="toggle-view-btn" title="Phím tắt: H">
+    <span>✦</span>
+    <span id="toggle-label">GALLERY: ON</span>
+  </button>
+
+  <!-- Gợi ý cuộn chuột tinh tế dưới chân trang -->
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <span>↓</span>
+  </div>
+
+  <!-- Không gian 3D chứa các khung tranh bay qua đường hầm sao -->
+  <div id="gallery-viewport">
+    <div id="gallery-rig">
+      <div id="gallery-tunnel">
+        <!-- Các tác phẩm ảnh được JavaScript khởi tạo tự động -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SCRIPT CHÍNH: THREE.JS STARFIELD CLOSE + 3D PHOTO CORRIDOR
+       ========================================================================= -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
+    import { CopyShader } from 'three/addons/shaders/CopyShader.js';
+
+    // =========================================================================
+    // 📁 CẤU HÌNH DANH SÁCH ẢNH TẠI ĐÂY (IMAGE CONFIGURATION)
+    // =========================================================================
+    const danhSachAnh = [
+      {
+        src: './danhsachanh/photo_2026-09-07_15-27-51.jpg',
+        title: 'Tuấn Hoàng'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-01.jpg',
+        title: 'Long cầy'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-10.jpg',
+        title: 'Thích Minh Tuệ'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-15.jpg',
+        title: 'Thiên đao'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-39.jpg',
+        title: 'Việt Đức'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-47.jpg',
+        title: 'Khang hentai'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-28-55.jpg',
+        title: 'Phú Lê'
+      },
+      {
+        src: './danhsachanh/photo_2026-09-07_15-29-05.jpg',
+        title: 'Hoàng gà tre'
+      }
+    ];
+
+    // =========================================================================
+    // CÁC THAM SỐ CỐ ĐỊNH TỪ PROMPT GETLAYERS (EXACT FIXED CONSTANTS)
+    // =========================================================================
+    const CONFIG = {
+      bgColor: '#0a0a24',      // dark complementary background tint
+      flameColor: '#aee9ff',   // corner-flame color A
+      flameColor2: '#c79bff',  // corner-flame color B
+      flameAmt: 0.2,           // corner-flame intensity
+      colorA: '#aef6cf',       // star tint A (mint)
+      colorB: '#5fe6a0',       // star tint B (jade)
+      colorC: '#eafff2',       // star tint C (bone)
+      opacity: 2,
+      pointSize: 50,
+      brightness: 1.85,
+      drift: 2.35,             // steady tunnel speed
+      twinkle: 1,
+      spin: 0.03,              // barrel rotation rate
+      repelRadius: 5,
+      repelStrength: 0.35,
+      scrollPush: 8,           // forward camera dive on scroll
+      scrollDrift: 6,          // extra drift surge on scroll
+      scrollSpin: 0.1,         // extra spin on scroll
+      parallax: 0.6,           // cursor camera offset
+    };
+
+    // Helper hexToVec3(hex)
+    const hexToVec3 = (hex) => {
+      const n = parseInt(hex.slice(1), 16);
+      return new THREE.Vector3(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
+    };
+
+    // Định nghĩa Layers
+    const LAYERS = {
+      NONE: 0,
+      TORUS_SCENE: 1,
+      BLOOM_SCENE: 2,
+      ENTIRE_SCENE: 3
+    };
+
+    // =========================================================================
+    // KHỞI TẠO THREE.JS SCENE, RENDERER, CAMERA
+    // =========================================================================
+    const canvas = document.getElementById('scene');
+    const renderer = new THREE.WebGL1Renderer({ canvas, antialias: true });
+    const initialDpr = Math.min(window.devicePixelRatio || 1, 2);
+    renderer.setPixelRatio(initialDpr);
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    scene.fog = new THREE.Fog(0x000000, 0, 15);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 80);
+    camera.position.set(0, 0, 5);
+
+    // Kích hoạt các layer trên camera
+    camera.layers.enable(LAYERS.TORUS_SCENE);
+    camera.layers.enable(LAYERS.BLOOM_SCENE);
+    camera.layers.enable(LAYERS.ENTIRE_SCENE);
+    scene.add(camera);
+
+    // =========================================================================
+    // KHỞI TẠO HÌNH HỌC ĐÁM MÂY SAO (STAR CLOUD GEOMETRY)
+    // =========================================================================
+    const count = 4200;
+    const depth = 30;
+
+    const positions = new Float32Array(count * 3);
+    const palette = new Float32Array(count);
+    const bright = new Float32Array(count);
+    const scales = new Float32Array(count);
+    const phases = new Float32Array(count);
+
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      positions[i3]     = (Math.random() - 0.5) * 24;  // x: box width 24
+      positions[i3 + 1] = (Math.random() - 0.5) * 16;  // y: box height 16
+      positions[i3 + 2] = (Math.random() - 0.5) * 30;  // z: box depth 30
+      palette[i] = Math.floor(Math.random() * 3);      // 0 / 1 / 2 → tint A / B / C
+      bright[i]  = 0.7 + Math.random() * 0.6;
+      scales[i]  = 0.5 + Math.pow(Math.random(), 1.4) * 2.5;
+      phases[i]  = Math.random();
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('aScale', new THREE.Float32BufferAttribute(scales, 1));
+    geometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(phases, 1));
+    geometry.setAttribute('aPalette', new THREE.Float32BufferAttribute(palette, 1));
+    geometry.setAttribute('aBright', new THREE.Float32BufferAttribute(bright, 1));
+
+    // =========================================================================
+    // VẬT LIỆU VÀ SHADERS ĐÁM MÂY SAO (STARFIELD SHADERS)
+    // =========================================================================
+    const vertexShader = `
+      uniform float uTime; uniform float uSize; uniform float uDrift; uniform float uDepth; uniform float uTwinkle;
+      uniform vec3 uCursor; uniform float uRepelRadius; uniform float uRepelStrength; uniform float uActivity;
+      uniform vec3 uColorA; uniform vec3 uColorB; uniform vec3 uColorC;
+      attribute float aScale; attribute float aPhase; attribute float aPalette; attribute float aBright;
+      varying vec3 vColor; varying float vTwinkle;
+      void main() {
+        vec3 pos = position;
+        // Endless drift toward +Z with mod-wrap.
+        pos.z = mod(pos.z + uDrift + (uDepth * 0.5), uDepth) - (uDepth * 0.5);
+
+        float tw = sin(uTime * 1.6 + aPhase * 6.2831);
+        vTwinkle = (1.0 - uTwinkle) + uTwinkle * (0.55 + 0.45 * tw);
+
+        vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+
+        vec3 toParticle = modelPosition.xyz - uCursor;
+        float dist = length(toParticle);
+        float falloff = smoothstep(uRepelRadius, 0.0, dist);
+        modelPosition.xyz += normalize(toParticle + vec3(0.0001)) * falloff * uRepelStrength * uActivity;
+
+        vec4 viewPosition = viewMatrix * modelPosition;
+        gl_Position = projectionMatrix * viewPosition;
+        gl_PointSize = uSize * aScale;
+        gl_PointSize *= (1.0 / -viewPosition.z);
+
+        vec3 base = aPalette < 0.5 ? uColorA : (aPalette < 1.5 ? uColorB : uColorC);
+        vColor = base * aBright;
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float uOpacity; uniform float uBrightness;
+      varying vec3 vColor; varying float vTwinkle;
+      void main() {
+        vec2 uv = gl_PointCoord - 0.5;
+        float d = length(uv);
+        if (d > 0.5) discard;
+        float strength = pow(1.0 - d * 2.0, 4.0);
+        vec3 color = mix(vec3(0.0), vColor, strength);
+        gl_FragColor = vec4(color * uBrightness, strength * uOpacity * vTwinkle);
+      }
+    `;
+
+    const starMaterial = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: {
+        uTime: { value: 0 },
+        uSize: { value: CONFIG.pointSize },
+        uOpacity: { value: 0 },
+        uDrift: { value: 0 },
+        uDepth: { value: 30 },
+        uTwinkle: { value: CONFIG.twinkle },
+        uCursor: { value: new THREE.Vector3() },
+        uRepelRadius: { value: CONFIG.repelRadius },
+        uRepelStrength: { value: CONFIG.repelStrength },
+        uActivity: { value: 0 },
+        uColorA: { value: hexToVec3(CONFIG.colorA) },
+        uColorB: { value: hexToVec3(CONFIG.colorB) },
+        uColorC: { value: hexToVec3(CONFIG.colorC) },
+        uBrightness: { value: CONFIG.brightness },
+      },
+      vertexShader,
+      fragmentShader
+    });
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const points = new THREE.Points(geometry, starMaterial);
+    group.add(points);
+    points.layers.enable(LAYERS.ENTIRE_SCENE);
+    points.layers.enable(LAYERS.BLOOM_SCENE);
+    points.layers.enable(LAYERS.TORUS_SCENE);
+
+    // =========================================================================
+    // POSTPROCESSING — 3 EFFECT COMPOSERS
+    // =========================================================================
+    const renderScene = new RenderPass(scene, camera);
+
+    // 1. torusComposer
+    const torusComposer = new EffectComposer(renderer);
+    torusComposer.renderToScreen = false;
+    torusComposer.addPass(renderScene);
+    torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
+    const torusBloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.22, 0.2, 0);
+    torusComposer.addPass(torusBloom);
+    torusComposer.addPass(new ShaderPass(CopyShader));
+
+    // 2. bloomComposer
+    const bloomComposer = new EffectComposer(renderer);
+    bloomComposer.renderToScreen = false;
+    bloomComposer.addPass(renderScene);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.55, 0);
+    bloomComposer.addPass(bloomPass);
+    bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
+
+    // 3. FinalPass Shader
+    const FinalPassShader = {
+      uniforms: {
+        iTime:        { value: 0 },
+        tDiffuse:     { value: null },
+        torusTexture: { value: null },
+        bloomTexture: { value: null },
+        haloTexture:  { value: null },
+        uBg:          { value: hexToVec3(CONFIG.bgColor) },
+        uFlameA:      { value: hexToVec3(CONFIG.flameColor) },
+        uFlameB:      { value: hexToVec3(CONFIG.flameColor2) },
+        uFlameAmt:    { value: CONFIG.flameAmt }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main(){
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float iTime;
+        uniform sampler2D tDiffuse;
+        uniform sampler2D bloomTexture;
+        uniform sampler2D torusTexture;
+        uniform sampler2D haloTexture;
+        uniform vec3 uBg;
+        uniform vec3 uFlameA;
+        uniform vec3 uFlameB;
+        uniform float uFlameAmt;
+        varying vec2 vUv;
+
+        vec3 warp3d(vec3 pos, float t){
+          float curv = 0.8, a = 1.9, b = 0.7;
+          pos *= 2.0;
+          pos.x += curv * sin(t + a * pos.y) + t * b;
+          pos.y += curv * cos(t + a * pos.x);
+          pos.z += curv * sin(t + a * pos.z) + t * b;
+          pos.z += curv * cos(t + a * pos.y);
+          pos.z += curv * sin(t + a * pos.x);
+          pos.x += curv * cos(t + a * pos.z);
+          return 0.5 + 0.5 * cos(pos.xyz + vec3(1.0, 2.0, 4.0));
+        }
+
+        void main(){
+          vec2 uv = 2.0 * vUv - 1.0;
+          vec3 w = pow(warp3d(vec3(uv.x, sin(uv.y), uv.y), iTime * 1.5), vec3(1.5));
+          vec3 flame = 1.5 * uFlameA * w.x;
+          flame *= w.y;
+          flame += uFlameB * w.z;
+          flame *= smoothstep(0.25, 1.0, abs(uv.y));
+          float md = smoothstep(-0.7, 1.0, -uv.y * uv.x);
+          flame *= md * md;
+          vec3 bg = uBg * (1.0 - 0.4 * length(uv));
+          vec3 halo = texture2D(haloTexture, vUv).xyz;
+          gl_FragColor = vec4(bg + flame * uFlameAmt + texture2D(bloomTexture, vUv).xyz + texture2D(torusTexture, vUv).xyz + texture2D(tDiffuse, vUv).xyz + halo, 1.0);
+        }
+      `
+    };
+
+    // Tạo dummy texture an toàn cho haloTexture
+    const dummyTexture = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1);
+    dummyTexture.needsUpdate = true;
+    FinalPassShader.uniforms.haloTexture.value = dummyTexture;
+
+    const finalPass = new ShaderPass(FinalPassShader);
+
+    // 4. finalComposer
+    const finalComposer = new EffectComposer(renderer);
+    finalComposer.addPass(renderScene);
+    finalComposer.addPass(finalPass);
+
+    // Nối các render target
+    finalPass.uniforms.bloomTexture.value = bloomComposer.renderTarget1.texture;
+    finalPass.uniforms.torusTexture.value = torusComposer.renderTarget1.texture;
+
+    // =========================================================================
+    // ĐIỀU KHIỂN CON TRỎ (POINTER VOID REPEL & UNPROJECT RAY)
+    // =========================================================================
+    const POINTER = {
+      ndc: new THREE.Vector2(),
+      target: new THREE.Vector3(),
+      world: new THREE.Vector3(),
+      active: false,
+      lastMove: 0,
+      activity: 0
+    };
+
+    const mouseSmooth = new THREE.Vector2();
+
+    window.addEventListener('mousemove', (e) => {
+      POINTER.ndc.x = (e.clientX / window.innerWidth) * 2 - 1;
+      POINTER.ndc.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      POINTER.active = true;
+      POINTER.lastMove = performance.now() / 1000;
+    });
+
+    window.addEventListener('mouseout', () => {
+      POINTER.active = false;
+    });
+
+    function updatePointer() {
+      if (POINTER.active) {
+        // Unproject NDC at z=0.5, build ray from camera, intersect z=0 plane
+        const rayStart = camera.position.clone();
+        const target3 = new THREE.Vector3(POINTER.ndc.x, POINTER.ndc.y, 0.5).unproject(camera);
+        const dir = target3.sub(rayStart).normalize();
+
+        if (Math.abs(dir.z) > 1e-4) {
+          const t = -camera.position.z / dir.z;
+          if (t > 0 && isFinite(t)) {
+            POINTER.target.copy(rayStart).add(dir.multiplyScalar(t));
+          } else {
+            POINTER.target.set(0, 0, 0);
+          }
+        } else {
+          POINTER.target.set(0, 0, 0);
+        }
+      } else {
+        POINTER.target.set(0, 0, 0);
+      }
+
+      // Lerp POINTER.world toward target by 0.12
+      POINTER.world.lerp(POINTER.target, 0.12);
+
+      const now = performance.now() / 1000;
+      const idle = now - POINTER.lastMove;
+      const want = (POINTER.active && idle < 3) ? 1 : 0;
+      POINTER.activity += (want - POINTER.activity) * 0.06;
+
+      starMaterial.uniforms.uCursor.value.copy(POINTER.world);
+      starMaterial.uniforms.uActivity.value = POINTER.activity;
+    }
+
+    // =========================================================================
+    // XỬ LÝ CUỘN ĐÔI (DOUBLE-DAMPED SCROLL LERP)
+    // =========================================================================
+    let scrollTarget = 0;
+    let scrollSmooth = 0;
+    let scrollCurrent = 0;
+
+    function onScroll() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      scrollTarget = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Hỗ trợ cuộn lăn chuột chủ động trên cửa sổ
+    window.addEventListener('wheel', (e) => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll > 0) {
+        window.scrollBy({ top: e.deltaY * 1.2, behavior: 'auto' });
+      }
+    }, { passive: true });
+
+    // =========================================================================
+    // KHỞI TẠO KHUNG TRANH 3D ĐỒNG BỘ THEO ĐƯỜNG HẦM SAO
+    // =========================================================================
+    const galleryTunnelEl = document.getElementById('gallery-tunnel');
+    const galleryRigEl = document.getElementById('gallery-rig');
+    const galleryViewportEl = document.getElementById('gallery-viewport');
+    const toggleViewBtn = document.getElementById('toggle-view-btn');
+    const toggleLabel = document.getElementById('toggle-label');
+
+    let isGalleryVisible = true;
+    let photoCards = [];
+
+    function getGalleryParams() {
+      const w = window.innerWidth;
+      if (w <= 480) {
+        // Điện thoại nhỏ: Căn sát trung tâm, nghiêng 6 độ để hình ảnh hiển thị trọn vẹn 100% không bị tràn
+        return {
+          wallOffset: 16,
+          tiltAngle: 6,
+          zSpacing: 820,
+          startOffset: 450
+        };
+      }
+      if (w <= 768) {
+        // Điện thoại thông thường: Hiển thị đầy đủ, không bị cắt viền
+        return {
+          wallOffset: 24,
+          tiltAngle: 7,
+          zSpacing: 860,
+          startOffset: 480
+        };
+      }
+      if (w <= 992) {
+        // Máy tính bảng
+        return {
+          wallOffset: 220,
+          tiltAngle: 12,
+          zSpacing: 980,
+          startOffset: 520
+        };
+      }
+      if (w <= 1366) {
+        // Laptop / Màn hình vừa
+        return {
+          wallOffset: 380,
+          tiltAngle: 15,
+          zSpacing: 1080,
+          startOffset: 560
+        };
+      }
+      // Màn hình Máy tính lớn (> 1366px): Khung ảnh siêu to 520px x 680px, hai bên mở rộng để lộ đường hầm sao
+      return {
+        wallOffset: 460,
+        tiltAngle: 18,
+        zSpacing: 1180,
+        startOffset: 600
+      };
+    }
+
+    let galleryParams = getGalleryParams();
+    let totalGalleryDepth = (danhSachAnh.length - 1) * galleryParams.zSpacing + 650;
+
+    function initGallery() {
+      galleryTunnelEl.innerHTML = '';
+      photoCards = [];
+
+      galleryParams = getGalleryParams();
+      totalGalleryDepth = (danhSachAnh.length - 1) * galleryParams.zSpacing + 650;
+
+      danhSachAnh.forEach((item, index) => {
+        const isLeft = index % 2 === 0;
+        const xPos = isLeft ? -galleryParams.wallOffset : galleryParams.wallOffset;
+        const rotY = isLeft ? galleryParams.tiltAngle : -galleryParams.tiltAngle;
+        const yOffset = isLeft ? -15 : 15;
+        const baseZ = -galleryParams.startOffset - index * galleryParams.zSpacing;
+
+        const card = document.createElement('article');
+        card.className = 'starlight-card';
+        card.style.transform = `translate3d(${xPos}px, ${yOffset}px, ${baseZ}px) rotateY(${rotY}deg)`;
+
+        card.innerHTML = `
+          <div class="card-corner corner-tl"></div>
+          <div class="card-corner corner-tr"></div>
+          <div class="card-corner corner-bl"></div>
+          <div class="card-corner corner-br"></div>
+          <div class="card-img-wrap">
+            <img src="${item.src}" alt="${item.title}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'360\\' height=\\'365\\' viewBox=\\'0 0 360 365\\' fill=\\'%23040810\\'><rect width=\\'100%25\\' height=\\'100%25\\' fill=\\'%23040810\\'/><text x=\\'50%25\\' y=\\'50%25\\' fill=\\'%23aef6cf\\' font-family=\\'monospace\\' font-size=\\'14\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\'>IMAGE // NOT FOUND</text></svg>'">
+          </div>
+          <div class="card-caption">
+            <h3 class="card-title">${item.title}</h3>
+          </div>
+        `;
+
+        galleryTunnelEl.appendChild(card);
+        photoCards.push({ el: card, baseZ, isLeft });
+      });
+    }
+
+    // Nút ẩn/hiện bộ sưu tập ảnh để ngắm nền sao thuần túy
+    function toggleGallery() {
+      isGalleryVisible = !isGalleryVisible;
+      galleryViewportEl.classList.toggle('hidden', !isGalleryVisible);
+      toggleLabel.textContent = isGalleryVisible ? 'GALLERY: ON' : 'GALLERY: OFF';
+    }
+
+    toggleViewBtn.addEventListener('click', toggleGallery);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'h' || e.key === 'H') toggleGallery();
+    });
+
+    initGallery();
+
+    // =========================================================================
+    // VÒNG LẶP RENDER HOẠT HỌA (REQUESTANIMATIONFRAME)
+    // =========================================================================
+    let t0 = performance.now() / 1000;
+    const appearStart = performance.now();
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const now = performance.now();
+      const t = now / 1000;
+      const dt = Math.min(0.05, t - t0);
+      t0 = t;
+
+      // 1. Advance double-damped scroll lerps
+      scrollSmooth += (scrollTarget - scrollSmooth) * 0.10;
+      scrollCurrent += (scrollSmooth - scrollCurrent) * 0.06;
+
+      // 2. Smooth pointer NDC for parallax
+      mouseSmooth.x += (POINTER.ndc.x - mouseSmooth.x) * 0.06;
+      mouseSmooth.y += (POINTER.ndc.y - mouseSmooth.y) * 0.06;
+
+      updatePointer();
+
+      const scroll = scrollCurrent;
+      const m = mouseSmooth;
+
+      // 3. Update starfield uniforms
+      starMaterial.uniforms.uTime.value = t;
+      starMaterial.uniforms.uDrift.value += dt * (CONFIG.drift + scroll * CONFIG.scrollDrift);
+
+      // Camera position & lookAt
+      camera.position.set(m.x * CONFIG.parallax, m.y * CONFIG.parallax, 5 - scroll * CONFIG.scrollPush);
+      camera.lookAt(m.x * CONFIG.parallax, m.y * CONFIG.parallax, -10);
+
+      // Appear fade
+      const elapsed = now - appearStart;
+      const fade = Math.min(1, Math.max(0, (elapsed - 300) / 1400));
+      starMaterial.uniforms.uOpacity.value = fade * CONFIG.opacity;
+
+      // Barrel rotation
+      group.rotation.z += dt * (CONFIG.spin + scroll * CONFIG.scrollSpin);
+
+      // FinalPass time
+      finalPass.uniforms.iTime.value = t;
+
+      // Đảm bảo cập nhật texture render target
+      if (bloomComposer.readBuffer) finalPass.uniforms.bloomTexture.value = bloomComposer.readBuffer.texture;
+      if (torusComposer.readBuffer) finalPass.uniforms.torusTexture.value = torusComposer.readBuffer.texture;
+
+      // 4. Render 3 composers in order with camera layers
+      camera.layers.set(LAYERS.TORUS_SCENE);
+      torusComposer.render();
+
+      camera.layers.set(LAYERS.BLOOM_SCENE);
+      bloomComposer.render();
+
+      camera.layers.set(LAYERS.ENTIRE_SCENE);
+      finalComposer.render();
+
+      // 5. Đồng bộ vị trí các khung ảnh 3D trôi qua đường hầm sao
+      if (isGalleryVisible) {
+        // Parallax góc nhìn cho bộ khung ảnh
+        galleryRigEl.style.transform = `rotateX(${-m.y * 3}deg) rotateY(${m.x * 3}deg)`;
+
+        // Dịch chuyển hành lang ảnh theo trục Z đồng bộ với độ lặn của camera
+        const galleryZ = scroll * totalGalleryDepth;
+        galleryTunnelEl.style.transform = `translate3d(0, 0, ${galleryZ.toFixed(2)}px)`;
+
+        // Culling & sương mù chiều sâu cho ảnh
+        for (let i = 0; i < photoCards.length; i++) {
+          const item = photoCards[i];
+          const relZ = item.baseZ + galleryZ;
+
+          if (relZ < -3500) {
+            if (item.el.style.visibility !== 'hidden') {
+              item.el.style.visibility = 'hidden';
+              item.el.style.opacity = '0';
+            }
+          } else if (relZ < -2200) {
+            item.el.style.visibility = 'visible';
+            const ratio = (relZ + 3500) / 1300;
+            item.el.style.opacity = Math.max(0, ratio).toFixed(3);
+            item.el.style.filter = `blur(${( (1 - ratio) * 5 ).toFixed(1)}px)`;
+          } else if (relZ > 0) {
+            if (relZ >= 260) {
+              if (item.el.style.visibility !== 'hidden') {
+                item.el.style.visibility = 'hidden';
+                item.el.style.opacity = '0';
+              }
+            } else {
+              item.el.style.visibility = 'visible';
+              const ratio = 1 - (relZ / 260);
+              item.el.style.opacity = Math.max(0, ratio).toFixed(3);
+              item.el.style.filter = 'none';
+            }
+          } else {
+            item.el.style.visibility = 'visible';
+            item.el.style.opacity = '1';
+            item.el.style.filter = 'none';
+          }
+        }
+      }
+    }
+
+    animate();
+
+    // =========================================================================
+    // RESIZE & FULLSCREEN HANDLER
+    // =========================================================================
+    function onResize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(w, h, false);
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+
+      torusComposer.setPixelRatio(dpr);
+      torusComposer.setSize(w, h);
+
+      bloomComposer.setPixelRatio(dpr);
+      bloomComposer.setSize(w, h);
+
+      finalComposer.setPixelRatio(dpr);
+      finalComposer.setSize(w, h);
+
+      onScroll();
+      initGallery();
+    }
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('fullscreenchange', () => {
+      onResize();
+      setTimeout(onResize, 100);
+      setTimeout(onResize, 300);
+    });
+    window.addEventListener('webkitfullscreenchange', () => {
+      onResize();
+      setTimeout(onResize, 100);
+      setTimeout(onResize, 300);
+    });
+  </script>
+</body>
+</html>

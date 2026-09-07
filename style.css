@@ -1,0 +1,325 @@
+/* ==========================================================================
+   3D TUNNEL SCROLL EXHIBITION - STYLESHEET
+   Phong cách: Pure 3D Tunnel / Forged.build Inspired
+   Tối giản hoàn toàn: Chỉ có đường hầm 3D và các tác phẩm ảnh
+   ========================================================================== */
+
+:root {
+  --bg-deep: #020408;
+  --cyan: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.4);
+  --cyan-dim: rgba(0, 240, 255, 0.12);
+  --tunnel-border: rgba(0, 240, 255, 0.28);
+  
+  /* Kích thước khung ảnh */
+  --card-w: 360px;
+  --card-h: 470px;
+  
+  /* Đường kính vành đai đường hầm */
+  --tunnel-dia: 1300px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-deep);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   CANVAS NỀN ĐƯỜNG HẦM (TUNNEL WIREFRAME & WARP SPEED PARTICLES)
+   ========================================================================== */
+
+#tunnel-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Lớp phủ tối 4 góc tăng độ sâu đường hầm */
+.tunnel-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 30%, rgba(1, 3, 7, 0.7) 70%, rgba(0, 1, 4, 0.96) 100%);
+}
+
+/* ==========================================================================
+   KHÔNG GIAN VIEWPORT 3D (3D TUNNEL RIG)
+   ========================================================================== */
+
+#viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  cursor: grab;
+}
+
+#viewport:active {
+  cursor: grabbing;
+}
+
+#camera-rig {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+#tunnel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   CÁC VÀNH ĐAI ĐƯỜNG HẦM 3D (TUNNEL STRUCTURAL RINGS)
+   ========================================================================== */
+
+.tunnel-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--tunnel-dia);
+  height: var(--tunnel-dia);
+  margin-left: calc(var(--tunnel-dia) / -2);
+  margin-top: calc(var(--tunnel-dia) / -2);
+  border-radius: 50%;
+  border: 1.5px solid var(--tunnel-border);
+  box-shadow: 
+    0 0 20px rgba(0, 240, 255, 0.18),
+    inset 0 0 20px rgba(0, 240, 255, 0.1);
+  transform-style: preserve-3d;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Vòng phụ đứt nét bên trong */
+.tunnel-ring::before {
+  content: '';
+  position: absolute;
+  inset: 35px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 240, 255, 0.12);
+  pointer-events: none;
+}
+
+/* 4 thanh ray neon định hình chạy dọc suốt chiều dài hầm (Longitudinal Tunnel Rails) */
+.tunnel-rail {
+  position: absolute;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 240, 255, 0.45), rgba(0, 240, 255, 0.15));
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+  transform-style: preserve-3d;
+}
+
+.rail-top, .rail-bottom {
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+}
+
+.rail-left, .rail-right {
+  top: 50%;
+  left: 50%;
+  height: 2px;
+  margin-top: -1px;
+}
+
+/* Các mấu chốt cấu trúc cơ khí 4 phía trên vành đai */
+.tunnel-ring-notch {
+  position: absolute;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.notch-top {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 5px;
+}
+
+.notch-bottom {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 5px;
+}
+
+.notch-left {
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 24px;
+}
+
+.notch-right {
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 24px;
+}
+
+/* ==========================================================================
+   CÁC KHUNG ẢNH GẮN TRÊN THÀNH ĐƯỜNG HẦM (TUNNEL PHOTO FRAMES)
+   ========================================================================== */
+
+.tunnel-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--card-w);
+  height: var(--card-h);
+  margin-left: calc(var(--card-w) / -2);
+  margin-top: calc(var(--card-h) / -2);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  border-radius: 4px;
+  background: rgba(10, 16, 28, 0.9);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 
+    0 0 30px var(--cyan-glow),
+    inset 0 0 15px rgba(0, 240, 255, 0.15),
+    0 25px 60px rgba(0, 0, 0, 0.95);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, opacity;
+  backdrop-filter: blur(10px);
+}
+
+/* Chốt khóa góc điện tử */
+.card-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--cyan);
+  border-style: solid;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.cb-tl { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.cb-tr { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+.cb-bl { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+.cb-br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+/* Bức ảnh */
+.card-photo-box {
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #010408;
+  border: 1px solid rgba(0, 240, 255, 0.18);
+  position: relative;
+}
+
+.card-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  filter: contrast(1.06) saturate(1.05);
+}
+
+/* Thông tin dưới ảnh: Tối giản, tinh tế */
+.card-caption {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.card-tag {
+  font-family: 'Orbitron', monospace, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  text-shadow: 0 0 8px var(--cyan);
+}
+
+.card-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hiệu ứng khi rê chuột vào ảnh */
+.tunnel-card:hover {
+  border-color: #ffffff;
+  box-shadow: 
+    0 0 45px rgba(0, 240, 255, 0.6),
+    inset 0 0 25px rgba(0, 240, 255, 0.25),
+    0 35px 80px rgba(0, 0, 0, 1);
+}
+
+.tunnel-card:hover .card-photo-box img {
+  transform: scale(1.05);
+  filter: contrast(1.15) saturate(1.2);
+}
+
+.tunnel-card:hover .card-bracket {
+  width: 16px;
+  height: 16px;
+  border-color: #fff;
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+/* ==========================================================================
+   RESPONSIVE (ĐIỆN THOẠI & TABLET)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --card-w: 270px;
+    --card-h: 370px;
+    --tunnel-dia: 820px;
+  }
+
+  .card-photo-box {
+    height: 270px;
+  }
+
+  .card-name {
+    font-size: 16px;
+  }
+}
