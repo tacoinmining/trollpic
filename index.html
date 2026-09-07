@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Starfield Close // 3D Starlight Tunnel Exhibition</title>
 
-  <!-- Phông chữ công nghệ cao -->
+  <!-- Phông chữ công nghệ cao & Chuẩn Tiếng Việt -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@800;900&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- ES-Module Importmap cho Three.js r0.143.0 theo đúng prompt getlayers -->
   <script type="importmap">
@@ -27,6 +27,9 @@
       --card-h: 680px;
       --img-h: 530px;
       --title-size: 36px;
+      --finale-w: min(88vw, 680px);
+      --finale-h: 280px;
+      --finale-title-size: clamp(32px, 5vw, 54px);
     }
 
     /* Màn hình Laptop vừa (< 1366px) */
@@ -36,6 +39,9 @@
         --card-h: 610px;
         --img-h: 470px;
         --title-size: 32px;
+        --finale-w: min(88vw, 620px);
+        --finale-h: 260px;
+        --finale-title-size: clamp(28px, 4.5vw, 48px);
       }
     }
 
@@ -46,6 +52,9 @@
         --card-h: 530px;
         --img-h: 400px;
         --title-size: 26px;
+        --finale-w: min(88vw, 540px);
+        --finale-h: 240px;
+        --finale-title-size: clamp(24px, 4vw, 40px);
       }
     }
 
@@ -56,6 +65,9 @@
         --card-h: 460px;
         --img-h: 350px;
         --title-size: 23px;
+        --finale-w: min(90vw, 340px);
+        --finale-h: 210px;
+        --finale-title-size: clamp(22px, 6.5vw, 32px);
       }
     }
 
@@ -65,6 +77,9 @@
         --card-h: 440px;
         --img-h: 330px;
         --title-size: 21px;
+        --finale-w: min(92vw, 310px);
+        --finale-h: 200px;
+        --finale-title-size: clamp(20px, 6.8vw, 28px);
       }
     }
 
@@ -107,36 +122,62 @@
     /* Scroll Host điều khiển hành trình cuộn qua đường hầm sao */
     #scroll-host {
       position: relative;
-      height: 600vh;
+      height: 750vh;
       width: 100%;
       pointer-events: none;
       z-index: 2;
     }
 
-    /* Dòng chữ SCROLL ↓ tinh tế ghim dưới cùng */
+    /* =========================================================================
+       CHỮ CHỈ DẪN CUỘN TRANG BÌNH THƯỜNG GHIM ĐÁY TRANG
+       ========================================================================= */
     .scroll-hint {
       position: fixed;
-      bottom: 28px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'Orbitron', monospace, sans-serif;
-      font-size: 11px;
+      font-family: 'Montserrat', 'Space Grotesk', sans-serif;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
+      margin-right: -2px;
       color: #aef6cf;
-      text-shadow: 0 0 10px rgba(174, 246, 207, 0.6);
-      z-index: 20;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      text-shadow: 0 0 10px rgba(174, 246, 207, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9);
+      z-index: 50;
+      pointer-events: auto;
+      cursor: pointer;
+      user-select: none;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 6px 12px;
+      white-space: nowrap;
+      transition: color 0.3s ease, opacity 0.3s ease;
       animation: pulseHint 2.4s infinite ease-in-out;
     }
 
+    .scroll-hint:hover {
+      color: #ffffff;
+      text-shadow: 0 0 16px #aef6cf, 0 0 30px #00e5ff;
+    }
+
+    .scroll-hint.is-end {
+      color: #00e5ff;
+      text-shadow: 0 0 14px rgba(0, 229, 255, 0.9), 0 2px 6px rgba(0, 0, 0, 0.95);
+    }
+
     @keyframes pulseHint {
-      0%, 100% { opacity: 0.85; transform: translate(-50%, 0); }
-      50% { opacity: 0.35; transform: translate(-50%, 4px); }
+      0%, 100% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.45; transform: translateX(-50%) translateY(3px); }
+    }
+
+    @media (max-width: 768px) {
+      .scroll-hint {
+        bottom: 16px;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        margin-right: -1.5px;
+      }
     }
 
     /* Nút chuyển đổi nhanh chế độ xem góc trên */
@@ -222,7 +263,7 @@
       transform-style: preserve-3d;
       cursor: pointer;
       border-radius: 8px;
-      background: rgba(6, 11, 24, 0.9);
+      background: rgba(6, 11, 24, 0.95);
       border: 2px solid rgba(174, 246, 207, 0.45);
       box-shadow: 
         0 0 35px rgba(95, 230, 160, 0.3),
@@ -234,7 +275,6 @@
       pointer-events: auto;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
       will-change: transform, opacity;
-      backdrop-filter: blur(14px);
     }
 
     /* Chốt khóa 4 góc màu ngọc bích */
@@ -311,27 +351,17 @@
       background-size: 300% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: rainbowMove 3.5s linear infinite;
-      filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 25px rgba(255, 23, 68, 0.4));
-      transition: transform 0.3s ease, filter 0.3s ease;
+      animation: rainbowMove 4s linear infinite;
+      filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
+      transition: transform 0.3s ease;
     }
 
     @keyframes rainbowMove {
       0% {
         background-position: 0% 50%;
-        filter: drop-shadow(0 0 12px rgba(255, 23, 68, 0.65)) drop-shadow(0 0 24px rgba(255, 234, 0, 0.45));
-      }
-      33% {
-        background-position: 100% 50%;
-        filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.75)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.5));
-      }
-      66% {
-        background-position: 200% 50%;
-        filter: drop-shadow(0 0 12px rgba(213, 0, 249, 0.75)) drop-shadow(0 0 24px rgba(41, 121, 255, 0.5));
       }
       100% {
         background-position: 300% 50%;
-        filter: drop-shadow(0 0 12px rgba(255, 23, 68, 0.65)) drop-shadow(0 0 24px rgba(255, 234, 0, 0.45));
       }
     }
 
@@ -366,6 +396,116 @@
         right: 16px;
         padding: 6px 12px;
         font-size: 9px;
+      }
+    }
+
+    /* =========================================================================
+       KHUNG CHỮ KẾT THÚC: "ẢNH DÌM 12C7" TRỞ LẠI PHONG CÁCH KHUNG CARD CŨ
+       ========================================================================= */
+    .tunnel-finale {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--finale-w);
+      height: var(--finale-h);
+      margin-left: calc(var(--finale-w) / -2);
+      margin-top: calc(var(--finale-h) / -2);
+      transform-style: preserve-3d;
+      border-radius: 10px;
+      background: rgba(6, 11, 24, 0.96);
+      border: 2px solid rgba(174, 246, 207, 0.5);
+      box-shadow: 
+        0 0 35px rgba(95, 230, 160, 0.3),
+        inset 0 0 20px rgba(174, 246, 207, 0.15),
+        0 25px 65px rgba(0, 0, 0, 0.95);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      pointer-events: auto;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform, opacity;
+    }
+
+    .tunnel-finale:hover {
+      border-color: #aef6cf;
+      box-shadow: 
+        0 0 50px rgba(95, 230, 160, 0.5),
+        inset 0 0 30px rgba(0, 229, 255, 0.3),
+        0 30px 80px rgba(0, 0, 0, 1);
+    }
+
+    .tunnel-finale:hover .card-corner {
+      width: 18px;
+      height: 18px;
+      border-color: #ffffff;
+      box-shadow: 0 0 12px #aef6cf;
+    }
+
+    .finale-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #aef6cf;
+      text-shadow: 0 0 8px rgba(174, 246, 207, 0.6);
+      padding: 4px 14px;
+      border: 1px solid rgba(174, 246, 207, 0.4);
+      border-radius: 20px;
+      background: rgba(174, 246, 207, 0.1);
+    }
+
+    .finale-title {
+      font-family: 'Montserrat', 'Orbitron', sans-serif;
+      font-size: var(--finale-title-size);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 1.15;
+      margin: 0;
+      white-space: nowrap;
+      text-align: center;
+      user-select: none;
+      
+      background: linear-gradient(
+        90deg,
+        #ff1744,
+        #ff9100,
+        #ffea00,
+        #00e676,
+        #00e5ff,
+        #2979ff,
+        #d500f9,
+        #ff1744
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowMove 4s linear infinite;
+      filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.5));
+    }
+
+    .finale-subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: rgba(234, 255, 242, 0.75);
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .finale-badge {
+        font-size: 9px;
+        letter-spacing: 2px;
+        padding: 3px 10px;
+      }
+      .finale-subtitle {
+        font-size: 10px;
+        letter-spacing: 1px;
       }
     }
 
@@ -690,11 +830,8 @@
     <span id="toggle-label">GALLERY: ON</span>
   </button>
 
-  <!-- Gợi ý cuộn chuột tinh tế dưới chân trang -->
-  <div class="scroll-hint">
-    <span>SCROLL</span>
-    <span>↓</span>
-  </div>
+  <!-- Dòng chữ cuộn đơn giản ghim dưới chân trang -->
+  <div class="scroll-hint" id="scroll-hint" title="Nhấp để cuộn">Cuộn xuống</div>
 
   <!-- Không gian 3D chứa các khung tranh bay qua đường hầm sao -->
   <div id="gallery-viewport">
@@ -716,6 +853,11 @@
     import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
     import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
     import { CopyShader } from 'three/addons/shaders/CopyShader.js';
+
+    // Ngăn chặn các thông báo lỗi ngầm từ mobile browser (như Autoplay/AudioContext)
+    window.addEventListener('unhandledrejection', (e) => {
+      e.preventDefault();
+    });
 
     // =========================================================================
     // 📁 CẤU HÌNH DANH SÁCH ẢNH TẠI ĐÂY (IMAGE CONFIGURATION)
@@ -789,23 +931,28 @@
     // Định nghĩa Layers
     const LAYERS = {
       NONE: 0,
-      TORUS_SCENE: 1,
-      BLOOM_SCENE: 2,
-      ENTIRE_SCENE: 3
+      BLOOM_SCENE: 1,
+      ENTIRE_SCENE: 2
     };
 
     // =========================================================================
-    // KHỞI TẠO THREE.JS SCENE, RENDERER, CAMERA
+    // KHỞI TẠO THREE.JS SCENE, RENDERER, CAMERA (TỐI ƯU TOÀN DIỆN 60 FPS)
     // =========================================================================
+    const isMobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+    const initialDpr = isMobileDevice ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35);
+
     const canvas = document.getElementById('scene');
-    const renderer = new THREE.WebGL1Renderer({ canvas, antialias: true });
-    const initialDpr = Math.min(window.devicePixelRatio || 1, 2);
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: false,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true
+    });
     renderer.setPixelRatio(initialDpr);
     renderer.setSize(window.innerWidth, window.innerHeight, false);
     canvas.style.width = '100%';
     canvas.style.height = '100%';
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.VSMShadowMap;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
@@ -815,15 +962,14 @@
     camera.position.set(0, 0, 5);
 
     // Kích hoạt các layer trên camera
-    camera.layers.enable(LAYERS.TORUS_SCENE);
     camera.layers.enable(LAYERS.BLOOM_SCENE);
     camera.layers.enable(LAYERS.ENTIRE_SCENE);
     scene.add(camera);
 
     // =========================================================================
-    // KHỞI TẠO HÌNH HỌC ĐÁM MÂY SAO (STAR CLOUD GEOMETRY)
+    // KHỞI TẠO HÌNH HỌC ĐÁM MÂY SAO (TỐI ƯU HOÁ 3200 PC / 2200 MOBILE)
     // =========================================================================
-    const count = 4200;
+    const count = isMobileDevice ? 2200 : 3200;
     const depth = 30;
 
     const positions = new Float32Array(count * 3);
@@ -928,36 +1074,28 @@
     group.add(points);
     points.layers.enable(LAYERS.ENTIRE_SCENE);
     points.layers.enable(LAYERS.BLOOM_SCENE);
-    points.layers.enable(LAYERS.TORUS_SCENE);
 
     // =========================================================================
-    // POSTPROCESSING — 3 EFFECT COMPOSERS
+    // POSTPROCESSING — HIGH-PERFORMANCE 2-STAGE COMPOSER PIPELINE (SIÊU NHẸ)
     // =========================================================================
     const renderScene = new RenderPass(scene, camera);
 
-    // 1. torusComposer
-    const torusComposer = new EffectComposer(renderer);
-    torusComposer.renderToScreen = false;
-    torusComposer.addPass(renderScene);
-    torusComposer.addPass(new ShaderPass(GammaCorrectionShader));
-    const torusBloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.22, 0.2, 0);
-    torusComposer.addPass(torusBloom);
-    torusComposer.addPass(new ShaderPass(CopyShader));
-
-    // 2. bloomComposer
+    // 1. bloomComposer (Chạy ở 1/2 độ phân giải để giảm 75% tải tính toán GPU mà vẫn giữ vệt sáng sao mềm mại)
     const bloomComposer = new EffectComposer(renderer);
     bloomComposer.renderToScreen = false;
     bloomComposer.addPass(renderScene);
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.55, 0);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2)),
+      0.45, 0.45, 0
+    );
     bloomComposer.addPass(bloomPass);
     bloomComposer.addPass(new ShaderPass(GammaCorrectionShader));
 
-    // 3. FinalPass Shader
+    // 2. FinalPass Shader
     const FinalPassShader = {
       uniforms: {
         iTime:        { value: 0 },
         tDiffuse:     { value: null },
-        torusTexture: { value: null },
         bloomTexture: { value: null },
         haloTexture:  { value: null },
         uBg:          { value: hexToVec3(CONFIG.bgColor) },
@@ -976,38 +1114,15 @@
         uniform float iTime;
         uniform sampler2D tDiffuse;
         uniform sampler2D bloomTexture;
-        uniform sampler2D torusTexture;
-        uniform sampler2D haloTexture;
         uniform vec3 uBg;
-        uniform vec3 uFlameA;
-        uniform vec3 uFlameB;
-        uniform float uFlameAmt;
         varying vec2 vUv;
-
-        vec3 warp3d(vec3 pos, float t){
-          float curv = 0.8, a = 1.9, b = 0.7;
-          pos *= 2.0;
-          pos.x += curv * sin(t + a * pos.y) + t * b;
-          pos.y += curv * cos(t + a * pos.x);
-          pos.z += curv * sin(t + a * pos.z) + t * b;
-          pos.z += curv * cos(t + a * pos.y);
-          pos.z += curv * sin(t + a * pos.x);
-          pos.x += curv * cos(t + a * pos.z);
-          return 0.5 + 0.5 * cos(pos.xyz + vec3(1.0, 2.0, 4.0));
-        }
 
         void main(){
           vec2 uv = 2.0 * vUv - 1.0;
-          vec3 w = pow(warp3d(vec3(uv.x, sin(uv.y), uv.y), iTime * 1.5), vec3(1.5));
-          vec3 flame = 1.5 * uFlameA * w.x;
-          flame *= w.y;
-          flame += uFlameB * w.z;
-          flame *= smoothstep(0.25, 1.0, abs(uv.y));
-          float md = smoothstep(-0.7, 1.0, -uv.y * uv.x);
-          flame *= md * md;
-          vec3 bg = uBg * (1.0 - 0.4 * length(uv));
-          vec3 halo = texture2D(haloTexture, vUv).xyz;
-          gl_FragColor = vec4(bg + flame * uFlameAmt + texture2D(bloomTexture, vUv).xyz + texture2D(torusTexture, vUv).xyz + texture2D(tDiffuse, vUv).xyz + halo, 1.0);
+          vec3 bg = uBg * (1.0 - 0.35 * length(uv));
+          vec3 bloom = texture2D(bloomTexture, vUv).xyz;
+          vec3 sceneColor = texture2D(tDiffuse, vUv).xyz;
+          gl_FragColor = vec4(bg + bloom * 1.4 + sceneColor, 1.0);
         }
       `
     };
@@ -1019,14 +1134,13 @@
 
     const finalPass = new ShaderPass(FinalPassShader);
 
-    // 4. finalComposer
+    // 3. finalComposer
     const finalComposer = new EffectComposer(renderer);
     finalComposer.addPass(renderScene);
     finalComposer.addPass(finalPass);
 
-    // Nối các render target
+    // Nối render target
     finalPass.uniforms.bloomTexture.value = bloomComposer.renderTarget1.texture;
-    finalPass.uniforms.torusTexture.value = torusComposer.renderTarget1.texture;
 
     // =========================================================================
     // ĐIỀU KHIỂN CON TRỎ (POINTER VOID REPEL & UNPROJECT RAY)
@@ -1093,20 +1207,37 @@
     let scrollSmooth = 0;
     let scrollCurrent = 0;
 
+    const scrollHintEl = document.getElementById('scroll-hint');
+    let isAtBottom = false;
+
     function onScroll() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       scrollTarget = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+
+      // Khi người dùng cuộn đến cuối cùng (>= 88%), tự động chuyển từ "Cuộn xuống" thành "Cuộn lên"
+      const nearEnd = scrollTarget >= 0.88;
+      if (nearEnd !== isAtBottom) {
+        isAtBottom = nearEnd;
+        if (scrollHintEl) {
+          scrollHintEl.classList.toggle('is-end', isAtBottom);
+          scrollHintEl.textContent = isAtBottom ? 'Cuộn lên' : 'Cuộn xuống';
+        }
+      }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Hỗ trợ cuộn lăn chuột chủ động trên cửa sổ
-    window.addEventListener('wheel', (e) => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (maxScroll > 0) {
-        window.scrollBy({ top: e.deltaY * 1.2, behavior: 'auto' });
-      }
-    }, { passive: true });
+    if (scrollHintEl) {
+      scrollHintEl.addEventListener('click', () => {
+        if (isAtBottom) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+        }
+      });
+    }
+
+
 
     // =========================================================================
     // KHỞI TẠO KHUNG TRANH 3D ĐỒNG BỘ THEO ĐƯỜNG HẦM SAO
@@ -1168,15 +1299,16 @@
     }
 
     let galleryParams = getGalleryParams();
-    let totalGalleryDepth = (danhSachAnh.length - 1) * galleryParams.zSpacing + 650;
+    let totalGalleryDepth = (danhSachAnh.length) * galleryParams.zSpacing + galleryParams.startOffset - 280;
 
     function initGallery() {
       galleryTunnelEl.innerHTML = '';
       photoCards = [];
 
       galleryParams = getGalleryParams();
-      totalGalleryDepth = (danhSachAnh.length - 1) * galleryParams.zSpacing + 650;
+      totalGalleryDepth = (danhSachAnh.length) * galleryParams.zSpacing + galleryParams.startOffset - 280;
 
+      // 1. Tạo 8 khung tranh triển lãm dọc theo hai bên vách đường hầm
       danhSachAnh.forEach((item, index) => {
         const isLeft = index % 2 === 0;
         const xPos = isLeft ? -galleryParams.wallOffset : galleryParams.wallOffset;
@@ -1202,8 +1334,26 @@
         `;
 
         galleryTunnelEl.appendChild(card);
-        photoCards.push({ el: card, baseZ, isLeft });
+        photoCards.push({ el: card, baseZ, isLeft, isFinale: false, visible: true, opacityVal: 1 });
       });
+
+      // 2. Tạo phần kết: "ẢNH DÌM 12C7" dạng khung card chuẩn như cũ
+      const finaleZ = -galleryParams.startOffset - danhSachAnh.length * galleryParams.zSpacing;
+      const finaleCard = document.createElement('div');
+      finaleCard.className = 'tunnel-finale';
+      finaleCard.style.transform = `translate3d(0px, 0px, ${finaleZ}px)`;
+      finaleCard.innerHTML = `
+        <div class="card-corner corner-tl"></div>
+        <div class="card-corner corner-tr"></div>
+        <div class="card-corner corner-bl"></div>
+        <div class="card-corner corner-br"></div>
+        <div class="finale-badge">✦ THE END ✦</div>
+        <h1 class="finale-title">ẢNH DÌM 12C7</h1>
+        <p class="finale-subtitle">KHO BÁU KỶ NIỆM KHÔNG THỂ NÀO QUÊN</p>
+      `;
+
+      galleryTunnelEl.appendChild(finaleCard);
+      photoCards.push({ el: finaleCard, baseZ: finaleZ, isFinale: true, visible: true, opacityVal: 1 });
     }
 
     // Nút ẩn/hiện bộ sưu tập ảnh để ngắm nền sao thuần túy
@@ -1234,9 +1384,8 @@
       const dt = Math.min(0.05, t - t0);
       t0 = t;
 
-      // 1. Advance double-damped scroll lerps
-      scrollSmooth += (scrollTarget - scrollSmooth) * 0.10;
-      scrollCurrent += (scrollSmooth - scrollCurrent) * 0.06;
+      // 1. Phản hồi cuộn mượt mà tức thì, triệt tiêu hoàn toàn cảm giác trễ và lag
+      scrollCurrent += (scrollTarget - scrollCurrent) * 0.16;
 
       // 2. Smooth pointer NDC for parallax
       mouseSmooth.x += (POINTER.ndc.x - mouseSmooth.x) * 0.06;
@@ -1268,17 +1417,18 @@
 
       // Đảm bảo cập nhật texture render target
       if (bloomComposer.readBuffer) finalPass.uniforms.bloomTexture.value = bloomComposer.readBuffer.texture;
-      if (torusComposer.readBuffer) finalPass.uniforms.torusTexture.value = torusComposer.readBuffer.texture;
 
-      // 4. Render 3 composers in order with camera layers
-      camera.layers.set(LAYERS.TORUS_SCENE);
-      torusComposer.render();
+      // 4. Render 2 composers (Bloom + Final) hoặc fallback về standard render nếu GPU yếu
+      try {
+        camera.layers.set(LAYERS.BLOOM_SCENE);
+        bloomComposer.render();
 
-      camera.layers.set(LAYERS.BLOOM_SCENE);
-      bloomComposer.render();
-
-      camera.layers.set(LAYERS.ENTIRE_SCENE);
-      finalComposer.render();
+        camera.layers.set(LAYERS.ENTIRE_SCENE);
+        finalComposer.render();
+      } catch (renderErr) {
+        camera.layers.enableAll();
+        renderer.render(scene, camera);
+      }
 
       // 5. Đồng bộ vị trí các khung ảnh 3D trôi qua đường hầm sao
       if (isGalleryVisible) {
@@ -1289,37 +1439,84 @@
         const galleryZ = scroll * totalGalleryDepth;
         galleryTunnelEl.style.transform = `translate3d(0, 0, ${galleryZ.toFixed(2)}px)`;
 
-        // Culling & sương mù chiều sâu cho ảnh
+        // Culling & sương mù chiều sâu siêu mượt bằng GPU Opacity (loại bỏ hoàn toàn filter blur để không bị lag)
         for (let i = 0; i < photoCards.length; i++) {
           const item = photoCards[i];
           const relZ = item.baseZ + galleryZ;
 
-          if (relZ < -3500) {
-            if (item.el.style.visibility !== 'hidden') {
-              item.el.style.visibility = 'hidden';
-              item.el.style.opacity = '0';
-            }
-          } else if (relZ < -2200) {
-            item.el.style.visibility = 'visible';
-            const ratio = (relZ + 3500) / 1300;
-            item.el.style.opacity = Math.max(0, ratio).toFixed(3);
-            item.el.style.filter = `blur(${( (1 - ratio) * 5 ).toFixed(1)}px)`;
-          } else if (relZ > 0) {
-            if (relZ >= 260) {
-              if (item.el.style.visibility !== 'hidden') {
+          if (item.isFinale) {
+            // Phần kết màn "ẢNH DÌM 12C7"
+            if (relZ < -3000) {
+              if (item.visible) {
+                item.visible = false;
                 item.el.style.visibility = 'hidden';
                 item.el.style.opacity = '0';
               }
+            } else if (relZ < -1200) {
+              if (!item.visible) {
+                item.visible = true;
+                item.el.style.visibility = 'visible';
+              }
+              const ratio = Math.max(0, Math.min(1, (relZ + 3000) / 1800));
+              item.el.style.opacity = ratio.toFixed(2);
+              item.opacityVal = ratio;
             } else {
-              item.el.style.visibility = 'visible';
-              const ratio = 1 - (relZ / 260);
-              item.el.style.opacity = Math.max(0, ratio).toFixed(3);
-              item.el.style.filter = 'none';
+              if (!item.visible) {
+                item.visible = true;
+                item.el.style.visibility = 'visible';
+              }
+              if (item.opacityVal !== 1) {
+                item.opacityVal = 1;
+                item.el.style.opacity = '1';
+              }
             }
           } else {
-            item.el.style.visibility = 'visible';
-            item.el.style.opacity = '1';
-            item.el.style.filter = 'none';
+            // Các khung tranh 3D
+            if (relZ < -2800) {
+              // Phía xa: Ẩn hoàn toàn để tối ưu GPU
+              if (item.visible) {
+                item.visible = false;
+                item.el.style.visibility = 'hidden';
+                item.el.style.opacity = '0';
+              }
+            } else if (relZ < -1600) {
+              // Tiến từ xa tới: Tăng dần độ đậm
+              if (!item.visible) {
+                item.visible = true;
+                item.el.style.visibility = 'visible';
+              }
+              const ratio = Math.max(0, Math.min(1, (relZ + 2800) / 1200));
+              item.el.style.opacity = ratio.toFixed(2);
+              item.opacityVal = ratio;
+            } else if (relZ > 0) {
+              if (relZ >= 240) {
+                // Đã trôi qua sau lưng camera: Ẩn ngay lập tức
+                if (item.visible) {
+                  item.visible = false;
+                  item.el.style.visibility = 'hidden';
+                  item.el.style.opacity = '0';
+                }
+              } else {
+                // Trôi qua camera: Mờ dần
+                if (!item.visible) {
+                  item.visible = true;
+                  item.el.style.visibility = 'visible';
+                }
+                const ratio = Math.max(0, Math.min(1, 1 - (relZ / 240)));
+                item.el.style.opacity = ratio.toFixed(2);
+                item.opacityVal = ratio;
+              }
+            } else {
+              // Nằm trong tầm mắt rõ nét
+              if (!item.visible) {
+                item.visible = true;
+                item.el.style.visibility = 'visible';
+              }
+              if (item.opacityVal !== 1) {
+                item.opacityVal = 1;
+                item.el.style.opacity = '1';
+              }
+            }
           }
         }
       }
@@ -1333,7 +1530,7 @@
     function onResize() {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = isMobileDevice ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35);
 
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -1343,14 +1540,15 @@
       canvas.style.width = '100%';
       canvas.style.height = '100%';
 
-      torusComposer.setPixelRatio(dpr);
-      torusComposer.setSize(w, h);
+      try {
+        bloomComposer.setPixelRatio(Math.min(dpr, 1.0));
+        bloomComposer.setSize(Math.floor(w / 2), Math.floor(h / 2));
 
-      bloomComposer.setPixelRatio(dpr);
-      bloomComposer.setSize(w, h);
-
-      finalComposer.setPixelRatio(dpr);
-      finalComposer.setSize(w, h);
+        finalComposer.setPixelRatio(dpr);
+        finalComposer.setSize(w, h);
+      } catch (err) {
+        // Fallback im lặng nếu composer resize gặp hạn chế GPU
+      }
 
       onScroll();
       initGallery();
@@ -1381,7 +1579,9 @@
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!AudioContextClass) return;
         const ctx = new AudioContextClass();
-        if (ctx.state === 'suspended') ctx.resume();
+        if (ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
         const t = ctx.currentTime;
 
         // Âm bass trầm bùng nổ khi xuyên không gian
@@ -1453,9 +1653,9 @@
         if (warpLoaderEl) warpLoaderEl.classList.add('warp-engaged');
       }, 150);
 
-      // Ẩn hoàn toàn khỏi DOM
+      // Ẩn và gỡ hoàn toàn khỏi DOM để giải phóng triệt để CPU/GPU khỏi các animation của loader
       setTimeout(() => {
-        if (warpLoaderEl) warpLoaderEl.style.display = 'none';
+        if (warpLoaderEl) warpLoaderEl.remove();
       }, 900);
     }
 
