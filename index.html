@@ -370,7 +370,7 @@
     }
 
     /* =========================================================================
-       MÀN HÌNH LOADING SIÊU ĐỘC LẠ: QUANTUM WARP ENGINE // STARGATE CORE
+       MÀN HÌNH LOADING LƯỢNG TỬ: QUẢ CẦU HUYỀN ẢO & THANH TIẾN TRÌNH MINIMALIST
        ========================================================================= */
     #warp-loader {
       position: fixed;
@@ -384,6 +384,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 36px;
       overflow: hidden;
       cursor: pointer;
       user-select: none;
@@ -437,94 +438,14 @@
       100% { top: 100%; opacity: 0; }
     }
 
-    /* 4 Khung ngắm HUD 4 góc màn hình */
-    .hud-bracket {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-family: 'Orbitron', monospace, sans-serif;
-      color: #aef6cf;
-      padding: 12px 18px;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
-
-    .hud-bracket::before {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border-color: #5fe6a0;
-      border-style: solid;
-    }
-
-    .hud-top-left {
-      top: 24px;
-      left: 24px;
-      text-align: left;
-    }
-    .hud-top-left::before {
-      top: 0;
-      left: 0;
-      border-width: 2px 0 0 2px;
-    }
-
-    .hud-top-right {
-      top: 24px;
-      right: 24px;
-      text-align: right;
-    }
-    .hud-top-right::before {
-      top: 0;
-      right: 0;
-      border-width: 2px 2px 0 0;
-    }
-
-    .hud-bottom-left {
-      bottom: 24px;
-      left: 24px;
-      text-align: left;
-    }
-    .hud-bottom-left::before {
-      bottom: 0;
-      left: 0;
-      border-width: 0 0 2px 2px;
-    }
-
-    .hud-bottom-right {
-      bottom: 24px;
-      right: 24px;
-      text-align: right;
-    }
-    .hud-bottom-right::before {
-      bottom: 0;
-      right: 0;
-      border-width: 0 2px 2px 0;
-    }
-
-    .hud-tag {
-      font-size: 10px;
-      letter-spacing: 2px;
-      opacity: 0.6;
-    }
-
-    .hud-metric {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-shadow: 0 0 8px rgba(174, 246, 207, 0.5);
-    }
-
-    /* Cụm trung tâm: Quantum Stargate Core (Concentric Gyroscopes) */
+    /* Cụm quả cầu lượng tử (Concentric Celestial Orb) */
     .stargate-wrapper {
       position: relative;
-      width: 280px;
-      height: 280px;
+      width: 300px;
+      height: 300px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 26px;
     }
 
     /* Vòng xoay con quay hồi chuyển */
@@ -534,64 +455,49 @@
       pointer-events: none;
     }
 
-    /* Vòng ngoài cùng: Toạ độ góc & vạch chia độ */
+    /* Vòng ngoài cùng */
     .ring-outer {
-      width: 280px;
-      height: 280px;
-      border: 1px dashed rgba(174, 246, 207, 0.35);
-      box-shadow: 0 0 25px rgba(95, 230, 160, 0.15), inset 0 0 25px rgba(95, 230, 160, 0.15);
+      width: 300px;
+      height: 300px;
+      border: 1.5px dashed rgba(174, 246, 207, 0.35);
+      box-shadow: 0 0 35px rgba(95, 230, 160, 0.18), inset 0 0 35px rgba(95, 230, 160, 0.18);
       animation: spinClockwise 16s linear infinite;
     }
 
-    .ring-marker {
-      position: absolute;
-      font-family: 'Orbitron', monospace;
-      font-size: 9px;
-      font-weight: 700;
-      color: rgba(174, 246, 207, 0.65);
-      transform: translate(-50%, -50%);
-    }
-
-    .deg-0   { top: 0%; left: 50%; }
-    .deg-90  { top: 50%; left: 100%; }
-    .deg-180 { top: 100%; left: 50%; }
-    .deg-270 { top: 50%; left: 0%; }
-
-    /* Vòng giữa: 8 hạt lượng tử đại diện cho 8 bức ảnh quay ngược chiều */
+    /* Vòng giữa: 8 hạt lượng tử xoay ngược chiều */
     .ring-mid {
-      width: 200px;
-      height: 200px;
-      border: 1px solid rgba(0, 229, 255, 0.3);
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(0, 229, 255, 0.35);
       animation: spinCounterClockwise 8s linear infinite;
     }
 
-    /* 8 hạt lượng tử phân bổ tròn đều 360/8 = 45 độ */
     .ring-mid .node {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 8px;
-      height: 8px;
-      margin: -4px 0 0 -4px;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
       border-radius: 50%;
       background: #aef6cf;
       box-shadow: 0 0 10px #5fe6a0, 0 0 20px #00e5ff;
     }
 
-    .node-1 { transform: rotate(0deg) translate(100px); }
-    .node-2 { transform: rotate(45deg) translate(100px); }
-    .node-3 { transform: rotate(90deg) translate(100px); }
-    .node-4 { transform: rotate(135deg) translate(100px); }
-    .node-5 { transform: rotate(180deg) translate(100px); }
-    .node-6 { transform: rotate(225deg) translate(100px); }
-    .node-7 { transform: rotate(270deg) translate(100px); }
-    .node-8 { transform: rotate(315deg) translate(100px); }
+    .node-1 { transform: rotate(0deg) translate(110px); }
+    .node-2 { transform: rotate(45deg) translate(110px); }
+    .node-3 { transform: rotate(90deg) translate(110px); }
+    .node-4 { transform: rotate(135deg) translate(110px); }
+    .node-5 { transform: rotate(180deg) translate(110px); }
+    .node-6 { transform: rotate(225deg) translate(110px); }
+    .node-7 { transform: rotate(270deg) translate(110px); }
+    .node-8 { transform: rotate(315deg) translate(110px); }
 
-    /* Vòng trong cùng: Bát giác laser & hồng tâm lượng tử */
+    /* Vòng trong cùng: Hồng tâm lượng tử */
     .ring-inner {
-      width: 130px;
-      height: 130px;
-      border: 2px dotted rgba(174, 246, 207, 0.6);
+      width: 140px;
+      height: 140px;
+      border: 2px dotted rgba(174, 246, 207, 0.65);
       animation: spinClockwise 5s linear infinite;
     }
 
@@ -599,30 +505,30 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      background: rgba(174, 246, 207, 0.4);
+      background: rgba(174, 246, 207, 0.45);
     }
     .crosshair-h {
-      width: 160px;
+      width: 175px;
       height: 1px;
       transform: translate(-50%, -50%);
     }
     .crosshair-v {
       width: 1px;
-      height: 160px;
+      height: 175px;
       transform: translate(-50%, -50%);
     }
 
-    /* Hạt nhân kỳ dị trung tâm: Phát xung plasma đập theo nhịp năng lượng */
+    /* Hạt nhân quả cầu: Phát xung plasma phát sáng theo nhịp năng lượng */
     .singularity-core {
       position: absolute;
-      width: 68px;
-      height: 68px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background: radial-gradient(circle, #ffffff 0%, #aef6cf 35%, #00e5ff 65%, transparent 80%);
       box-shadow: 
-        0 0 30px #aef6cf,
-        0 0 60px #00e5ff,
-        0 0 100px rgba(95, 230, 160, 0.5);
+        0 0 35px #aef6cf,
+        0 0 70px #00e5ff,
+        0 0 110px rgba(95, 230, 160, 0.6);
       animation: corePulse 1.4s ease-in-out infinite alternate;
       display: flex;
       align-items: center;
@@ -631,16 +537,16 @@
     }
 
     .core-eye {
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: #02050b;
-      box-shadow: 0 0 12px #ffffff;
+      box-shadow: 0 0 14px #ffffff;
     }
 
     @keyframes corePulse {
       0% { transform: scale(0.88); filter: drop-shadow(0 0 15px #5fe6a0); }
-      100% { transform: scale(1.16); filter: drop-shadow(0 0 45px #00e5ff) drop-shadow(0 0 70px #ffffff); }
+      100% { transform: scale(1.18); filter: drop-shadow(0 0 50px #00e5ff) drop-shadow(0 0 80px #ffffff); }
     }
 
     @keyframes spinClockwise {
@@ -653,7 +559,7 @@
       100% { transform: rotate(-360deg); }
     }
 
-    /* Sóng xung kích khi nổ bẻ cong không gian */
+    /* Sóng xung kích phát nổ khi đạt 100% */
     .warp-shockwave {
       position: absolute;
       width: 40px;
@@ -675,209 +581,71 @@
       100% { opacity: 0; transform: scale(35); border-width: 1px; }
     }
 
-    /* Bảng điều khiển tiến trình bên dưới */
-    .loader-console {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 10;
-      max-width: 480px;
-      width: 90%;
-      text-align: center;
-    }
-
-    .loader-percent-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .percent-label {
-      font-family: 'Orbitron', monospace;
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: rgba(174, 246, 207, 0.7);
-    }
-
-    .percent-value {
-      font-family: 'Orbitron', monospace;
-      font-size: 52px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      color: #ffffff;
-      text-shadow: 
-        0 0 20px #aef6cf,
-        0 0 40px #00e5ff;
-      line-height: 1;
-    }
-
-    .percent-unit {
-      font-size: 26px;
-      color: #aef6cf;
-      margin-left: 4px;
-    }
-
-    /* Thanh năng lượng laser 20 vạch */
-    .energy-gauge {
+    /* Thanh loading neon tinh gọn, không chữ */
+    .loading-bar-wrap {
       position: relative;
-      width: 100%;
-      max-width: 400px;
-      height: 14px;
-      background: rgba(4, 10, 24, 0.85);
+      width: 280px;
+      height: 6px;
+      background: rgba(4, 10, 24, 0.9);
       border: 1px solid rgba(174, 246, 207, 0.4);
-      border-radius: 3px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(95, 230, 160, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.8);
-      display: flex;
-      padding: 2px;
-      gap: 3px;
+      box-shadow: 0 0 15px rgba(95, 230, 160, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.9);
+      padding: 1px;
     }
 
-    .energy-segment {
-      flex: 1;
+    .loading-bar-fill {
       height: 100%;
-      background: rgba(174, 246, 207, 0.12);
-      border-radius: 1px;
-      transition: background 0.12s ease, box-shadow 0.12s ease;
-    }
-
-    .energy-segment.active {
-      background: #aef6cf;
-      box-shadow: 0 0 8px #5fe6a0;
-    }
-
-    .energy-segment.active.overload {
-      background: #00e5ff;
-      box-shadow: 0 0 12px #00e5ff;
-    }
-
-    /* Terminal dòng trạng thái quét lượng tử */
-    .loader-status {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: 'Rajdhani', monospace, sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: #aef6cf;
-      text-shadow: 0 0 8px rgba(174, 246, 207, 0.6);
-      min-height: 24px;
-    }
-
-    .status-cursor {
-      color: #ffe600;
-      animation: blinkCursor 0.6s infinite;
-    }
-
-    @keyframes blinkCursor {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* Gợi ý kích hoạt nhanh */
-    .warp-action-hint {
-      margin-top: 6px;
-      font-family: 'Orbitron', monospace;
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.55);
-      border: 1px solid rgba(174, 246, 207, 0.25);
-      padding: 6px 16px;
-      border-radius: 20px;
-      background: rgba(6, 15, 30, 0.6);
-      backdrop-filter: blur(6px);
-      animation: pulseActionHint 2s infinite ease-in-out;
-      transition: all 0.3s ease;
-    }
-
-    .warp-action-hint:hover {
-      color: #ffffff;
-      border-color: #aef6cf;
-      box-shadow: 0 0 15px rgba(174, 246, 207, 0.4);
-      transform: translateY(-1px);
-    }
-
-    @keyframes pulseActionHint {
-      0%, 100% { opacity: 0.55; }
-      50% { opacity: 1; border-color: rgba(174, 246, 207, 0.6); }
+      width: 0%;
+      background: linear-gradient(90deg, #5fe6a0, #aef6cf, #00e5ff);
+      border-radius: 10px;
+      box-shadow: 0 0 12px #aef6cf, 0 0 25px #00e5ff;
+      transition: width 0.08s ease;
     }
 
     /* Thích ứng trên màn hình điện thoại */
     @media (max-width: 768px) {
-      .hud-bracket {
-        padding: 8px 12px;
+      #warp-loader {
+        gap: 28px;
       }
-      .hud-tag { font-size: 8px; }
-      .hud-metric { font-size: 10px; }
       .stargate-wrapper {
-        width: 220px;
-        height: 220px;
-        margin-bottom: 18px;
+        width: 230px;
+        height: 230px;
       }
-      .ring-outer { width: 220px; height: 220px; }
-      .ring-mid { width: 160px; height: 160px; }
-      .node-1 { transform: rotate(0deg) translate(80px); }
-      .node-2 { transform: rotate(45deg) translate(80px); }
-      .node-3 { transform: rotate(90deg) translate(80px); }
-      .node-4 { transform: rotate(135deg) translate(80px); }
-      .node-5 { transform: rotate(180deg) translate(80px); }
-      .node-6 { transform: rotate(225deg) translate(80px); }
-      .node-7 { transform: rotate(270deg) translate(80px); }
-      .node-8 { transform: rotate(315deg) translate(80px); }
-      .ring-inner { width: 100px; height: 100px; }
-      .crosshair-h { width: 120px; }
-      .crosshair-v { height: 120px; }
-      .singularity-core { width: 52px; height: 52px; }
-      .percent-value { font-size: 42px; }
-      .percent-unit { font-size: 20px; }
-      .loader-status { font-size: 13px; }
-      .warp-action-hint { font-size: 8px; letter-spacing: 1px; padding: 5px 10px; }
+      .ring-outer { width: 230px; height: 230px; }
+      .ring-mid { width: 170px; height: 170px; }
+      .node-1 { transform: rotate(0deg) translate(85px); }
+      .node-2 { transform: rotate(45deg) translate(85px); }
+      .node-3 { transform: rotate(90deg) translate(85px); }
+      .node-4 { transform: rotate(135deg) translate(85px); }
+      .node-5 { transform: rotate(180deg) translate(85px); }
+      .node-6 { transform: rotate(225deg) translate(85px); }
+      .node-7 { transform: rotate(270deg) translate(85px); }
+      .node-8 { transform: rotate(315deg) translate(85px); }
+      .ring-inner { width: 106px; height: 106px; }
+      .crosshair-h { width: 130px; }
+      .crosshair-v { height: 130px; }
+      .singularity-core { width: 58px; height: 58px; }
+      .loading-bar-wrap { width: 220px; height: 5px; }
     }
   </style>
 </head>
 <body>
 
   <!-- =========================================================================
-       MÀN HÌNH LOADING SIÊU ĐỘC LẠ: QUANTUM WARP ENGINE // STARGATE APERTURE
+       MÀN HÌNH LOADING LƯỢNG TỬ: QUẢ CẦU HUYỀN ẢO & THANH TIẾN TRÌNH MINIMALIST
        ========================================================================= -->
   <div id="warp-loader">
     <!-- Nền lưới toạ độ không gian & scanlines -->
     <div class="loader-bg-grid"></div>
     <div class="loader-scanline"></div>
 
-    <!-- 4 Khung ngắm HUD công nghệ cao 4 góc màn hình -->
-    <div class="hud-bracket hud-top-left">
-      <span class="hud-tag">SECTOR // ANDROMEDA</span>
-      <span class="hud-metric">WARP: CALIBRATING</span>
-    </div>
-    <div class="hud-bracket hud-top-right">
-      <span class="hud-tag">QUANTUM DRIVE // V4.9</span>
-      <span class="hud-metric" id="hud-fps-text">60 FPS // STABLE</span>
-    </div>
-    <div class="hud-bracket hud-bottom-left">
-      <span class="hud-tag">PASSENGER MANIFEST</span>
-      <span class="hud-metric">8 IDENTIFIED ENTITIES</span>
-    </div>
-    <div class="hud-bracket hud-bottom-right">
-      <span class="hud-tag">HYPERSPACE TUNNEL</span>
-      <span class="hud-metric">SINGULARITY 0.003 AU</span>
-    </div>
-
-    <!-- Cụm trung tâm: Quantum Stargate Core (Concentric Gyroscopes) -->
+    <!-- Cụm quả cầu lượng tử trung tâm (Quantum Celestial Orb) -->
     <div class="stargate-wrapper">
       <!-- Vòng ngoài: Vòng toạ độ quét 360 độ -->
-      <div class="stargate-ring ring-outer">
-        <div class="ring-marker deg-0">000°</div>
-        <div class="ring-marker deg-90">090°</div>
-        <div class="ring-marker deg-180">180°</div>
-        <div class="ring-marker deg-270">270°</div>
-      </div>
+      <div class="stargate-ring ring-outer"></div>
 
-      <!-- Vòng giữa: 8 hạt lượng tử đại diện cho 8 bức ảnh quay ngược chiều -->
+      <!-- Vòng giữa: 8 hạt photon lượng tử đại diện cho 8 bức ảnh quay ngược chiều -->
       <div class="stargate-ring ring-mid">
         <span class="node node-1"></span>
         <span class="node node-2"></span>
@@ -895,38 +663,18 @@
         <div class="crosshair-v"></div>
       </div>
 
-      <!-- Điểm kỳ dị trung tâm: Hạt nhân năng lượng phát sáng bập bùng -->
+      <!-- Hạt nhân quả cầu kỳ dị: Phát xung plasma phát sáng -->
       <div class="singularity-core" id="singularity-core">
         <div class="core-eye"></div>
       </div>
 
-      <!-- Sóng xung kích phát nổ khi warp -->
+      <!-- Sóng xung kích phát nổ khi hoàn tất tải -->
       <div class="warp-shockwave" id="warp-shockwave"></div>
     </div>
 
-    <!-- Thông số tiến trình & Terminal giải mã lượng tử -->
-    <div class="loader-console">
-      <!-- Số phần trăm to phong cách digital glitch -->
-      <div class="loader-percent-wrap">
-        <span class="percent-label">WARP CALIBRATION</span>
-        <div class="percent-value" id="loader-percent">000<span class="percent-unit">%</span></div>
-      </div>
-
-      <!-- Thanh năng lượng laser 20 vạch -->
-      <div class="energy-gauge">
-        <div class="energy-bars" id="energy-bars" style="display: contents;"></div>
-      </div>
-
-      <!-- Dòng log trạng thái quét từng thành viên -->
-      <div class="loader-status" id="loader-status">
-        <span class="status-cursor">></span>
-        <span class="status-text" id="status-text">INITIALIZING QUANTUM GRAVITY GENERATOR...</span>
-      </div>
-
-      <!-- Nút/Gợi ý nhấn để phóng qua hố sâu -->
-      <div class="warp-action-hint" id="warp-action-hint">
-        <span>CLICK HOẶC NHẤN SPACE ĐỂ BẺ CONG KHÔNG GIAN</span>
-      </div>
+    <!-- Thanh loading neon tinh gọn, không chữ -->
+    <div class="loading-bar-wrap">
+      <div class="loading-bar-fill" id="loading-bar-fill"></div>
     </div>
   </div>
 
@@ -1619,6 +1367,138 @@
       setTimeout(onResize, 100);
       setTimeout(onResize, 300);
     });
+
+    // =========================================================================
+    // HỆ THỐNG MÀN HÌNH LOADING LƯỢNG TỬ (QUẢ CẦU & THANH TIẾN TRÌNH MINIMALIST)
+    // =========================================================================
+    const warpLoaderEl = document.getElementById('warp-loader');
+    const loadingBarFillEl = document.getElementById('loading-bar-fill');
+    const shockwaveEl = document.getElementById('warp-shockwave');
+
+    // Phát hiệu ứng âm thanh Hyperspace Warp thuần bằng Web Audio API
+    function playHyperspaceAudio() {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+        if (ctx.state === 'suspended') ctx.resume();
+        const t = ctx.currentTime;
+
+        // Âm bass trầm bùng nổ khi xuyên không gian
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(160, t);
+        osc.frequency.exponentialRampToValueAtTime(26, t + 0.9);
+        gain.gain.setValueAtTime(0.45, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.95);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.95);
+
+        // Tiếng rít xé gió starlight tần số cao
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(220, t);
+        osc2.frequency.exponentialRampToValueAtTime(2400, t + 0.45);
+        osc2.frequency.exponentialRampToValueAtTime(90, t + 0.9);
+        gain2.gain.setValueAtTime(0.18, t);
+        gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(t);
+        osc2.stop(t + 0.9);
+      } catch (err) {
+        // Tự động bỏ qua nếu trình duyệt chưa cấp quyền âm thanh
+      }
+    }
+
+    let currentPercent = 0;
+    let targetPercent = 0;
+    let isWarpEngaged = false;
+
+    // Tiền tải các bức ảnh thực tế
+    let realLoadedCount = 0;
+    danhSachAnh.forEach(item => {
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        realLoadedCount++;
+      };
+      img.src = item.src;
+    });
+
+    // Cập nhật độ rộng thanh loading neon
+    function updateProgressUI(val) {
+      const floorVal = Math.min(100, Math.floor(val));
+      if (loadingBarFillEl) {
+        loadingBarFillEl.style.width = floorVal + '%';
+      }
+    }
+
+    // Kích hoạt cú nhảy Hyperspace Warp
+    function triggerWarpJump() {
+      if (isWarpEngaged) return;
+      isWarpEngaged = true;
+
+      updateProgressUI(100);
+
+      // Kích hoạt sóng xung kích bùng nổ từ quả cầu
+      if (shockwaveEl) shockwaveEl.classList.add('fire');
+      playHyperspaceAudio();
+
+      // Bẻ cong không gian và tan biến vào triển lãm 3D
+      setTimeout(() => {
+        if (warpLoaderEl) warpLoaderEl.classList.add('warp-engaged');
+      }, 150);
+
+      // Ẩn hoàn toàn khỏi DOM
+      setTimeout(() => {
+        if (warpLoaderEl) warpLoaderEl.style.display = 'none';
+      }, 900);
+    }
+
+    // Cho phép click chuột hoặc nhấn Space/Enter để hoàn tất ngay
+    if (warpLoaderEl) {
+      warpLoaderEl.addEventListener('click', () => {
+        if (!isWarpEngaged) triggerWarpJump();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.key === 'Enter') {
+        if (!isWarpEngaged) triggerWarpJump();
+      }
+    });
+
+    // Vòng lặp tiến trình mượt mà (~2.2 giây)
+    const loaderStartTime = performance.now();
+    const LOADER_DURATION = 2300;
+
+    function progressLoop() {
+      if (isWarpEngaged) return;
+
+      const elapsed = performance.now() - loaderStartTime;
+      const timeRatio = Math.min(1, elapsed / LOADER_DURATION);
+      const assetRatio = realLoadedCount / Math.max(1, danhSachAnh.length);
+
+      const computedTarget = Math.min(100, Math.max(timeRatio * 100, assetRatio * 60));
+      targetPercent = computedTarget;
+
+      currentPercent += (targetPercent - currentPercent) * 0.18;
+
+      if (currentPercent >= 99.2 && elapsed >= LOADER_DURATION * 0.9) {
+        currentPercent = 100;
+        updateProgressUI(100);
+        setTimeout(triggerWarpJump, 180);
+      } else {
+        updateProgressUI(currentPercent);
+        requestAnimationFrame(progressLoop);
+      }
+    }
+
+    requestAnimationFrame(progressLoop);
   </script>
 </body>
 </html>
